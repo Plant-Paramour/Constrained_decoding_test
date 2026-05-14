@@ -99,7 +99,7 @@ def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requi
             raise ValueError(f"诗体 {cipai} 未在 {poem_path} 中找到。")
         
         c_dict = poem_data[cipai]
-        rules = f"【{cipai}】格律要求：\n要求押{c_dict.get('rhyme_type', '韵')}。\n"
+        rules = f"【{cipai}】格律要求：\n"
         rules += "注：格律中的“/”表示句内部的节奏停顿（你无需输出标点，只需体会节奏）。奇数句将自动生成逗号，偶数句将自动生成句号。\n"
         for i in range(c_dict.get('number_of_stanzas', 1)):
             stanza = c_dict.get(f"stanza{i+1}", {})
@@ -143,14 +143,14 @@ def main():
     rhyme_dict_name = "Cilin"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Xinyun" (中华新韵)
     
     task_type = "instruction"
-    theme = "讽懂王"
-    cipai_name = "谢池春"
+    theme = "田园山水"
+    cipai_name = "渔家傲"
     detailed_requirement = """
     """
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
-    num_generations = 20     # 多次输出模式下生成的数量（设置为 1 即单次）
+    num_generations = 3     # 多次输出模式下生成的数量（设置为 1 即单次）
     save_output = True     # True 是否将结果保存到 output 目录
     # ===============================================
 
