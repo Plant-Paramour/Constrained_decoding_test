@@ -65,10 +65,6 @@ class GenerationStateMachine:
                         return 1
         return None
 
-    @property
-    def is_current_line_rhyming(self) -> bool:
-        return self._get_rhyme_group() is not None
-
     def get_allowed_patterns(self, max_length: int = 4) -> List[Tuple[int, str, Optional[str]]]:
         if self.is_finished:
             return []
@@ -111,7 +107,7 @@ class GenerationStateMachine:
         for L in range(1, min(max_length, remains_before_break) + 1):
             target_slice = pure_pattern[self.current_char_idx : self.current_char_idx + L]
             
-            # 如果截取的切片中包含了 "、"，是不合法的（因为 "、" 必须单独作为标点输出）
+            # "、" 作为标点输出
             if "、" in target_slice:
                 continue
 

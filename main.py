@@ -139,19 +139,20 @@ def main():
     use_bitsandbytes = True
 
     # 2. 任务与生成配置
-    meter_type = "宋词"  # 可选："宋词", "唐诗"
-    rhyme_dict_name = "Cilin"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Xinyun" (中华新韵)
+    meter_type = "唐诗"  # 可选："宋词", "唐诗"
+    rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Xinyun" (中华新韵)
     
     task_type = "instruction"
-    theme = "讽懂王"
-    cipai_name = "谢池春"
+    theme = "祝福智科专业学习学妹们前程似锦，学业有成，未来可期"
+    cipai_name = "五律仄起"
     detailed_requirement = """
+    祝福智科专业学习学妹们前程似锦，学业有成，未来可期
     """
-
+    
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
-    num_generations = 20     # 多次输出模式下生成的数量（设置为 1 即单次）
-    save_output = True     # True 是否将结果保存到 output 目录
+    num_generations = 3     # 多次输出模式下生成的数量（设置为 1 即单次）
+    save_output = False     # True 是否将结果保存到 output 目录
     # ===============================================
 
     print(f"Loading tokenizer {model_name}...")

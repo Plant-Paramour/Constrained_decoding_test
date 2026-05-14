@@ -1,0 +1,27 @@
+{
+    "五律仄起": {
+      "variant": "default",
+      "number_of_stanzas": 1,
+      "stanza1": {
+        "num_lines": 8,
+        "num_chars": 40,
+        "chars_per_line": [
+          5, 5, 5, 5, 5, 5, 5, 5
+        ],
+        "rhyme_positions": [
+            2, 4, 6, 8
+        ],
+        "lines": [
+          "仄仄/平平仄",
+          "平平/仄仄平",
+          "平平/平仄仄",
+          "仄仄/仄平平",
+          "仄仄/平平仄",
+          "平平/仄仄平",
+          "平平/平仄仄",
+          "仄仄/仄平平"
+        ]
+    },
+    "rhyme_type": "平韵"
+    }
+}

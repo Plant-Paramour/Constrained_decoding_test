@@ -19,14 +19,12 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         self.punct_token_ids = self._find_punct_tokens()
         self.newline_token_ids = self._find_newline_tokens()
         self.caesura_token_ids = self._find_caesura_tokens()
-        self.terminal_punct_token_ids = self._find_terminal_punct_tokens()
-        self.terminal_newline_token_ids = self._find_terminal_newline_tokens()
         self.token_id_to_chars = {}
         
     def _find_punct_tokens(self) -> dict:
         punct_tokens = {'odd': set(), 'even': set()}
         valid_puncts_odd = ['，', '？', '！', '；', '，\n']
-        valid_puncts_even = ['？', '！', '；']
+        valid_puncts_even = ['。', '？', '！', '；', '。\n']
         
         for token_char, token_id in self.tokenizer.get_vocab().items():
             clean_text = self.tokenizer.decode([token_id]).replace(' ', '')
@@ -49,7 +47,7 @@ class ConstraintLogitsProcessor(LogitsProcessor):
     def _find_newline_tokens(self) -> dict:
         newline_tokens = {'odd': set(), 'even': set()}
         valid_newlines_odd = ['\n', '，\n']
-        valid_newlines_even = ['\n']
+        valid_newlines_even = ['\n', '。\n']
         
         for token_char, token_id in self.tokenizer.get_vocab().items():
             clean_text = self.tokenizer.decode([token_id]).replace(' ', '')
@@ -79,32 +77,6 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         if ids:
             caesura_tokens.add(ids[0])
         return caesura_tokens
-
-    def _find_terminal_punct_tokens(self) -> set:
-        terminal_puncts = set()
-        valid = ['。', '？', '！', '。\n']
-        for token_char, token_id in self.tokenizer.get_vocab().items():
-            clean_text = self.tokenizer.decode([token_id]).replace(' ', '')
-            if clean_text in valid:
-                terminal_puncts.add(token_id)
-        for p in valid:
-            ids = self.tokenizer.encode(p, add_special_tokens=False)
-            if ids:
-                terminal_puncts.add(ids[0])
-        return terminal_puncts
-        
-    def _find_terminal_newline_tokens(self) -> set:
-        terminal_newlines = set()
-        valid = ['\n', '。\n']
-        for token_char, token_id in self.tokenizer.get_vocab().items():
-            clean_text = self.tokenizer.decode([token_id]).replace(' ', '')
-            if clean_text in valid:
-                terminal_newlines.add(token_id)
-        for p in valid:
-            ids = self.tokenizer.encode(p, add_special_tokens=False)
-            if ids:
-                terminal_newlines.add(ids[0])
-        return terminal_newlines
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
         # 1. 识别出当前生成的进展，更新状态机
@@ -138,11 +110,8 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         # NEW: 处理换行符号生成要求
         if getattr(self.state_machine, 'needs_newline', False):
             mask = torch.full_like(scores, -float('inf'))
-            if getattr(self.state_machine, 'is_current_line_rhyming', False):
-                target_set = self.terminal_newline_token_ids
-            else:
-                is_odd_line = (self.state_machine.current_line % 2 == 0)
-                target_set = self.newline_token_ids['odd'] if is_odd_line else self.newline_token_ids['even']
+            is_odd_line = (self.state_machine.current_line % 2 == 0)
+            target_set = self.newline_token_ids['odd'] if is_odd_line else self.newline_token_ids['even']
             allowed_tensor = torch.tensor(list(target_set), dtype=torch.long, device=scores.device)
             if len(allowed_tensor) > 0:
                 mask[0, allowed_tensor] = scores[0, allowed_tensor]
@@ -165,11 +134,8 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         # NEW: 处理标点符号生成要求
         if getattr(self.state_machine, 'needs_punctuation', False):
             mask = torch.full_like(scores, -float('inf'))
-            if getattr(self.state_machine, 'is_current_line_rhyming', False):
-                target_set = self.terminal_punct_token_ids
-            else:
-                is_odd_line = (self.state_machine.current_line % 2 == 0) # 0-indexed, so 0 is line 1 (odd)
-                target_set = self.punct_token_ids['odd'] if is_odd_line else self.punct_token_ids['even']
+            is_odd_line = (self.state_machine.current_line % 2 == 0) # 0-indexed, so 0 is line 1 (odd)
+            target_set = self.punct_token_ids['odd'] if is_odd_line else self.punct_token_ids['even']
             allowed_tensor = torch.tensor(list(target_set), dtype=torch.long, device=scores.device)
             if len(allowed_tensor) > 0:
                 mask[0, allowed_tensor] = scores[0, allowed_tensor]
@@ -189,7 +155,7 @@ class ConstraintLogitsProcessor(LogitsProcessor):
             
             if rhyme_req == "ANY_RHYME":
                 # 选择一个有押韵的字
-                 # 押韵类型 (平/仄) 基于我们的 json 配置, current char pz pattern last already filtered in state_machine
+                 # 押韵类型 (平/仄) 基于我们的 json 配置,当前字符 平仄 模式最后已在 state_machine 中过滤
                  rhyme_type = pz_pattern[-1] # 平/仄
                  valid_rhyme_tokens = set()
                  for (rt, rp), t_ids in self.vocab_indexer.rhyme_tokens.items():
@@ -230,16 +196,14 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         if len(allowed_tensor) > 0:
             token_scores = scores[0, allowed_tensor].clone()
             
-            # 指数衰减重复字惩罚逻辑
+            # 指数衰减重复字惩罚
             if char_to_last_pos:
-                # 调整：增加基础保底惩罚，减缓衰减速度
-                # 让长距离的重复也付出高昂代价
                 base_penalty = 20.0
                 decay_rate = 0.05  # 从 0.2 降为 0.05，让惩罚能探到更远的地方
                 min_penalty = 8.0  # 增加保底惩罚，任何重复的字至少受到 8.0 的降权
                 
-                # 如果是唐诗模式，可能采用绝对的死板惩罚，因为唐诗通常极少复字
-                is_strict_tang_penalty = is_tangpoem # 你可以自由开关此项
+                # 如果是唐诗模式，采用绝对的死板惩罚，因为唐诗通常极少复字
+                is_strict_tang_penalty = is_tangpoem # 可以自由开关此项
                 tang_penalty_val = float('inf') 
 
                 for idx, t_id in enumerate(allowed_list):
