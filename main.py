@@ -147,7 +147,7 @@ def main():
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
-    num_generations = 5     # 多次输出模式下生成的数量（设置为 1 即单次）
+    num_generations = 7     # 多次输出模式下生成的数量（设置为 1 即单次）
     save_output = True     # True 是否将结果保存到 output 目录
     # ===============================================
 

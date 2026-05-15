@@ -180,20 +180,9 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 if sum(combo) == 0 or sum(combo) == 3:
                     return -1000
 
-        # --- 提前三连同检测（句末两字前预检，原 poem_verifier.py:363-376）---
-        if target_len - sim_len <= 2 and sim_len >= 3 and line_tone != 2:
-            # wrhy: 末字的期望平仄
-            wrhy = line_tone
-            if target_len == 5:
-                wrhy = 1 - line_tone  # 五言末字与基调相反
-            if end_tone != 2 and end_tone == wrhy:
-                check_pos = target_len - 3
-                if check_pos < sim_len:
-                    pz = self._get_pingze(simulated_line[check_pos])
-                    if len(pz) == 1:
-                        check_tone = 0 if pz[0] == "平" else 1
-                        if check_tone == wrhy:
-                            return -1000
+        # 注：原 poem_verifier.py:363-376 的"提前三连同"预检不适用于 token 级
+        # LogitsProcessor 范式（它会检查已生成字符并可能拒绝所有候选 token）。
+        # 此处改为在行完成时由三连同全量检测兜底（见上方 sim_len==target_len 处）。
 
         # --- 孤平 ---
         if sim_len == target_len and target_len >= 3:
