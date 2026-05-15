@@ -9,6 +9,16 @@ from tang_state_machine import TangPoemStateMachine
 from tang_logits_processor import TangPoemLogitsProcessor
 import json
 
+def parse_tang_format(cipai_name: str):
+    """从诗体名解析五/七言和绝句/律诗，返回 (line_length, num_lines, rhyme_type)"""
+    name = cipai_name.strip()
+    line_length = 5 if '五' in name else 7
+    num_lines = 4 if '绝' in name else 8
+    rhyme_type = "平韵"  # 唐诗默认为平韵
+    if '仄' in name and '韵' in name:
+        rhyme_type = "仄韵"
+    return line_length, num_lines, rhyme_type
+
 def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", cipai_data_path: str = "PoeTone-main/data/cipai_data.json", poem_path: str = "Meter/songci.json", use_thinking: bool = True):
     """
     根据给定的任务类型，构造对应的大模型 Prompt 消 Messages 列表（支持 zero-shot, one-shot, completion, instruction）
@@ -85,51 +95,35 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
             
     return messages
 
-def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", poem_path: str = "Meter/TongPoem.json", use_thinking: bool = True):
+def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", poem_path: str = None, use_thinking: bool = True, line_length: int = 5, num_lines: int = 8):
     """
-    构造唐诗专用的大模型 Prompt Messages 列表
+    构造唐诗专用的大模型 Prompt Messages 列表。
+    poem_path 为 None 时不读 JSON，由参数驱动生成格律摘要。
     """
     messages = []
-    
     req_text = f"\n详细写作要求：{requirement}\n" if requirement else ""
 
     if task_type == "instruction":
-        # 动态从本地的唐诗 JSON 生成详细格律规则
-        with open(poem_path, 'r', encoding='utf-8') as sf:
-            poem_data = json.load(sf)
-        if cipai not in poem_data:
-            raise ValueError(f"诗体 {cipai} 未在 {poem_path} 中找到。")
-        
-        c_dict = poem_data[cipai]
-        rules = f"【{cipai}】格律要求：\n"
-        rules += "注：格律中的“/”表示句内部的节奏停顿（你无需输出标点，只需体会节奏）。奇数句将自动生成逗号，偶数句将自动生成句号。\n"
-        for i in range(c_dict.get('number_of_stanzas', 1)):
-            stanza = c_dict.get(f"stanza{i+1}", {})
-            lines = stanza.get("lines", [])
-            
-            rhyme_marks = {}
-            for k, v in stanza.items():
-                if k.startswith("rhyme_") and k.endswith("_positions"):
-                    num = k.split("_")[1] if len(k.split("_")) >= 3 and k.split("_")[1].isdigit() else "1"
-                    for pos in v:
-                        rhyme_marks[pos] = f"（此句末尾需押第{num}部韵）"
+        length_name = "五言" if line_length == 5 else "七言"
+        form_name = "绝句" if num_lines == 4 else "律诗"
+        rules = f"【{cipai}】格律要求（{length_name}{form_name}）：\n"
+        rules += f"- 每句 {line_length} 字，共 {num_lines} 句\n"
+        rules += "- 严格遵守二四六分明：每句第2字决定平仄基调，第4字与第2字相反，第6字与第2字相同\n"
+        rules += "- 奇数句（第1、3、5、7句）以仄声收尾，偶数句（第2、4、6、8句）以平声收尾\n"
+        rules += "- 所有偶数句必须押同一韵部，一韵到底\n"
+        rules += "- 避免孤平、三连平、三连仄\n"
+        rules += "- 句中不以“的”“些”“么”“了”等现代白话虚词入诗\n"
 
-            rules += f"第{i+1}段：\n"
-            for j, line_pattern in enumerate(lines):
-                rhyme_mark = rhyme_marks.get(j + 1, "")
-                pure_pattern = line_pattern.replace("/", "")
-                rules += f" - 第{j+1}句 ({len(pure_pattern)}字)：{line_pattern} {rhyme_mark}\n"
-                
         messages = [
             {"role": "system", "content": "你是一位唐代诗人。请根据用户提供的诗体、主题以及格律要求创作一首唐诗。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]诗体·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记、注脚或额外废话！不能存在“平仄中”的格律文本。"},
-            {"role": "user", "content": f"请为我创作一首唐诗。\n主题：“{theme}”\n体裁：《{cipai}》\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]诗体·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
+            {"role": "user", "content": f"请为我创作一首唐诗。\n主题：“{theme}”\n体裁：《{cipai}》（{length_name}{form_name}）\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]诗体·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
         ]
-        
+
     if not use_thinking:
         for msg in messages:
             if msg["role"] == "user":
                 msg["content"] = "/no_think " + msg["content"]
-            
+
     return messages
 
 def main():
@@ -180,7 +174,9 @@ def main():
     # 1. 基础数据准备
     rhyme_dict_path = f"Rhyme/{rhyme_dict_name}.json"
     if meter_type == "唐诗":
-        poem_path = "Meter/TongPoem.json"
+        # 唐诗不读格律 JSON — 从诗体名解析格式参数
+        tang_line_length, tang_num_lines, tang_rhyme_type = parse_tang_format(cipai_name)
+        poem_path = "Meter/songci.json"  # DataManager 初始化需一个有效 path（唐诗状态机不使用其中数据）
         is_tangpoem = True
     else:
         poem_path = "Meter/songci.json"
@@ -194,7 +190,11 @@ def main():
     # 3. 构建 Prompt (运用模仿 PoeTone 的四种任务策略)
     print(f"\nBuilding prompt for task: {task_type} (Theme: {theme})")
     if is_tangpoem:
-        messages = build_tangpoem_prompt_messages(task_type, cipai_name, theme, requirement=detailed_requirement, poem_path=poem_path, use_thinking=use_thinking)
+        messages = build_tangpoem_prompt_messages(
+            task_type, cipai_name, theme, requirement=detailed_requirement,
+            use_thinking=use_thinking,
+            line_length=tang_line_length, num_lines=tang_num_lines
+        )
     else:
         messages = build_prompt_messages(task_type, cipai_name, theme, requirement=detailed_requirement, poem_path=poem_path, use_thinking=use_thinking)
 
@@ -225,8 +225,13 @@ def main():
         processors = None
         if use_constraints:
             if is_tangpoem:
-                # 唐诗路径：使用专用状态机 + 集成 poem_verifier 规则的 LogitsProcessor
-                state_machine = TangPoemStateMachine(cipai_name, data_manager)
+                # 唐诗路径：参数驱动的状态机 + 集成 poem_verifier 规则的 LogitsProcessor
+                state_machine = TangPoemStateMachine(
+                    line_length=tang_line_length,
+                    num_lines=tang_num_lines,
+                    rhyme_type=tang_rhyme_type,
+                    data_manager=data_manager
+                )
                 logits_processor = TangPoemLogitsProcessor(
                     vocab_indexer=vocab_indexer,
                     state_machine=state_machine,
