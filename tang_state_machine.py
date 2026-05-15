@@ -37,15 +37,15 @@ class TangPoemStateMachine:
         return self.line_length
 
     def _is_rhyming_line(self) -> bool:
-        """唐诗惯例：偶数句押韵"""
-        return (self.current_line + 1) % 2 == 0
+        """首句入韵：第1、2、4句押韵（绝句），或第1、2、4、6、8句押韵（律诗）"""
+        return self.current_line == 0 or (self.current_line + 1) % 2 == 0
 
     def _get_expected_end_tone(self) -> str:
-        """奇句仄收，偶句平收（平韵）；反之（仄韵）"""
-        if "平" in self.rhyme_type:
-            return "平" if (self.current_line + 1) % 2 == 0 else "仄"
+        """押韵句末字与韵式同调，非押韵句相反"""
+        if self._is_rhyming_line():
+            return "平" if "平" in self.rhyme_type else "仄"
         else:
-            return "仄" if (self.current_line + 1) % 2 == 0 else "平"
+            return "仄" if "平" in self.rhyme_type else "平"
 
     # ── 核心：动态平仄模式生成 ────────────────────────────────
 
