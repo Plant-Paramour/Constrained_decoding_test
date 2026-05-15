@@ -32,6 +32,18 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         # token_id → 解码字符缓存
         self.token_id_to_chars = {}
 
+        # 常见双字词集合（从 VocabIndexer 已索引 token 中提取）
+        self.common_bigrams = set()
+        for tid, text in self.vocab_indexer.token_to_text.items():
+            if len(text) == 2:
+                self.common_bigrams.add(text)
+
+        # 句读边界位置（已生成字数到达此位置时触发跨段检测）
+        if state_machine.line_length == 5:
+            self._boundary_positions = {2}  # 五言 "2/3"
+        else:
+            self._boundary_positions = {2, 4}  # 七言 "2/2/3"
+
     def _init_punct_tokens(self):
         self.comma_tokens = set()
         self.period_tokens = set()
@@ -208,6 +220,13 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         for c in token_chars:
             if not self._get_pingze(c):
                 return -1000
+
+        # --- 跨句读双字词惩罚 ---
+        cur_pos = pos_info["current_char_idx"]
+        if cur_pos in self._boundary_positions and line_text:
+            bigram = line_text[-1] + token_chars[0]
+            if bigram in self.common_bigrams:
+                penalty += 8.0
 
         return penalty
 
