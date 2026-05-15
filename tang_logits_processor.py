@@ -451,6 +451,9 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             target_set = self.period_tokens | self.question_tokens | self.exclamation_tokens
         else:
             target_set = self.comma_tokens
+        # 安全兜底：若标点 token 集为空（极端情况），放行全部原始分数，避免全 -inf
+        if not target_set:
+            return scores
         mask = torch.full_like(scores, -float('inf'))
         for tid in target_set:
             mask[:, tid] = scores[:, tid]
@@ -571,6 +574,11 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                     token_scores[idx] = -float('inf')
                 else:
                     token_scores[idx] = scores[0, t_id] - critical_penalty
+
+        # 核心底线仍全部拒绝 → 最终兜底：放行全部原始分数，绝不让 mask 全 -inf
+        if (token_scores == -float('inf')).all():
+            mask[:, :] = scores[:, :]
+            return mask
 
         mask[0, allowed_tensor] = token_scores
         return mask

@@ -1,5 +1,7 @@
 import torch
 import os
+# 开启同步 CUDA 以便精确定位 device-side assert 来源（调试模式）
+os.environ.setdefault("CUDA_LAUNCH_BLOCKING", "1")
 from transformers import AutoModelForCausalLM, AutoTokenizer, LogitsProcessorList, BitsAndBytesConfig
 from data_manager import DataManager
 from vocab_indexer import VocabIndexer
@@ -147,7 +149,7 @@ def main():
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
-    num_generations = 5     # 多次输出模式下生成的数量（设置为 1 即单次）
+    num_generations = 15     # 多次输出模式下生成的数量（设置为 1 即单次）
     save_output = True     # True 是否将结果保存到 output 目录
     # ===============================================
 
@@ -201,8 +203,6 @@ def main():
 
     # 使用 Chat Template
     chat_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    inputs = tokenizer(chat_prompt, return_tensors="pt").to(model.device)
-    input_prompt_len = inputs.input_ids.shape[1]
 
     if save_output:
         output_dir = os.path.join("output", cipai_name)
@@ -221,6 +221,10 @@ def main():
 
     for i in range(num_generations):
         print(f"\n=== [Generation {i+1}/{num_generations}] ===")
+
+        # 每次生成重新 tokenize，避免 CUDA tensor 被上一轮 generate() 内部修改导致 device-side assert
+        inputs = tokenizer(chat_prompt, return_tensors="pt").to(model.device)
+        input_prompt_len = inputs.input_ids.shape[1]
 
         # 4. 初始化状态机和干预器（每次生成必须重新初始化，因为状态机内部包含断点、押韵等历史状态）
         processors = None
@@ -251,15 +255,25 @@ def main():
             processors = LogitsProcessorList([logits_processor])
 
         with torch.no_grad():
-            output_ids = model.generate(
-                **inputs,
-                max_new_tokens=4096,
-                logits_processor=processors,
-                pad_token_id=tokenizer.eos_token_id,
-                do_sample=True,
-                top_p=0.9,
-                temperature=0.8
-            )
+            try:
+                output_ids = model.generate(
+                    **inputs,
+                    max_new_tokens=4096,
+                    logits_processor=processors,
+                    pad_token_id=tokenizer.eos_token_id,
+                    do_sample=True,
+                    top_p=0.9,
+                    temperature=0.8
+                )
+            except RuntimeError:
+                torch.cuda.synchronize()
+                torch.cuda.empty_cache()
+                raise
+
+        # 同步 CUDA 以捕获异步错误，并清理缓存为下一轮腾出连续显存
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+            torch.cuda.empty_cache()
 
         outputs = tokenizer.decode(output_ids[0][input_prompt_len:], skip_special_tokens=True)
 
