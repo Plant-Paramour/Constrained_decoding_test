@@ -359,7 +359,10 @@ class TangPoemLogitsProcessor(LogitsProcessor):
 
         # 7. 构建掩码并施加 verifier 规则
         mask = torch.full_like(scores, -float('inf'))
-        allowed_list = list(allowed_tokens)
+        vocab_size = scores.shape[1]
+
+        # 过滤越界 token（vocab_indexer 的 token ID 可能超出模型实际 vocab 范围）
+        allowed_list = [tid for tid in allowed_tokens if 0 <= tid < vocab_size]
         if not allowed_list:
             mask[:, self.eos_token_id] = scores[:, self.eos_token_id]
             return mask
@@ -374,6 +377,11 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 token_scores[idx] = -float('inf')
             else:
                 token_scores[idx] -= penalty
+
+        # 所有候选均被硬拒绝 → EOS 兜底，避免 CUDA 断言
+        if (token_scores == -float('inf')).all():
+            mask[:, self.eos_token_id] = scores[:, self.eos_token_id]
+            return mask
 
         mask[0, allowed_tensor] = token_scores
         return mask

@@ -136,7 +136,7 @@ def main():
 
     # 2. 任务与生成配置
     meter_type = "唐诗"  # 可选："宋词", "唐诗"
-    rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Xinyun" (中华新韵)
+    rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Tongyun" (通韵), "Xinyun"(新韵)
     
     task_type = "instruction"
     theme = "爱情"
