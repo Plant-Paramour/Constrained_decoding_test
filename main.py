@@ -5,6 +5,8 @@ from data_manager import DataManager
 from vocab_indexer import VocabIndexer
 from state_machine import GenerationStateMachine
 from logits_processor import ConstraintLogitsProcessor
+from tang_state_machine import TangPoemStateMachine
+from tang_logits_processor import TangPoemLogitsProcessor
 import json
 
 def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", cipai_data_path: str = "PoeTone-main/data/cipai_data.json", poem_path: str = "Meter/songci.json", use_thinking: bool = True):
@@ -222,14 +224,25 @@ def main():
         # 4. 初始化状态机和干预器（每次生成必须重新初始化，因为状态机内部包含断点、押韵等历史状态）
         processors = None
         if use_constraints:
-            state_machine = GenerationStateMachine(cipai_name, data_manager)
-            logits_processor = ConstraintLogitsProcessor(
-                vocab_indexer=vocab_indexer,
-                state_machine=state_machine,
-                tokenizer=tokenizer,
-                input_prompt_len=input_prompt_len
-            )
-            logits_processor.is_tangpoem_flag = is_tangpoem
+            if is_tangpoem:
+                # 唐诗路径：使用专用状态机 + 集成 poem_verifier 规则的 LogitsProcessor
+                state_machine = TangPoemStateMachine(cipai_name, data_manager)
+                logits_processor = TangPoemLogitsProcessor(
+                    vocab_indexer=vocab_indexer,
+                    state_machine=state_machine,
+                    tokenizer=tokenizer,
+                    input_prompt_len=input_prompt_len
+                )
+            else:
+                # 宋词路径：原有逻辑不变
+                state_machine = GenerationStateMachine(cipai_name, data_manager)
+                logits_processor = ConstraintLogitsProcessor(
+                    vocab_indexer=vocab_indexer,
+                    state_machine=state_machine,
+                    tokenizer=tokenizer,
+                    input_prompt_len=input_prompt_len
+                )
+                logits_processor.is_tangpoem_flag = is_tangpoem
             processors = LogitsProcessorList([logits_processor])
 
         with torch.no_grad():
