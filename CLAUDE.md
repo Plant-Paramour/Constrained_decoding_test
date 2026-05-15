@@ -77,6 +77,6 @@ python debug_vocab.py
 ## 技术要点
 
 - `GenerationStateMachine` 在每次生成开始时必须**重新初始化**，因为其内部包含韵部锁定等有状态信息
-- 唐诗模式下（`is_tangpoem_flag=True`）会对重复字施加更严厉的惩罚（`-inf`），因为唐诗通常忌讳复字
+- 唐诗的重复字检测由 `tang_logits_processor.py` 专门处理，采用分层检测策略（句内重字扣分、n-gram 硬拒绝等），不再使用旧版 `-inf` 一字封杀
 - BPE tokenizer（如 Qwen）的词表 token 是字节编码，需要用 `tokenizer.decode([id])` 获取真实字符，不能直接读取 token 字符串
 - `[title]` 和 `[content]` 标记是程序解析生成进度的关键依赖——在遇到 `[content]` 之前约束逻辑不启动

@@ -224,9 +224,6 @@ class ConstraintLogitsProcessor(LogitsProcessor):
                 char_to_last_pos[c] = current_pos
                 current_pos += 1
                 
-        # 检查是否为唐诗任务以应用更严格的重复惩罚
-        is_tangpoem = hasattr(self, 'is_tangpoem_flag') and self.is_tangpoem_flag
-
         if len(allowed_tensor) > 0:
             token_scores = scores[0, allowed_tensor].clone()
             
@@ -237,10 +234,6 @@ class ConstraintLogitsProcessor(LogitsProcessor):
                 base_penalty = 20.0
                 decay_rate = 0.05  # 从 0.2 降为 0.05，让惩罚能探到更远的地方
                 min_penalty = 8.0  # 增加保底惩罚，任何重复的字至少受到 8.0 的降权
-                
-                # 如果是唐诗模式，可能采用绝对的死板惩罚，因为唐诗通常极少复字
-                is_strict_tang_penalty = is_tangpoem # 你可以自由开关此项
-                tang_penalty_val = float('inf') 
 
                 for idx, t_id in enumerate(allowed_list):
                     if t_id not in self.token_id_to_chars:
@@ -250,10 +243,8 @@ class ConstraintLogitsProcessor(LogitsProcessor):
                     token_chars = self.token_id_to_chars[t_id]
                     # 计算当前 token 累加的衰减惩罚
                     token_penalty = 0.0
-                    has_repeated_char = False
                     for c in token_chars:
                         if c in char_to_last_pos:
-                            has_repeated_char = True
                             distance = current_pos - char_to_last_pos[c]
                             # 防止异常距离，距离最小为 1
                             distance = max(1, distance)
@@ -262,9 +253,6 @@ class ConstraintLogitsProcessor(LogitsProcessor):
                             current_penalty = base_penalty * math.exp(-decay_rate * distance)
                             token_penalty += max(min_penalty, current_penalty)
                             
-                    if is_strict_tang_penalty and has_repeated_char:
-                         token_penalty = tang_penalty_val
-                    
                     if token_penalty > 0:
                         token_scores[idx] -= token_penalty
                         

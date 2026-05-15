@@ -248,7 +248,6 @@ def main():
                     tokenizer=tokenizer,
                     input_prompt_len=input_prompt_len
                 )
-                logits_processor.is_tangpoem_flag = is_tangpoem
             processors = LogitsProcessorList([logits_processor])
 
         with torch.no_grad():
