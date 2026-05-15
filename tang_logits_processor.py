@@ -26,6 +26,10 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         # 全部正文文本（跨句重复检测）
         self.all_ci_text = ""
 
+        # 诗成后的状态控制
+        self._poem_done = False            # 诗词正文已结束，等待换行或终止
+        self._constraints_released = False  # 约束已释放（换行后自由生成解释）
+
         # 标点 token 缓存
         self._init_punct_tokens()
 
@@ -47,12 +51,24 @@ class TangPoemLogitsProcessor(LogitsProcessor):
     def _init_punct_tokens(self):
         self.comma_tokens = set()
         self.period_tokens = set()
+        self.question_tokens = set()
+        self.exclamation_tokens = set()
+        self.newline_tokens = set()
         for c in ['，', ',']:
             for tid in self.tokenizer.encode(c, add_special_tokens=False):
                 self.comma_tokens.add(tid)
         for c in ['。', '.']:
             for tid in self.tokenizer.encode(c, add_special_tokens=False):
                 self.period_tokens.add(tid)
+        for c in ['？', '?']:
+            for tid in self.tokenizer.encode(c, add_special_tokens=False):
+                self.question_tokens.add(tid)
+        for c in ['！', '!']:
+            for tid in self.tokenizer.encode(c, add_special_tokens=False):
+                self.exclamation_tokens.add(tid)
+        for c in ['\n']:
+            for tid in self.tokenizer.encode(c, add_special_tokens=False):
+                self.newline_tokens.add(tid)
 
     def _decode_token(self, token_id: int) -> str:
         if token_id not in self.token_id_to_chars:
@@ -291,9 +307,9 @@ class TangPoemLogitsProcessor(LogitsProcessor):
     def _handle_punctuation(self, scores: torch.FloatTensor) -> torch.FloatTensor:
         pos_info = self.state_machine.get_position_info()
         line_idx = pos_info["current_line"]
-        # 偶数句用句号，奇数句用逗号
+        # 偶数句（押韵句）允许 。？！ 由模型根据语境自选；奇数句用逗号
         if (line_idx + 1) % 2 == 0:
-            target_set = self.period_tokens
+            target_set = self.period_tokens | self.question_tokens | self.exclamation_tokens
         else:
             target_set = self.comma_tokens
         mask = torch.full_like(scores, -float('inf'))
@@ -327,17 +343,37 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             self.last_decoded_text = ci_text
             self._track_all_ci_text(latest_chars)
 
-        # 4. 生成完毕 → 只允许 EOS
-        if self.state_machine.is_finished:
+        # 4. 约束已释放（诗成换行后进入自由解释模式，大模型可自由发挥）
+        if self._constraints_released:
+            return scores
+
+        # 5. 诗成等待换行 → 仅允许 \n 或 EOS（最多两 token 的过渡窗口）
+        if self._poem_done:
+            if generated_ids:
+                last_text = self.tokenizer.decode([generated_ids[-1]])
+                if '\n' in last_text:
+                    self._constraints_released = True
+                    return scores
             mask = torch.full_like(scores, -float('inf'))
+            for tid in self.newline_tokens:
+                mask[:, tid] = scores[:, tid]
             mask[:, self.eos_token_id] = scores[:, self.eos_token_id]
             return mask
 
-        # 5. 需要标点 → 输出标点
+        # 6. 状态机报告诗成 → 进入诗成等待态，禁止 EOS 提前终止
+        if self.state_machine.is_finished:
+            self._poem_done = True
+            mask = torch.full_like(scores, -float('inf'))
+            for tid in self.newline_tokens:
+                mask[:, tid] = scores[:, tid]
+            mask[:, self.eos_token_id] = scores[:, self.eos_token_id]
+            return mask
+
+        # 7. 需要标点 → 输出标点
         if self.state_machine.needs_punctuation:
             return self._handle_punctuation(scores)
 
-        # 6. 获取合法模式并收集候选 token
+        # 8. 获取合法模式并收集候选 token
         allowed_patterns = self.state_machine.get_allowed_patterns()
         allowed_tokens = set()
         for length, pz_pattern, rhyme_req in allowed_patterns:
@@ -357,7 +393,7 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                     base_set = base_set.intersection(valid_rhyme)
             allowed_tokens.update(base_set)
 
-        # 7. 构建掩码并施加 verifier 规则
+        # 9. 构建掩码并施加 verifier 规则
         mask = torch.full_like(scores, -float('inf'))
         vocab_size = scores.shape[1]
 

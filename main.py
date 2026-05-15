@@ -140,7 +140,7 @@ def main():
     
     task_type = "instruction"
     theme = "爱情"
-    cipai_name = "七言绝句"
+    cipai_name = "七言律诗"
     detailed_requirement = """
     以物起兴，之后言爱情典故，最后落到自己含蓄之爱
     """
