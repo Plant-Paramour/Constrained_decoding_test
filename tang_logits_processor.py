@@ -187,6 +187,23 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 if pz[0] != expected:
                     return -1000
 
+        # --- 提前三连同预防：倒数第二字不得与倒数第三、句尾形成三连同 ---
+        # 当生成到 target_len-1 位置时，若倒数第三字与句尾强制同调，
+        # 则倒数第二字必须为反调，否则末位将无合法候选。
+        if sim_len == target_len - 1 and sim_len >= 2 and end_tone != 2:
+            third_from_end = simulated_line[target_len - 3] if len(simulated_line) >= target_len - 2 else None
+            if third_from_end is not None:
+                pz_third = self._get_pingze(third_from_end)
+                if len(pz_third) == 1:
+                    pz_current = self._get_pingze(simulated_line[-1])
+                    if len(pz_current) == 1:
+                        # 倒数第三仄 + 句尾必仄 → 倒数第二不能仄
+                        if pz_third[0] == "仄" and end_tone == 1 and pz_current[0] == "仄":
+                            return -1000
+                        # 倒数第三平 + 句尾必平 → 倒数第二不能平
+                        if pz_third[0] == "平" and end_tone == 0 and pz_current[0] == "平":
+                            return -1000
+
         # --- 三连同 (行末，含多音字全组合检测) ---
         if sim_len == target_len and sim_len >= 3:
             from itertools import product
@@ -312,6 +329,111 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 penalty += 50.0  # 跨句读常见词严重破坏节奏
 
         return penalty
+
+    def _critical_checks(self, token_id: int, pos_info: dict) -> float:
+        """兜底时的核心格律底线：仅检查字数、句读、三连同、句尾平仄、二四六分明。
+
+        当所有候选都被 _verifier_check 硬拒绝时调用，放宽次要约束（重复、禁字、双字词等），
+        但绝不允许产出明显破律的字。
+        """
+        target_len = pos_info["target_length"]
+        is_rhyming = pos_info["is_rhyming"]
+        rhyme_type = pos_info["rhyme_type"]
+        line_tone = pos_info.get("base_tone", 2)
+
+        raw_decode = self.tokenizer.decode([token_id])
+        if re.search(r'[\s　，。、？！；：\n\r]', raw_decode):
+            return -1000
+
+        token_text = self._decode_token(token_id)
+        token_chars = self._get_chars_only(token_text)
+        if not token_chars:
+            return -1000
+
+        line_text = self.state_machine.current_line_text
+        cur_pos = pos_info["current_char_idx"]
+        new_pos = cur_pos + len(token_chars)
+        for bp in self._boundary_positions:
+            if cur_pos < bp < new_pos:
+                return -1000
+
+        simulated_line = line_text + token_chars
+        sim_len = len(simulated_line)
+
+        if sim_len > target_len:
+            return -1000
+
+        if line_tone == 2 and sim_len >= 2 and len(line_text) < 2:
+            pz2 = self._get_pingze(simulated_line[1])
+            if len(pz2) == 1:
+                line_tone = 0 if pz2[0] == "平" else 1
+
+        if is_rhyming:
+            end_tone = 0 if "平" in rhyme_type else 1
+        elif pos_info.get("current_line", -1) == 0:
+            end_tone = 2
+        else:
+            end_tone = 1 if "平" in rhyme_type else 0
+
+        # 二四六分明
+        if sim_len >= 2:
+            pz = self._get_pingze(simulated_line[1])
+            if line_tone != 2 and len(pz) == 1:
+                expected = "平" if line_tone == 0 else "仄"
+                if pz[0] != expected:
+                    return -1000
+        if sim_len >= 4:
+            pz = self._get_pingze(simulated_line[3])
+            if line_tone != 2 and len(pz) == 1:
+                expected = "仄" if line_tone == 0 else "平"
+                if pz[0] != expected:
+                    return -1000
+        if sim_len >= 6:
+            pz = self._get_pingze(simulated_line[5])
+            if line_tone != 2 and len(pz) == 1:
+                expected = "平" if line_tone == 0 else "仄"
+                if pz[0] != expected:
+                    return -1000
+
+        # 提前三连同预防
+        if sim_len == target_len - 1 and sim_len >= 2 and end_tone != 2:
+            third_from_end = simulated_line[target_len - 3] if len(simulated_line) >= target_len - 2 else None
+            if third_from_end is not None:
+                pz_third = self._get_pingze(third_from_end)
+                if len(pz_third) == 1:
+                    pz_current = self._get_pingze(simulated_line[-1])
+                    if len(pz_current) == 1:
+                        if pz_third[0] == "仄" and end_tone == 1 and pz_current[0] == "仄":
+                            return -1000
+                        if pz_third[0] == "平" and end_tone == 0 and pz_current[0] == "平":
+                            return -1000
+
+        # 三连同
+        if sim_len == target_len and sim_len >= 3:
+            from itertools import product
+            tone_options = []
+            for c in simulated_line[-3:]:
+                pz_list = self._get_pingze(c)
+                if not pz_list:
+                    tone_options.append([None])
+                else:
+                    tone_options.append([0 if pz == "平" else 1 for pz in pz_list])
+            for combo in product(*tone_options):
+                if None in combo:
+                    continue
+                if sum(combo) == 0 or sum(combo) == 3:
+                    return -1000
+
+        # 句尾平仄
+        if sim_len == target_len:
+            last_char = simulated_line[-1]
+            pz_last = self._get_pingze(last_char)
+            if len(pz_last) == 1 and end_tone != 2:
+                expected_tone = "平" if end_tone == 0 else "仄"
+                if pz_last[0] != expected_tone:
+                    return -1000
+
+        return 0.0
 
     def _track_all_ci_text(self, latest_text: str):
         """仅维护全篇正文缓存（行文本由 state_machine 管理）"""
@@ -441,10 +563,14 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             else:
                 token_scores[idx] -= penalty
 
-        # 所有候选均被硬拒绝 → 放宽 verifier，使用原始分数（绝不放行 EOS）
+        # 所有候选均被硬拒绝 → 放宽次要规则，但保留核心格律底线
         if (token_scores == -float('inf')).all():
             for idx, t_id in enumerate(allowed_list):
-                token_scores[idx] = scores[0, t_id]
+                critical_penalty = self._critical_checks(t_id, pos_info)
+                if critical_penalty <= -100:
+                    token_scores[idx] = -float('inf')
+                else:
+                    token_scores[idx] = scores[0, t_id] - critical_penalty
 
         mask[0, allowed_tensor] = token_scores
         return mask
