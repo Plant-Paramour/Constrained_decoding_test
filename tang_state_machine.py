@@ -77,10 +77,27 @@ class TangPoemStateMachine:
         remains = target_len - self.current_char_idx
         allowed = []
 
+        # ── 句读：构建虚拟断句模式并计算距下一断点的剩余字数 ──
+        # 五言 "2/3"，七言 "2/2/3"
+        if self.line_length == 5:
+            virtual_pattern = "??/???"
+        else:  # 7
+            virtual_pattern = "??/??/???"
+
+        parts = virtual_pattern.split('/')
+        accumulated = 0
+        remains_before_break = remains
+        for part in parts:
+            part_len = len(part)
+            if self.current_char_idx < accumulated + part_len:
+                remains_before_break = accumulated + part_len - self.current_char_idx
+                break
+            accumulated += part_len
+
         is_rhyme_line = self._is_rhyming_line()
         expected_end_tone = self._get_expected_end_tone()
 
-        for L in range(1, min(max_length, remains) + 1):
+        for L in range(1, min(max_length, remains_before_break) + 1):
             # 生成接下来 L 个字符的所有合法平仄组合
             pz_combos = [""]
             for offset in range(L):
