@@ -131,6 +131,13 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             if c in forbidden:
                 return -1000
 
+        # --- 句读边界硬拒绝：token 字符不得跨越句读断点 ---
+        cur_pos = pos_info["current_char_idx"]
+        new_pos = cur_pos + len(token_chars)
+        for bp in self._boundary_positions:
+            if cur_pos < bp < new_pos:
+                return -1000
+
         # --- 模拟添加 token 后的当前行 ---
         simulated_line = line_text + token_chars
         sim_len = len(simulated_line)
@@ -248,14 +255,24 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             if locked_rhyme_parts is not None and rhyme_parts:
                 if not locked_rhyme_parts.intersection(rhyme_parts):
                     return -1000
+            # 首句仄收时排除该韵部，后续押韵句不得使用
+            excluded_rhyme = pos_info.get("excluded_rhyme_parts")
+            if excluded_rhyme is not None and rhyme_parts:
+                if excluded_rhyme.intersection(rhyme_parts):
+                    return -1000
 
         # --- 重复检测 ---
         penalty = 0.0
         for c in token_chars:
             if c in line_text:
-                penalty += 3.0
-            if c in self.all_ci_text:
-                penalty += 1.0
+                penalty += 30.0  # 句内重字严重惩罚
+            all_count = self.all_ci_text.count(c)
+            if all_count >= 4:
+                return -1000  # 全诗同一字出现 4 次以上，硬拒绝
+            elif all_count >= 2:
+                penalty += all_count * 15.0  # 2-3 次出现，递增惩罚
+            elif all_count == 1:
+                penalty += 5.0  # 首次重复，温和惩罚
 
         # 三字连续重复（硬拒绝，原 poem_verifier.py:254-258）
         if len(token_chars) >= 3:
@@ -292,7 +309,7 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         if cur_pos in self._boundary_positions and line_text:
             bigram = line_text[-1] + token_chars[0]
             if bigram in self.common_bigrams:
-                penalty += 8.0
+                penalty += 50.0  # 跨句读常见词严重破坏节奏
 
         return penalty
 
@@ -381,8 +398,9 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             if rhyme_req == "ANY_RHYME":
                 rhyme_type = pz_pattern[-1]
                 valid_rhyme = set()
+                excluded_parts = self.state_machine.excluded_rhyme_parts or set()
                 for (rt, rp), t_ids in self.vocab_indexer.rhyme_tokens.items():
-                    if rt == rhyme_type:
+                    if rt == rhyme_type and rp not in excluded_parts:
                         valid_rhyme.update(t_ids)
                 if valid_rhyme:
                     base_set = base_set.intersection(valid_rhyme)
@@ -400,8 +418,17 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         # 过滤越界 token（vocab_indexer 的 token ID 可能超出模型实际 vocab 范围）
         allowed_list = [tid for tid in allowed_tokens if 0 <= tid < vocab_size]
         if not allowed_list:
-            mask[:, self.eos_token_id] = scores[:, self.eos_token_id]
-            return mask
+            # 韵部约束太严格 → 放宽：只用平仄模式匹配，不限定韵部
+            allowed_tokens_relaxed = set()
+            for length, pz_pattern, rhyme_req in allowed_patterns:
+                base_set = self.vocab_indexer.pattern_tokens.get((length, pz_pattern), set())
+                allowed_tokens_relaxed.update(base_set)
+            allowed_list = [tid for tid in allowed_tokens_relaxed if 0 <= tid < vocab_size]
+            if not allowed_list:
+                # 最终兜底：允许除 EOS 外全部 token，绝不放行 EOS
+                mask[:, :] = scores[:, :]
+                mask[:, self.eos_token_id] = -float('inf')
+                return mask
 
         allowed_tensor = torch.tensor(allowed_list, dtype=torch.long, device=scores.device)
         token_scores = scores[0, allowed_tensor].clone()
@@ -414,10 +441,10 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             else:
                 token_scores[idx] -= penalty
 
-        # 所有候选均被硬拒绝 → EOS 兜底，避免 CUDA 断言
+        # 所有候选均被硬拒绝 → 放宽 verifier，使用原始分数（绝不放行 EOS）
         if (token_scores == -float('inf')).all():
-            mask[:, self.eos_token_id] = scores[:, self.eos_token_id]
-            return mask
+            for idx, t_id in enumerate(allowed_list):
+                token_scores[idx] = scores[0, t_id]
 
         mask[0, allowed_tensor] = token_scores
         return mask

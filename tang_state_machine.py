@@ -24,6 +24,7 @@ class TangPoemStateMachine:
         self.current_line = 0       # 0-indexed
         self.current_char_idx = 0   # 当前句已生成字数
         self.locked_rhyme_parts: Optional[set] = None
+        self.excluded_rhyme_parts: Optional[set] = None  # 首句仄收时排除的韵部
         self.needs_punctuation = False
         self.is_finished = False
 
@@ -236,6 +237,11 @@ class TangPoemStateMachine:
                     rhyme_parts = self.data_manager.get_rhyme_part_by_tone(last_char, expected_tone)
                     if rhyme_parts:
                         self.locked_rhyme_parts = set(rhyme_parts)
+                elif len(pz_last) == 1 and pz_last[0] == "仄":
+                    # 首句仄收 → 排除该字的韵部，第二句绝不能与之押韵
+                    rhyme_parts = self.data_manager.get_rhyme_part(last_char)
+                    if rhyme_parts:
+                        self.excluded_rhyme_parts = set(rhyme_parts)
 
         self.current_char_idx += length
         self._current_line_text += valid_chars
@@ -251,6 +257,7 @@ class TangPoemStateMachine:
             "target_length": self.line_length,
             "is_rhyming": self._is_rhyming_line(),
             "locked_rhyme_parts": self.locked_rhyme_parts,
+            "excluded_rhyme_parts": self.excluded_rhyme_parts,
             "rhyme_type": self.rhyme_type,
             "base_tone": self._cached_base_tone,
             "global_base_tone": self._global_base_tone,
