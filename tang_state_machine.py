@@ -37,8 +37,8 @@ class TangPoemStateMachine:
         return self.line_length
 
     def _is_rhyming_line(self) -> bool:
-        """首句入韵：第1、2、4句押韵（绝句），或第1、2、4、6、8句押韵（律诗）"""
-        return self.current_line == 0 or (self.current_line + 1) % 2 == 0
+        """偶数句押韵（绝句第2、4句；律诗第2、4、6、8句），首句可押可不押"""
+        return (self.current_line + 1) % 2 == 0
 
     def _get_expected_end_tone(self) -> str:
         """押韵句末字与韵式同调，非押韵句相反"""

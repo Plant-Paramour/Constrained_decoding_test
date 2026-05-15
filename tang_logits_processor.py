@@ -159,13 +159,20 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 if pz[0] != expected:
                     return -1000
 
-        # --- 三连同 (行末) ---
+        # --- 三连同 (行末，含多音字全组合检测) ---
         if sim_len == target_len and sim_len >= 3:
-            sheng_map = self._build_simulated_sheng(simulated_line)
-            last3 = [sheng_map.get(c, []) for c in simulated_line[-3:]]
-            if all(len(p) == 1 for p in last3):
-                tones = [p[0] for p in last3]
-                if sum(tones) == 0 or sum(tones) == 3:
+            from itertools import product
+            tone_options = []
+            for c in simulated_line[-3:]:
+                pz_list = self._get_pingze(c)
+                if not pz_list:
+                    tone_options.append([None])
+                else:
+                    tone_options.append([0 if pz == "平" else 1 for pz in pz_list])
+            for combo in product(*tone_options):
+                if None in combo:
+                    continue
+                if sum(combo) == 0 or sum(combo) == 3:
                     return -1000
 
         # --- 孤平 ---
