@@ -97,6 +97,11 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         rhyme_type = pos_info["rhyme_type"]
         line_tone = pos_info.get("base_tone", 2)  # 0=平起, 1=仄起, 2=未定
 
+        # --- 正文中严禁空白与标点（检测原始解码文本，不走 strip 缓存）---
+        raw_decode = self.tokenizer.decode([token_id])
+        if re.search(r'[\s　，。、？！；：\n\r]', raw_decode):
+            return -1000
+
         token_text = self._decode_token(token_id)
         token_chars = self._get_chars_only(token_text)
         if not token_chars:
