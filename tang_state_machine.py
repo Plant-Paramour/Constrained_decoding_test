@@ -17,7 +17,7 @@ class TangPoemStateMachine:
 
         self.current_line = 0
         self.current_char_idx = 0
-        self.locked_rhyme_part: Optional[str] = None
+        self.locked_rhyme_parts: Optional[set] = None  # 允许的韵部集合（多韵部交集）
         self.needs_punctuation = False
         self.is_finished = False
 
@@ -80,8 +80,10 @@ class TangPoemStateMachine:
                         continue
                     if "仄" in self.rhyme_type and pz[-1] != "仄":
                         continue
-                    if self.locked_rhyme_part:
-                        allowed.append((L, pz, self.locked_rhyme_part))
+                    if self.locked_rhyme_parts:
+                        # 为每个允许的韵部生成一条模式
+                        for rp in self.locked_rhyme_parts:
+                            allowed.append((L, pz, rp))
                     else:
                         allowed.append((L, pz, "ANY_RHYME"))
             elif L == remains:
@@ -134,14 +136,16 @@ class TangPoemStateMachine:
         target_len = self.get_target_length()
         length = len(valid_chars)
 
-        # 押韵句末 — 锁定韵部
+        # 押韵句末 — 锁定韵部（采用交集策略，与原 GLM 逻辑一致）
         if self.current_char_idx + length == target_len and self._is_rhyming_line():
-            if self.locked_rhyme_part is None:
-                last_char = valid_chars[-1]
-                expected_tone = "平" if "平" in self.rhyme_type else "仄"
-                rhyme_parts = self.data_manager.get_rhyme_part_by_tone(last_char, expected_tone)
-                if rhyme_parts:
-                    self.locked_rhyme_part = rhyme_parts[0]
+            last_char = valid_chars[-1]
+            expected_tone = "平" if "平" in self.rhyme_type else "仄"
+            rhyme_parts = self.data_manager.get_rhyme_part_by_tone(last_char, expected_tone)
+            if rhyme_parts:
+                if self.locked_rhyme_parts is None:
+                    self.locked_rhyme_parts = set(rhyme_parts)
+                else:
+                    self.locked_rhyme_parts = self.locked_rhyme_parts.intersection(set(rhyme_parts))
 
         self.current_char_idx += length
 
@@ -156,7 +160,7 @@ class TangPoemStateMachine:
             "current_char_idx": self.current_char_idx,
             "target_length": self.get_target_length(),
             "is_rhyming": self._is_rhyming_line(),
-            "locked_rhyme_part": self.locked_rhyme_part,
+            "locked_rhyme_parts": self.locked_rhyme_parts,
             "rhyme_type": self.rhyme_type,
             "line_pattern": self.get_current_line_pattern(),
             "needs_punctuation": self.needs_punctuation,

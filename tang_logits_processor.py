@@ -118,7 +118,7 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         char_idx = pos_info["current_char_idx"]
         target_len = pos_info["target_length"]
         is_rhyming = pos_info["is_rhyming"]
-        locked_rhyme = pos_info["locked_rhyme_part"]
+        locked_rhyme_parts = pos_info.get("locked_rhyme_parts")  # set of allowed rhyme groups
         rhyme_type = pos_info["rhyme_type"]
 
         token_text = self._decode_token(token_id)
@@ -219,13 +219,13 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 if pz_last[0] != expected_tone:
                     return -1000
 
-        # --- 押韵一致性检查 (行末 + 押韵句) ---
+        # --- 押韵一致性检查 (行末 + 押韵句，使用交集逻辑对应原 GLM verifier) ---
         if sim_len == target_len and is_rhyming:
             last_char = simulated_line[-1]
             expected_tone = "平" if "平" in rhyme_type else "仄"
-            rhyme_parts = self._get_rhyme_parts(last_char, expected_tone)
-            if locked_rhyme is not None:
-                if locked_rhyme not in rhyme_parts:
+            rhyme_parts = set(self._get_rhyme_parts(last_char, expected_tone))
+            if locked_rhyme_parts is not None and rhyme_parts:
+                if not locked_rhyme_parts.intersection(rhyme_parts):
                     return -1000
 
         # --- 重复检测 ---
