@@ -131,8 +131,13 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             if len(pz2) == 1:
                 line_tone = 0 if pz2[0] == "平" else 1
 
-        # 句尾平仄期望
-        end_tone = 0 if "平" in rhyme_type else 1  # 平韵→平收, 仄韵→仄收
+        # 句尾平仄期望：押韵句与韵式同调，非押韵句相反
+        if is_rhyming:
+            end_tone = 0 if "平" in rhyme_type else 1
+        elif pos_info.get("current_line", -1) == 0:
+            end_tone = 2  # 首句灵活，由实际末字决定
+        else:
+            end_tone = 1 if "平" in rhyme_type else 0
 
         # --- 二四六分明 ---
         # 第2字 (idx 1)
@@ -175,11 +180,29 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 if sum(combo) == 0 or sum(combo) == 3:
                     return -1000
 
+        # --- 提前三连同检测（句末两字前预检，原 poem_verifier.py:363-376）---
+        if target_len - sim_len <= 2 and sim_len >= 3 and line_tone != 2:
+            # wrhy: 末字的期望平仄
+            wrhy = line_tone
+            if target_len == 5:
+                wrhy = 1 - line_tone  # 五言末字与基调相反
+            if end_tone != 2 and end_tone == wrhy:
+                check_pos = target_len - 3
+                if check_pos < sim_len:
+                    pz = self._get_pingze(simulated_line[check_pos])
+                    if len(pz) == 1:
+                        check_tone = 0 if pz[0] == "平" else 1
+                        if check_tone == wrhy:
+                            return -1000
+
         # --- 孤平 ---
         if sim_len == target_len and target_len >= 3:
             sheng_map = self._build_simulated_sheng(simulated_line)
-            # 平收的诗中：平起查 "仄平仄"@(0,1,2)，仄起查 "仄平仄"@(2,3,4)
-            if end_tone == 0:
+            # 孤平仅适用于平收句（以实际末字平仄为准，而非预设 end_tone）
+            last_pz_guping = sheng_map.get(simulated_line[-1], [])
+            is_ping_end = len(last_pz_guping) == 1 and last_pz_guping[0] == 0
+            if is_ping_end:
+                # 平收的诗中：平起查 "仄平仄"@(0,1,2)，仄起查 "仄平仄"@(2,3,4)
                 if line_tone == 0:
                     pz0 = sheng_map.get(simulated_line[0], [])
                     pz2_gu = sheng_map.get(simulated_line[2], [])
@@ -191,16 +214,28 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                     if len(pz2_gu) == 1 and len(pz4) == 1 and pz2_gu[0] == 1 and pz4[0] == 1:
                         return -1000
 
-        # --- 句尾平仄 ---
+        # --- 句尾平仄（首句灵活，由实际末字决定收束模式）---
         if sim_len == target_len:
             last_char = simulated_line[-1]
             pz_last = self._get_pingze(last_char)
-            if len(pz_last) == 1:
+            if len(pz_last) == 1 and end_tone != 2:
                 expected_tone = "平" if end_tone == 0 else "仄"
                 if pz_last[0] != expected_tone:
                     return -1000
 
+        # --- 句尾字不得与前文句尾重复（原 poem_verifier.py:287-302）---
+        if sim_len == target_len and pos_info["current_line"] > 0:
+            last_char = simulated_line[-1]
+            for prev_line in range(pos_info["current_line"]):
+                end_pos = (prev_line + 1) * target_len - 1
+                if end_pos < len(self.all_ci_text) and self.all_ci_text[end_pos] == last_char:
+                    return -1000
+
         # --- 押韵一致性（交集策略，对应原 GLM verifier）---
+        if sim_len == target_len:
+            # 句末字不能是"不"（原 poem_verifier.py:412-413）
+            if simulated_line[-1] == '不':
+                return -1000
         if sim_len == target_len and is_rhyming:
             last_char = simulated_line[-1]
             expected_tone = "平" if "平" in rhyme_type else "仄"
@@ -216,6 +251,20 @@ class TangPoemLogitsProcessor(LogitsProcessor):
                 penalty += 3.0
             if c in self.all_ci_text:
                 penalty += 1.0
+
+        # 三字连续重复（硬拒绝，原 poem_verifier.py:254-258）
+        if len(token_chars) >= 3:
+            for i in range(len(token_chars) - 2):
+                trigram = token_chars[i:i + 3]
+                if trigram in line_text or trigram in self.all_ci_text:
+                    return -1000
+        # 跨边界三字重复
+        if len(line_text) >= 2 and len(token_chars) >= 1:
+            if (line_text[-2:] + token_chars[0]) in self.all_ci_text:
+                return -1000
+        if len(line_text) >= 1 and len(token_chars) >= 2:
+            if (line_text[-1] + token_chars[:2]) in self.all_ci_text:
+                return -1000
 
         # 2-gram 重复（硬拒绝）
         if len(token_chars) >= 2:

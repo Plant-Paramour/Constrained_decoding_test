@@ -31,13 +31,20 @@ class TangPoemStateMachine:
         self._current_line_text = ""
         self._cached_base_tone = 2  # 0=平起, 1=仄起, 2=未定
 
+        # 全诗平仄基调（首句第2字确定后不再改变，带第4/6字回退）
+        self._global_base_tone = 2  # 0=平起, 1=仄起, 2=未定
+        # 首句是否入韵（末字平声则入韵）
+        self._line0_rhymes = False
+
     # ── 公开查询 ──────────────────────────────────────────────
 
     def get_target_length(self) -> int:
         return self.line_length
 
     def _is_rhyming_line(self) -> bool:
-        """偶数句押韵（绝句第2、4句；律诗第2、4、6、8句），首句可押可不押"""
+        """偶数句押韵（绝句第2、4句；律诗第2、4、6、8句），首句末字平声则入韵"""
+        if self.current_line == 0:
+            return self._line0_rhymes
         return (self.current_line + 1) % 2 == 0
 
     def _get_expected_end_tone(self) -> str:
@@ -123,6 +130,11 @@ class TangPoemStateMachine:
                                 allowed.append((L, pz, rp))
                         else:
                             allowed.append((L, pz, "ANY_RHYME"))
+                elif self.current_line == 0:
+                    # 首句末字可平可仄（由实际生成结果决定是否入韵）
+                    for pz in pz_combos:
+                        if pz:
+                            allowed.append((L, pz, None))
                 else:
                     # 非押韵句末：句尾平仄必须符合奇偶规则
                     for pz in pz_combos:
@@ -150,7 +162,14 @@ class TangPoemStateMachine:
                 self.needs_punctuation = False
                 self.current_line += 1
                 self._current_line_text = ""
-                self._cached_base_tone = 2
+                # 从全局基调推导本行基调（ids 0,3,4,7 同调, ids 1,2,5,6 反弹）
+                if self._global_base_tone != 2:
+                    if self.current_line in (1, 2, 5, 6):
+                        self._cached_base_tone = 1 - self._global_base_tone
+                    else:
+                        self._cached_base_tone = self._global_base_tone
+                else:
+                    self._cached_base_tone = 2
                 if self.current_line >= self.num_lines:
                     self.is_finished = True
                 self.current_char_idx = 0
@@ -165,26 +184,58 @@ class TangPoemStateMachine:
 
         length = len(valid_chars)
 
-        # 确定本句平仄基调：第2字 (idx 1) 生成后即可确定
+        # 确定本句平仄基调：优先第2字，多音字则回退到第4字，再回退到第6字
         if self._cached_base_tone == 2:
-            # 判断第2字是否已在本步新文本中
+            tone = 2
+            # 尝试第2字 (idx 1)
             pos2_in_new = 1 - self.current_char_idx
             if 0 <= pos2_in_new < len(valid_chars):
                 char2 = valid_chars[pos2_in_new]
                 pz = self.data_manager.get_pingze(char2)
                 if len(pz) == 1:
-                    self._cached_base_tone = 0 if pz[0] == "平" else 1
+                    tone = 0 if pz[0] == "平" else 1
+            # 回退：第4字 (idx 3)，与基调相反
+            if tone == 2:
+                pos4_in_new = 3 - self.current_char_idx
+                if 0 <= pos4_in_new < len(valid_chars):
+                    char4 = valid_chars[pos4_in_new]
+                    pz = self.data_manager.get_pingze(char4)
+                    if len(pz) == 1:
+                        tone = 1 if pz[0] == "平" else 0
+            # 回退：第6字 (idx 5)，与基调相同（仅七言）
+            if tone == 2 and self.line_length >= 7:
+                pos6_in_new = 5 - self.current_char_idx
+                if 0 <= pos6_in_new < len(valid_chars):
+                    char6 = valid_chars[pos6_in_new]
+                    pz = self.data_manager.get_pingze(char6)
+                    if len(pz) == 1:
+                        tone = 0 if pz[0] == "平" else 1
+            if tone != 2:
+                self._cached_base_tone = tone
+                if self.current_line == 0 and self._global_base_tone == 2:
+                    self._global_base_tone = tone
 
         # 押韵句末 — 锁定/更新韵部（交集策略，与原 GLM 逻辑一致）
-        if self.current_char_idx + length == self.line_length and self._is_rhyming_line():
-            last_char = valid_chars[-1]
-            expected_tone = "平" if "平" in self.rhyme_type else "仄"
-            rhyme_parts = self.data_manager.get_rhyme_part_by_tone(last_char, expected_tone)
-            if rhyme_parts:
-                if self.locked_rhyme_parts is None:
-                    self.locked_rhyme_parts = set(rhyme_parts)
-                else:
-                    self.locked_rhyme_parts = self.locked_rhyme_parts.intersection(set(rhyme_parts))
+        if self.current_char_idx + length == self.line_length:
+            if self._is_rhyming_line():
+                last_char = valid_chars[-1]
+                expected_tone = "平" if "平" in self.rhyme_type else "仄"
+                rhyme_parts = self.data_manager.get_rhyme_part_by_tone(last_char, expected_tone)
+                if rhyme_parts:
+                    if self.locked_rhyme_parts is None:
+                        self.locked_rhyme_parts = set(rhyme_parts)
+                    else:
+                        self.locked_rhyme_parts = self.locked_rhyme_parts.intersection(set(rhyme_parts))
+            elif self.current_line == 0 and not self._line0_rhymes:
+                # 首句末字平声则入韵（模仿原 verify_rhy: ids==0 且末字平声 → needyy=1）
+                last_char = valid_chars[-1]
+                pz_last = self.data_manager.get_pingze(last_char)
+                if len(pz_last) == 1 and "平" in self.rhyme_type and pz_last[0] == "平":
+                    self._line0_rhymes = True
+                    expected_tone = "平"
+                    rhyme_parts = self.data_manager.get_rhyme_part_by_tone(last_char, expected_tone)
+                    if rhyme_parts:
+                        self.locked_rhyme_parts = set(rhyme_parts)
 
         self.current_char_idx += length
         self._current_line_text += valid_chars
@@ -202,6 +253,8 @@ class TangPoemStateMachine:
             "locked_rhyme_parts": self.locked_rhyme_parts,
             "rhyme_type": self.rhyme_type,
             "base_tone": self._cached_base_tone,
+            "global_base_tone": self._global_base_tone,
+            "line0_rhymes": self._line0_rhymes,
             "needs_punctuation": self.needs_punctuation,
             "is_finished": self.is_finished,
         }
