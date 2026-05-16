@@ -68,34 +68,43 @@ class SongciEvaluator:
 
     @staticmethod
     def get_char_rhyme(char):
-        """返回该字在《中华新韵》中的韵部名称，无法判断时返回 'none'。"""
+        """返回该字在《中华新韵》中所有可能的韵部名称（取全部读音），返回 frozenset。"""
         try:
-            initial = pinyin(char, style=Style.INITIALS, heteronym=False)[0][0]
-            final = pinyin(char, style=Style.FINALS, heteronym=False)[0][0]
-            if not final:
-                return 'none'
+            all_finals = pinyin(char, style=Style.FINALS, heteronym=True)[0]
+            all_initials = pinyin(char, style=Style.INITIALS, heteronym=True)[0]
+            if not all_finals:
+                return frozenset({'none'})
         except (IndexError, TypeError):
-            return 'none'
+            return frozenset({'none'})
 
-        # 1) 韵母 i → 区分十二齐 与 十三支（-i 舌尖元音）
-        if final == 'i':
-            if initial in SongciEvaluator._ZHI_INITIALS:
-                return '十三支'
-            return '十二齐'
+        categories = set()
+        for i, final in enumerate(all_finals):
+            initial = all_initials[i] if i < len(all_initials) else (all_initials[0] if all_initials else '')
 
-        # 2) 韵母 u → 区分十四姑 与 十二齐（j/q/x/y 后实为 ü）
-        if final == 'u':
-            if initial in SongciEvaluator._JU_INITIALS:
-                return '十二齐'
-            return '十四姑'
+            if not final:
+                continue
 
-        # 3) 查直接映射表
-        category = SongciEvaluator._XINYUN_FINAL_MAP.get(final)
-        if category:
-            return category
+            # 1) 韵母 i → 区分十二齐 与 十三支（-i 舌尖元音）
+            if final == 'i':
+                if initial in SongciEvaluator._ZHI_INITIALS:
+                    categories.add('十三支')
+                else:
+                    categories.add('十二齐')
 
-        # 4) 兜底：返回原始韵母
-        return final
+            # 2) 韵母 u → 区分十四姑 与 十二齐（j/q/x/y 后实为 ü）
+            elif final == 'u':
+                if initial in SongciEvaluator._JU_INITIALS:
+                    categories.add('十二齐')
+                else:
+                    categories.add('十四姑')
+
+            # 3) 查直接映射表
+            else:
+                category = SongciEvaluator._XINYUN_FINAL_MAP.get(final)
+                if category:
+                    categories.add(category)
+
+        return frozenset(categories) if categories else frozenset({'none'})
 
     def _build_total_view(self, meter_entry):
         """Build a consolidated view, splitting template lines by 、 for clause-level matching.
@@ -246,31 +255,39 @@ class SongciEvaluator:
 
         # --- 3. Rhyme Score (30%) ---
         # 使用《新韵》韵部判断：按 rhyme_X_positions 分组处理，每组独立评估
+        # get_char_rhyme 返回 frozenset（多音字包含所有可能韵部），两字押韵取其交集
         if rhyme_groups:
             group_results = []
             for group in rhyme_groups:
                 chars = []
+                char_category_sets = []
                 group_xinyun_map = {}
                 for pos in group:
                     idx = pos - 1
                     if idx < n_generated and generated_lines[idx]:
                         char = generated_lines[idx][-1]
                         chars.append(char)
-                        xinyun = self.get_char_rhyme(char)
-                        if xinyun != 'none':
-                            group_xinyun_map.setdefault(xinyun, []).append({
-                                "position": pos,
-                                "char": char,
-                            })
+                        cat_set = self.get_char_rhyme(char)
+                        char_category_sets.append(cat_set)
+                        for cat in cat_set:
+                            if cat != 'none':
+                                group_xinyun_map.setdefault(cat, []).append({
+                                    "position": pos,
+                                    "char": char,
+                                })
 
                 if not chars:
                     continue
 
-                group_finals = [self.get_char_rhyme(c) for c in chars]
-                group_valid = [r for r in group_finals if r != 'none']
+                # 统计每个韵部被多少个字符支持（一个多音字可以支持多个韵部）
+                category_counts = Counter()
+                for cat_set in char_category_sets:
+                    for cat in cat_set:
+                        if cat != 'none':
+                            category_counts[cat] += 1
 
-                if group_valid:
-                    dominant = Counter(group_valid).most_common(1)[0]
+                if category_counts:
+                    dominant = category_counts.most_common(1)[0]
                     group_score = dominant[1] / len(chars)
                 else:
                     dominant = (None, 0)
