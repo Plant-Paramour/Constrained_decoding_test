@@ -1,6 +1,16 @@
 # ============================================================
 #  本文件用于评估基于《中华新韵》(Xinyun) 的押韵逻辑。
-#  韵母规则参见 Rhyme/Xinyun.json，
+#  韵部划分规则：
+#  一、麻  a ia ua        二、波  o e uo
+#  三、皆  ie ue          四、开  ai uai
+#  五、微  ei ui (uei)    六、豪  ao iao
+#  七、尤  ou iu (iou)    八、寒  an ian uan
+#  九、文  en in un       十、唐  ang iang uang
+#  十一、庚  eng ing      十二、齐  i (非舌尖元音)
+#  十三、支  -i (舌尖元音) 十四、姑  u (非 j/q/x/y 开头)
+#  十五、东  ong iong      十六、居  ü (u 韵母 j/q/x/y 开头，及 v 韵母)
+#  十七、耳  er
+# ============================================================
 
 import json
 import re
@@ -36,13 +46,61 @@ class SongciEvaluator:
         except (IndexError, TypeError):
             return '中'
 
+    # ---- 新韵韵部映射 ----
+    # 直接从韵母映射到韵部（不需要声母辅助判断的）
+    _XINYUN_FINAL_MAP = {
+        'a': '一麻', 'ia': '一麻', 'ua': '一麻',
+        'o': '二波', 'e': '二波', 'uo': '二波',
+        'ie': '三皆', 'ue': '三皆',
+        'ai': '四开', 'uai': '四开',
+        'ei': '五微', 'ui': '五微',
+        'ao': '六豪', 'iao': '六豪',
+        'ou': '七尤', 'iu': '七尤',
+        'an': '八寒', 'ian': '八寒', 'uan': '八寒',
+        'en': '九文', 'in': '九文', 'un': '九文',
+        'ang': '十唐', 'iang': '十唐', 'uang': '十唐',
+        'eng': '十一庚', 'ing': '十一庚',
+        'ong': '十五东', 'iong': '十五东',
+        'er': '十七耳',
+        # ü 韵母的变形（pypinyin 可能返回 v 或直接返回 u）
+        'v': '十六居',   # nü, lü → final "v"
+        've': '三皆',    # nüe, lüe → final "ve"
+    }
+
+    # 需要结合声母才能判断韵部的韵母
+    _ZHI_INITIALS = {'zh', 'ch', 'sh', 'r', 'z', 'c', 's'}   # 十三支的声母
+    _JU_INITIALS = {'j', 'q', 'x', 'y'}                       # 十六居的声母（拼音省略 ü 上两点）
+
     @staticmethod
     def get_char_rhyme(char):
+        """返回该字在《中华新韵》中的韵部名称，无法判断时返回 'none'。"""
         try:
-            fin = pinyin(char, style=Style.FINALS, heteronym=False)[0][0]
-            return fin if fin else 'none'
+            initial = pinyin(char, style=Style.INITIALS, heteronym=False)[0][0]
+            final = pinyin(char, style=Style.FINALS, heteronym=False)[0][0]
+            if not final:
+                return 'none'
         except (IndexError, TypeError):
             return 'none'
+
+        # 1) 韵母 i → 需要区分十二齐（普通 i）和十三支（舌尖元音 -i）
+        if final == 'i':
+            if initial in SongciEvaluator._ZHI_INITIALS:
+                return '十三支'
+            return '十二齐'
+
+        # 2) 韵母 u → 需要区分十四姑（普通 u）和十六居（j/q/x/y 后的 ü）
+        if final == 'u':
+            if initial in SongciEvaluator._JU_INITIALS:
+                return '十六居'
+            return '十四姑'
+
+        # 3) 查直接映射表
+        category = SongciEvaluator._XINYUN_FINAL_MAP.get(final)
+        if category:
+            return category
+
+        # 4) 兜底：返回原始韵母（方便排查未覆盖的情况）
+        return final
 
     def _build_total_view(self, meter_entry):
         """Build a consolidated view, splitting template lines by 、 for clause-level matching."""
@@ -187,6 +245,7 @@ class SongciEvaluator:
             }
 
         # --- 3. Rhyme Score (30%) ---
+        # 使用《新韵》韵部判断：每句末字归入对应韵部，取最多字所属韵部计分
         if rhyme_positions:
             rhyming_chars = []
             rhyme_group_map = {}
@@ -194,29 +253,29 @@ class SongciEvaluator:
                 idx = pos - 1
                 if idx < n_generated and generated_lines[idx]:
                     char = generated_lines[idx][-1]
-                    fin = self.get_char_rhyme(char)
+                    rhyme_group = self.get_char_rhyme(char)
                     rhyming_chars.append(char)
-                    if fin != 'none':
-                        rhyme_group_map.setdefault(fin, []).append({
+                    if rhyme_group != 'none':
+                        rhyme_group_map.setdefault(rhyme_group, []).append({
                             "position": pos,
                             "char": char,
                         })
             if rhyming_chars:
-                rhyme_finals = [self.get_char_rhyme(c) for c in rhyming_chars]
-                valid = [r for r in rhyme_finals if r != 'none']
+                rhyme_groups = [self.get_char_rhyme(c) for c in rhyming_chars]
+                valid = [r for r in rhyme_groups if r != 'none']
                 if valid:
                     most_common = Counter(valid).most_common(1)[0]
                     scores['rhyme'] = most_common[1] / len(rhyming_chars)
                     details['rhyme'] = {
                         "rhyme_groups": rhyme_group_map,
-                        "dominant_final": most_common[0],
+                        "dominant_rhyme_group": most_common[0],
                         "dominant_count": most_common[1],
                         "total_rhyme_positions": len(rhyming_chars),
                     }
                 else:
                     details['rhyme'] = {
                         "rhyme_groups": {},
-                        "dominant_final": None,
+                        "dominant_rhyme_group": None,
                         "dominant_count": 0,
                         "total_rhyme_positions": len(rhyming_chars),
                     }
