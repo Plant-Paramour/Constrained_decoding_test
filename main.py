@@ -21,7 +21,7 @@ def parse_tang_format(cipai_name: str):
         rhyme_type = "仄韵"
     return line_length, num_lines, rhyme_type
 
-def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", cipai_data_path: str = "PoeTone-main/data/cipai_data.json", poem_path: str = "Meter/songci.json", use_thinking: bool = True):
+def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", cipai_data_path: str = "PoeTone-main/data/cipai_data.json", poem_path: str = "Meter/songci.json", use_thinking: bool = True, rhyme_dict_name: str = "Cilin"):
     """
     根据给定的任务类型，构造对应的大模型 Prompt 消 Messages 列表（支持 zero-shot, one-shot, completion, instruction）
     """
@@ -30,10 +30,14 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
     # 构造可选的详细写作要求
     req_text = f"\n详细写作要求：{requirement}\n" if requirement else ""
 
+    # 韵书中文名映射
+    _rhyme_name_map = {"Cilin": "词林正韵", "Pinshui": "平水韵", "Xinyun": "中华新韵", "Tongyun": "中华通韵"}
+    rhyme_name = _rhyme_name_map.get(rhyme_dict_name, rhyme_dict_name)
+
     if task_type == "zero-shot":
         messages = [
-            {"role": "system", "content": "你是一位宋代词人。请按照用户提供的词牌、主题和详细要求创作一首词。\n\n你的输出必须遵循以下格式：\n1. 首先输出你对主题和创作思路的简要分析。\n2. 接着输出标题，格式为：[title]词牌·标题（例如：[title]浣溪沙·续写）\n [content]正文。\n 正文中绝对不得包含大纲、段落标记等废话。"},
-            {"role": "user", "content": f"请以《{cipai}》为词牌，以“{theme}”为主题，创作一首宋词。{req_text}"}
+            {"role": "system", "content": "你是一位精通宋代词学的词人，深谙词牌格律、意象经营与章法布局之道，擅长以典雅凝练的古典语汇营造深远的意境。请按照用户提供的词牌、主题和详细要求创作一首词。\n\n你的输出必须遵循以下格式：\n1. 首先输出你对主题和创作思路的简要分析。\n2. 接着输出标题，格式为：[title]词牌·标题（例如：[title]浣溪沙·续写）\n3. 最后输出 [content] 标记，紧接着输出正文：[content]正文。\n\n关键要求：\n- `[title]` 和 `[content]` 标记不可省略、修改或替换！\n- 正文必须用纯中文古典诗词语言，严禁在正文中输出“平”“仄”“中”“/”等格律符号或复述格律模板——你是在创作词，不是在抄写格律！\n- 正文中不得包含段落标记、注脚、序号或任何解释性文字。"},
+            {"role": "user", "content": f"请以《{cipai}》为词牌，以“{theme}”为主题，创作一首宋词。用韵须遵循《{rhyme_name}》。\n\n创作要领：\n- 意象须鲜明生动，情景交融，忌空洞堆砌\n- 语言须典雅凝练，善用比兴寄托，忌直白如白话\n- 章法须有层次，注意上下阕之间的意脉承接与转折\n{req_text}\n请开始创作："},
         ]
         
     elif task_type in ["one-shot", "completion", "instruction"]:
@@ -48,14 +52,14 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
         if task_type == "one-shot":
             example = cipai_data["one_shot_examples"].get(cipai, "")
             messages = [
-                {"role": "system", "content": "你是一位宋代词人，擅长模仿范例进行创作。\n\n你的输出必须遵循以下格式：\n1. 首先输出你对范例风格的分析及你的创作思路。\n2. 接着输出标题，格式为：[title]词牌·标题（例如：[title]浣溪沙·续写）\n [content]正文。，然后紧接着输出正文。"},
-                {"role": "user", "content": f"这是一首以《{cipai}》为词牌的范例：\n\n{example}\n\n现在，请模仿这首词的风格和格律，以“{theme}”为主题，创作一首全新的词。{req_text}"}
+                {"role": "system", "content": "你是一位精通宋代词学的词人，擅长揣摩前人词作的风格神韵，并能融会贯通、推陈出新。请仔细研读范例，领会其意象选择、章法布局与语言风格，然后创作一首具有独立艺术价值的新词。\n\n你的输出必须遵循以下格式：\n1. 首先输出你对范例风格的分析及你的创作思路。\n2. 接着输出标题，格式为：[title]词牌·标题（例如：[title]浣溪沙·续写）\n3. 最后输出 [content] 标记，紧接着输出正文：[content]正文。\n\n关键要求：\n- `[title]` 和 `[content]` 标记不可省略、修改或替换！\n- 正文必须用纯中文古典诗词语言，严禁输出“平”“仄”“中”“/”等格律符号或复述格律模板——你是在创作词，不是在抄写格律！\n- 正文中不得包含段落标记、注脚或任何解释性文字。"},
+                {"role": "user", "content": f"这是一首以《{cipai}》为词牌的范例：\n\n{example}\n\n现在，请揣摩这首词的意象选择、章法布局与语言风格，以“{theme}”为主题，创作一首全新的词。用韵须遵循《{rhyme_name}》。注意效仿其神韵而非字句，保持独立的艺术创造力。\n{req_text}\n请开始创作："},
             ]
         elif task_type == "completion":
             first_half = cipai_data["completion_data"].get(cipai, {}).get("first_half", "")
             messages = [
-                {"role": "system", "content": "你是一位宋代词人，擅长续写词作。\n\n你的输出必须遵循以下格式：\n1. 首先输出你对上阕意境的分析及你对下阕的构思。\n2. 接着输出标题，格式为：[title]词牌·标题（例如：[title]浣溪沙·续写）\n [content]正文。内容完全原创，不得与原词下阕雷同。"},
-                {"role": "user", "content": f"这是著名词牌《{cipai}》的上阕：\n\n{first_half}\n\n请你以此为开篇，围绕“{theme}”这一主题，创作一个全新的下阕。{req_text}"}
+                {"role": "system", "content": "你是一位精通宋代词学的词人，尤其擅长承上启下、续写词章。你需要深入理解上阕的意境、情感基调和语言风格，使下阕既能承接上阕的意脉，又能翻出新意、升华主题。\n\n你的输出必须遵循以下格式：\n1. 首先输出你对上阕意境的分析及你对下阕的构思。\n2. 接着输出标题，格式为：[title]词牌·标题（例如：[title]浣溪沙·续写）\n3. 最后输出 [content] 标记，紧接着输出正文：[content]正文。\n\n关键要求：\n- `[title]` 和 `[content]` 标记不可省略、修改或替换！\n- 下阕内容必须完全原创，不得与原词下阕雷同。\n- 正文必须用纯中文古典诗词语言，严禁输出“平”“仄”“中”“/”等格律符号或复述格律模板——你是在续写词，不是在抄写格律！\n- 正文中不得包含段落标记、注脚或任何解释性文字。"},
+                {"role": "user", "content": f"这是著名词牌《{cipai}》的上阕：\n\n{first_half}\n\n请你深入理解上阕的意境与情感基调，围绕“{theme}”这一主题，创作一个全新的下阕。用韵须遵循《{rhyme_name}》。下阕须承接上阕的意脉，或深化情感、或转出新境，做到意脉贯通而境界更进一层。\n{req_text}\n请开始创作："},
             ]
         elif task_type == "instruction":
             # 动态从本地的格律文件生成详细格律规则
@@ -65,8 +69,8 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
                 raise ValueError(f"词牌 {cipai} 未在 {poem_path} 中找到。")
             
             c_dict = poem_data[cipai]
-            rules = f"【{cipai}】格律要求：\n要求押{c_dict.get('rhyme_type', '韵')}。\n"
-            rules += "注：格律中的“/”表示词句内部的节奏停顿（你无需输出标点，只需体会节奏），“、”表示此处必须输出顿号作为明确的句读。\n"
+            rules = f"【{cipai}】格律要求：\n用韵依据：《{rhyme_name}》\n要求押{c_dict.get('rhyme_type', '韵')}。\n"
+            rules += "注：格律中的“/”仅供你理解词句内部的节奏停顿（你无需在正文中输出斜线或任何标点），“、”表示此处须输出中文顿号作为句读。再次强调：格律符号（平、仄、中、/等）仅供你理解句式结构，绝不应出现在最终词作中——你是在写词，不是在抄格律！\n"
             for i in range(c_dict.get('number_of_stanzas', 2)):
                 stanza = c_dict.get(f"stanza{i+1}", {})
                 lines = stanza.get("lines", [])
@@ -86,8 +90,8 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
                     rules += f" - 第{j+1}句 ({len(pure_pattern)}字)：{line_pattern} {rhyme_mark}\n"
                     
             messages = [
-                {"role": "system", "content": "你是一位宋代词人。请根据用户提供的词牌、主题以及格律要求创作一首词。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]词牌·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记（如“第一片”）、注脚或额外废话！禁止输出“平仄中”等无意义的格律文本！"},
-                {"role": "user", "content": f"请为我创作一首词。\n主题：“{theme}”\n词牌：《{cipai}》\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]词牌·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
+                {"role": "system", "content": "你是一位精通宋代词学的词人。你深谙词牌格律、意象经营与章法布局之道，擅长以典雅凝练的古典语汇营造深远意境，追求“字字珠玑、句句有意”的艺术境界。请根据用户提供的词牌、主题以及格律要求，创作一首具有独立艺术价值的词。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解、意象选择及章法布局的分析。\n接着，必须换行并输出标题，格式为：\n[title]词牌·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文不得包含段落标记（如“第一片”、“上阕”、“下阕”）、注脚、序号或任何解释性文字！\n3. 【极其重要】严禁在正文中输出“平”“仄”“中”“/”等格律符号或复述格律模板！你是在创作一首优美的词，不是在抄写格律规则。格律仅供你理解句式要求，绝不应以任何形式出现在最终作品中！\n4. 正文须用纯中文古典诗词语言，炼字须精当、意象须鲜明、音韵须和谐，不得夹杂白话虚词（如“的”“了”“么”“些”）或现代标点。\n5. 注意词体的章法传统：上阕多写景叙事以蓄势，下阕多抒情议论以点睛，上下阕之间须有意脉贯通、层层递进。"},
+                {"role": "user", "content": f"请为我创作一首符合古典词学审美的宋词。\n\n主题：“{theme}”\n词牌：《{cipai}》\n用韵依据：《{rhyme_name}》\n\n创作要求：\n- 意象须有画面感，情景交融，避免空洞的辞藻堆砌\n- 语言须典雅凝练，善用比兴、用典等手法，避免直白如白话\n- 章法注意层次递进：上阕宜写景叙事以蓄势，下阕宜抒情议论以点睛，意脉须贯通\n- 炼字须精当，音韵须和谐，虚词实词搭配自然\n{req_text}\n以下是本词牌的格律规则（仅供你理解每句的字数、平仄和押韵要求，你须将格律内化为创作框架，而绝非在最终作品中复述这些格律符号）：\n{rules}\n\n输出步骤：\n1. 先输出你的创作构思分析（含意象选择、章法布局、用韵策略）\n2. 然后输出 `[title]词牌·标题`（标题自拟，须与主题呼应）\n3. 最后输出 `[content]正文`（纯词作正文，不要遗漏 [content] 标记）\n\n【再次强调】正文中绝对禁止出现“平”“仄”“中”“/”等格律符号或格律模板文本！请开始创作："},
             ]
             
     if not use_thinking:
@@ -97,7 +101,7 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
             
     return messages
 
-def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", poem_path: str = None, use_thinking: bool = True, line_length: int = 5, num_lines: int = 8):
+def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", poem_path: str = None, use_thinking: bool = True, line_length: int = 5, num_lines: int = 8, rhyme_dict_name: str = "Pinshui"):
     """
     构造唐诗专用的大模型 Prompt Messages 列表。
     poem_path 为 None 时不读 JSON，由参数驱动生成格律摘要。
@@ -105,10 +109,14 @@ def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requi
     messages = []
     req_text = f"\n详细写作要求：{requirement}\n" if requirement else ""
 
+    # 韵书中文名映射
+    _trhyme_name_map = {"Cilin": "词林正韵", "Pinshui": "平水韵", "Xinyun": "中华新韵", "Tongyun": "中华通韵"}
+    trhyme_name = _trhyme_name_map.get(rhyme_dict_name, rhyme_dict_name)
+
     if task_type == "instruction":
         length_name = "五言" if line_length == 5 else "七言"
         form_name = "绝句" if num_lines == 4 else "律诗"
-        rules = f"【{cipai}】格律要求（{length_name}{form_name}）：\n"
+        rules = f"【{cipai}】格律要求（{length_name}{form_name}）：\n用韵依据：《{trhyme_name}》\n"
         rules += f"- 每句 {line_length} 字，共 {num_lines} 句\n"
         rules += "- 严格遵守二四六分明：每句第2字决定平仄基调，第4字与第2字相反，第6字与第2字相同\n"
         rules += "- 奇数句（第1、3、5、7句）以仄声收尾，偶数句（第2、4、6、8句）以平声收尾\n"
@@ -118,7 +126,7 @@ def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requi
 
         messages = [
             {"role": "system", "content": "你是一位唐代诗人。请根据用户提供的诗体、主题以及格律要求创作一首唐诗。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]诗体·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记、注脚或额外废话！不能存在“平仄中”的格律文本。"},
-            {"role": "user", "content": f"请为我创作一首唐诗。\n主题：“{theme}”\n体裁：《{cipai}》（{length_name}{form_name}）\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]诗体·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
+            {"role": "user", "content": f"请为我创作一首唐诗。\n主题：“{theme}”\n体裁：《{cipai}》（{length_name}{form_name}）\n用韵依据：《{trhyme_name}》\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]诗体·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
         ]
 
     if not use_thinking:
@@ -195,10 +203,11 @@ def main():
         messages = build_tangpoem_prompt_messages(
             task_type, cipai_name, theme, requirement=detailed_requirement,
             use_thinking=use_thinking,
-            line_length=tang_line_length, num_lines=tang_num_lines
+            line_length=tang_line_length, num_lines=tang_num_lines,
+            rhyme_dict_name=rhyme_dict_name
         )
     else:
-        messages = build_prompt_messages(task_type, cipai_name, theme, requirement=detailed_requirement, poem_path=poem_path, use_thinking=use_thinking)
+        messages = build_prompt_messages(task_type, cipai_name, theme, requirement=detailed_requirement, poem_path=poem_path, use_thinking=use_thinking, rhyme_dict_name=rhyme_dict_name)
 
     # 使用 Chat Template
     chat_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
