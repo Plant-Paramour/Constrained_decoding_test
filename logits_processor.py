@@ -22,7 +22,13 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         self.terminal_punct_token_ids = self._find_terminal_punct_tokens()
         self.terminal_newline_token_ids = self._find_terminal_newline_tokens()
         self.token_id_to_chars = {}
-        
+
+        # 常见双字词集合（用于跨句读粘连检测）
+        self.common_bigrams = set()
+        for tid, text in self.vocab_indexer.token_to_text.items():
+            if len(text) == 2:
+                self.common_bigrams.add(text)
+
     def _find_punct_tokens(self) -> dict:
         punct_tokens = {'odd': set(), 'even': set()}
         valid_puncts_odd = ['，', '？', '！', '；', '，\n']
@@ -105,6 +111,19 @@ class ConstraintLogitsProcessor(LogitsProcessor):
             if ids:
                 terminal_newlines.add(ids[0])
         return terminal_newlines
+
+    def _get_boundary_positions(self) -> set:
+        """从当前行的格律模式中提取句读边界位置（/ 分割点）"""
+        line_pattern = self.state_machine.get_current_line_info()
+        if not line_pattern:
+            return set()
+        parts = line_pattern.split('/')
+        positions = set()
+        accumulated = 0
+        for part in parts[:-1]:
+            accumulated += len(part)
+            positions.add(accumulated)
+        return positions
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
         # 1. 识别出当前生成的进展，更新状态机
@@ -255,7 +274,21 @@ class ConstraintLogitsProcessor(LogitsProcessor):
                             
                     if token_penalty > 0:
                         token_scores[idx] -= token_penalty
-                        
+
+                # 跨句读 2-gram 粘连检测（移植自唐诗 tang_logits_processor.py）
+                boundary_positions = self._get_boundary_positions()
+                line_text = self.state_machine.current_line_text
+                if self.state_machine.current_char_idx in boundary_positions and line_text:
+                    for idx, t_id in enumerate(allowed_list):
+                        if t_id not in self.token_id_to_chars:
+                            clean_text = self.tokenizer.decode([t_id]).replace(' ', '')
+                            self.token_id_to_chars[t_id] = [c for c in clean_text if re.match(r'[一-龥A-Za-z]', c)]
+                        token_chars = self.token_id_to_chars[t_id]
+                        if token_chars:
+                            bigram = line_text[-1] + token_chars[0]
+                            if bigram in self.common_bigrams:
+                                token_scores[idx] -= 50.0
+
             mask[0, allowed_tensor] = token_scores
         else:
             if not has_any_pattern_allowed and len(allowed_patterns) > 0:

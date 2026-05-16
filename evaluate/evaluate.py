@@ -285,9 +285,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate generated Songci against meter rules")
     parser.add_argument("--meter", default=os.path.join(SCRIPT_DIR, "Meter", "songci.json"),
                         help="Path to meter JSON file")
-    parser.add_argument("--input", default=os.path.join(SCRIPT_DIR, "input"),
+    parser.add_argument("--input", default=os.path.join(SCRIPT_DIR, "evaluation_input"),
                         help="Input directory or JSON file containing generated poems")
-    parser.add_argument("--output", default=os.path.join(SCRIPT_DIR, "output"),
+    parser.add_argument("--output", default=os.path.join(SCRIPT_DIR, "evaluation_output"),
                         help="Output directory for evaluation results")
     parser.add_argument("--cipai", default=None,
                         help="Cipai name override (extracted from filename if not given)")

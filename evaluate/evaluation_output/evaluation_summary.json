@@ -1,0 +1,13 @@
+[
+  {
+    "source_file": "南乡子.txt",
+    "cipai": "南乡子",
+    "works_evaluated": 15,
+    "average_scores": {
+      "average_total_score": 85.33,
+      "average_structure_score": 100.0,
+      "average_tonal_score": 97.78,
+      "average_rhyme_score": 53.33
+    }
+  }
+]

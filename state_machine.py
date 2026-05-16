@@ -19,6 +19,7 @@ class GenerationStateMachine:
         self.rhyme_type = self.cipai.get("rhyme_type", "平韵").strip()
         
         self.is_finished = False
+        self._current_line_text = ""
 
     def get_total_length(self) -> int:
         """获取当前词牌的正文总字数"""
@@ -68,6 +69,11 @@ class GenerationStateMachine:
     @property
     def is_current_line_rhyming(self) -> bool:
         return self._get_rhyme_group() is not None
+
+    @property
+    def current_line_text(self) -> str:
+        """当前行已生成的文本（供 LogitsProcessor 做跨句读粘连检测）"""
+        return self._current_line_text
 
     def get_allowed_patterns(self, max_length: int = 4) -> List[Tuple[int, str, Optional[str]]]:
         if self.is_finished:
@@ -173,7 +179,8 @@ class GenerationStateMachine:
             if has_newline:
                 self.needs_newline = False
                 self.current_line += 1
-                
+                self._current_line_text = ""
+
                 if self.current_line >= self.stanzas[self.current_stanza]["num_lines"]:
                     self.current_line = 0
                     self.current_stanza += 1
@@ -193,7 +200,8 @@ class GenerationStateMachine:
             if has_punct:
                 self.needs_punctuation = False
                 self.current_line += 1
-                
+                self._current_line_text = ""
+
                 if self.current_line >= self.stanzas[self.current_stanza]["num_lines"]:
                     self.current_line = 0
                     self.current_stanza += 1
@@ -251,7 +259,8 @@ class GenerationStateMachine:
                     self.locked_rhyme_parts[rhyme_group] = rhyme_parts[0] # 贪心取第一个
         
         self.current_char_idx += length
-        
+        self._current_line_text += text
+
         if self.current_char_idx >= target_len:
             self.current_char_idx = 0
             if self.current_line == self.stanzas[self.current_stanza]["num_lines"] - 1:
