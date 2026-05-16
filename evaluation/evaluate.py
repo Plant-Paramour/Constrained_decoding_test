@@ -54,10 +54,10 @@ class SongciEvaluator:
         'ei': '五微', 'ui': '五微',
         'ao': '六豪', 'iao': '六豪',
         'ou': '七尤', 'iu': '七尤',
-        'an': '八寒', 'ian': '八寒', 'uan': '八寒',
-        'en': '九文', 'in': '九文', 'un': '九文',
+        'an': '八寒', 'ian': '八寒', 'uan': '八寒', 'van': '八寒',  # van = üan
+        'en': '九文', 'in': '九文', 'un': '九文', 'vn': '九文',    # vn = ün
         'ang': '十唐', 'iang': '十唐', 'uang': '十唐',
-        'eng': '十一庚', 'ing': '十一庚', 'ong': '十一庚', 'iong': '十一庚',
+        'eng': '十一庚', 'ing': '十一庚', 'ong': '十一庚', 'iong': '十一庚', 'ueng': '十一庚',
         'er': '十二齐',
         'v': '十二齐',                       # nü, lü → pypinyin 返回 v → 十二齐
         've': '三皆',                        # nüe, lüe → pypinyin 返回 ve → 三皆
@@ -98,9 +98,13 @@ class SongciEvaluator:
         return final
 
     def _build_total_view(self, meter_entry):
-        """Build a consolidated view, splitting template lines by 、 for clause-level matching."""
+        """Build a consolidated view, splitting template lines by 、 for clause-level matching.
+
+        Returns rhyme_groups (list of lists) — each inner list is a group of clause indices
+        (1-based) that must share the same 韵部.  Handles multi-group meters correctly.
+        """
         chars_per_line = []
-        global_rhyme_positions = []
+        rhyme_groups = []
         tonal_patterns = []
 
         expanded_offset = 0
@@ -125,21 +129,22 @@ class SongciEvaluator:
                         expanded_offset += 1
                 line_to_subclauses.append(sub_indices)
 
-            for key in stanza:
+            for key in sorted(stanza):       # sorted 保证 rhyme_1, rhyme_2 … 遍历稳定
                 if key.startswith('rhyme_') and key.endswith('_positions'):
+                    group_positions = []
                     for pos in stanza[key]:
                         line_idx = pos - 1
                         if line_idx < len(line_to_subclauses):
                             sub_indices = line_to_subclauses[line_idx]
                             if sub_indices:
-                                global_pos = sub_indices[-1] + 1
-                                if global_pos not in global_rhyme_positions:
-                                    global_rhyme_positions.append(global_pos)
+                                # 取该句最后一个子句（1-based）
+                                group_positions.append(sub_indices[-1] + 1)
+                    if group_positions:
+                        rhyme_groups.append(group_positions)
 
-        global_rhyme_positions.sort()
         return {
             'chars_per_line': chars_per_line,
-            'rhyme_positions': global_rhyme_positions,
+            'rhyme_groups': rhyme_groups,
             'tonal_patterns': tonal_patterns,
         }
 
@@ -160,7 +165,7 @@ class SongciEvaluator:
 
         template_chars = total['chars_per_line']
         tonal_patterns = total['tonal_patterns']
-        rhyme_positions = total['rhyme_positions']
+        rhyme_groups = total['rhyme_groups']
 
         if not template_chars:
             return scores, details
@@ -240,40 +245,60 @@ class SongciEvaluator:
             }
 
         # --- 3. Rhyme Score (30%) ---
-        # 使用《新韵》韵部判断：每句末字归入对应韵部，取最多字所属韵部计分
-        if rhyme_positions:
-            rhyming_chars = []
-            rhyme_group_map = {}
-            for pos in rhyme_positions:
-                idx = pos - 1
-                if idx < n_generated and generated_lines[idx]:
-                    char = generated_lines[idx][-1]
-                    rhyme_group = self.get_char_rhyme(char)
-                    rhyming_chars.append(char)
-                    if rhyme_group != 'none':
-                        rhyme_group_map.setdefault(rhyme_group, []).append({
-                            "position": pos,
-                            "char": char,
-                        })
-            if rhyming_chars:
-                rhyme_groups = [self.get_char_rhyme(c) for c in rhyming_chars]
-                valid = [r for r in rhyme_groups if r != 'none']
-                if valid:
-                    most_common = Counter(valid).most_common(1)[0]
-                    scores['rhyme'] = most_common[1] / len(rhyming_chars)
-                    details['rhyme'] = {
-                        "rhyme_groups": rhyme_group_map,
-                        "dominant_rhyme_group": most_common[0],
-                        "dominant_count": most_common[1],
-                        "total_rhyme_positions": len(rhyming_chars),
-                    }
+        # 使用《新韵》韵部判断：按 rhyme_X_positions 分组处理，每组独立评估
+        if rhyme_groups:
+            group_results = []
+            for group in rhyme_groups:
+                chars = []
+                group_xinyun_map = {}
+                for pos in group:
+                    idx = pos - 1
+                    if idx < n_generated and generated_lines[idx]:
+                        char = generated_lines[idx][-1]
+                        chars.append(char)
+                        xinyun = self.get_char_rhyme(char)
+                        if xinyun != 'none':
+                            group_xinyun_map.setdefault(xinyun, []).append({
+                                "position": pos,
+                                "char": char,
+                            })
+
+                if not chars:
+                    continue
+
+                group_finals = [self.get_char_rhyme(c) for c in chars]
+                group_valid = [r for r in group_finals if r != 'none']
+
+                if group_valid:
+                    dominant = Counter(group_valid).most_common(1)[0]
+                    group_score = dominant[1] / len(chars)
                 else:
-                    details['rhyme'] = {
-                        "rhyme_groups": {},
-                        "dominant_rhyme_group": None,
-                        "dominant_count": 0,
-                        "total_rhyme_positions": len(rhyming_chars),
-                    }
+                    dominant = (None, 0)
+                    group_score = 0.0
+
+                group_results.append({
+                    "positions": group,
+                    "chars": chars,
+                    "xinyun_map": group_xinyun_map,
+                    "dominant_xinyun": dominant[0],
+                    "match_count": dominant[1],
+                    "total_count": len(chars),
+                    "group_score": round(group_score, 4),
+                })
+
+            if group_results:
+                scores['rhyme'] = sum(g["group_score"] for g in group_results) / len(group_results)
+                details['rhyme'] = {
+                    "groups": group_results,
+                    "num_groups": len(group_results),
+                    "average_group_score": round(scores['rhyme'], 4),
+                }
+            else:
+                details['rhyme'] = {
+                    "groups": [],
+                    "num_groups": 0,
+                    "average_group_score": 0.0,
+                }
 
         return scores, details
 

@@ -141,9 +141,10 @@ def main():
     rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Tongyun" (通韵), "Xinyun"(新韵)
     
     task_type = "instruction"
-    theme = "山水田园"
-    cipai_name = "南乡子"
+    theme = "爱情"
+    cipai_name = "水调歌头"
     detailed_requirement = """
+    先起兴，再用典。下阙抒情，委婉含蓄；又或者哀而不伤。
     """
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
