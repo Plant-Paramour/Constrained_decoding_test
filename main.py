@@ -137,14 +137,13 @@ def main():
     use_bitsandbytes = True
 
     # 2. 任务与生成配置
-    meter_type = "唐诗"  # 可选："宋词", "唐诗"
+    meter_type = "宋词"  # 可选："宋词", "唐诗"
     rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Tongyun" (通韵), "Xinyun"(新韵)
     
     task_type = "instruction"
-    theme = "爱情"
-    cipai_name = "七言律诗"
+    theme = "山水田园"
+    cipai_name = "南乡子"
     detailed_requirement = """
-    以物起兴，之后言爱情典故，最后落到自己含蓄之爱
     """
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
