@@ -86,7 +86,7 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
                     rules += f" - 第{j+1}句 ({len(pure_pattern)}字)：{line_pattern} {rhyme_mark}\n"
                     
             messages = [
-                {"role": "system", "content": "你是一位宋代词人。请根据用户提供的词牌、主题以及格律要求创作一首词。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]词牌·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记（如“第一片”）、注脚或额外废话！不能存在“平仄中”的格律文本。"},
+                {"role": "system", "content": "你是一位宋代词人。请根据用户提供的词牌、主题以及格律要求创作一首词。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]词牌·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记（如“第一片”）、注脚或额外废话！禁止输出“平仄中”等无意义的格律文本！"},
                 {"role": "user", "content": f"请为我创作一首词。\n主题：“{theme}”\n词牌：《{cipai}》\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]词牌·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
             ]
             
@@ -141,9 +141,10 @@ def main():
     rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Tongyun" (通韵), "Xinyun"(新韵)
     
     task_type = "instruction"
-    theme = "山水田园"
-    cipai_name = "南乡子"
+    theme = "爱情"
+    cipai_name = "水调歌头"
     detailed_requirement = """
+    先起兴，再用典。下阙抒情，委婉含蓄；又或者哀而不伤。
     """
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验

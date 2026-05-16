@@ -23,6 +23,11 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         self.terminal_newline_token_ids = self._find_terminal_newline_tokens()
         self.token_id_to_chars = {}
 
+        # 禁止生成 ； token
+        self.semicolon_token_ids = set()
+        for tid in self.tokenizer.encode('；', add_special_tokens=False):
+            self.semicolon_token_ids.add(tid)
+
         # 常见双字词集合（用于跨句读粘连检测）
         self.common_bigrams = set()
         for tid, text in self.vocab_indexer.token_to_text.items():
@@ -31,8 +36,8 @@ class ConstraintLogitsProcessor(LogitsProcessor):
 
     def _find_punct_tokens(self) -> dict:
         punct_tokens = {'odd': set(), 'even': set()}
-        valid_puncts_odd = ['，', '？', '！', '；', '，\n']
-        valid_puncts_even = ['？', '！', '；']
+        valid_puncts_odd = ['，', '？', '！', '，\n']
+        valid_puncts_even = ['？', '！']
         
         for token_char, token_id in self.tokenizer.get_vocab().items():
             clean_text = self.tokenizer.decode([token_id]).replace(' ', '')
@@ -126,6 +131,12 @@ class ConstraintLogitsProcessor(LogitsProcessor):
         return positions
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
+        # 全局禁止 ； token
+        if self.semicolon_token_ids:
+            for tid in self.semicolon_token_ids:
+                if tid < scores.shape[1]:
+                    scores[:, tid] = -float('inf')
+
         # 1. 识别出当前生成的进展，更新状态机
         generated_ids = input_ids[0][self.input_prompt_len:].tolist()
         raw_text = self.tokenizer.decode(generated_ids, skip_special_tokens=True).replace(' ', '').replace('\r', '')

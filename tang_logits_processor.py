@@ -36,6 +36,11 @@ class TangPoemLogitsProcessor(LogitsProcessor):
         # token_id → 解码字符缓存
         self.token_id_to_chars = {}
 
+        # 禁止生成 ； token
+        self.semicolon_token_ids = set()
+        for tid in self.tokenizer.encode('；', add_special_tokens=False):
+            self.semicolon_token_ids.add(tid)
+
         # 常见双字词集合（从 VocabIndexer 已索引 token 中提取）
         self.common_bigrams = set()
         for tid, text in self.vocab_indexer.token_to_text.items():
@@ -462,6 +467,12 @@ class TangPoemLogitsProcessor(LogitsProcessor):
     # ── HuggingFace LogitsProcessor 接口 ──────────────────────
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
+        # 全局禁止 ； token
+        if self.semicolon_token_ids:
+            for tid in self.semicolon_token_ids:
+                if tid < scores.shape[1]:
+                    scores[:, tid] = -float('inf')
+
         # 1. 解码已生成文本
         generated_ids = input_ids[0][self.input_prompt_len:].tolist()
         raw_text = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
