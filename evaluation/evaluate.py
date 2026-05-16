@@ -1,15 +1,13 @@
 # ============================================================
 #  本文件用于评估基于《中华新韵》(Xinyun) 的押韵逻辑。
-#  韵部划分规则：
-#  一、麻  a ia ua        二、波  o e uo
-#  三、皆  ie ue          四、开  ai uai
-#  五、微  ei ui (uei)    六、豪  ao iao
-#  七、尤  ou iu (iou)    八、寒  an ian uan
-#  九、文  en in un       十、唐  ang iang uang
-#  十一、庚  eng ing      十二、齐  i (非舌尖元音)
-#  十三、支  -i (舌尖元音) 十四、姑  u (非 j/q/x/y 开头)
-#  十五、东  ong iong      十六、居  ü (u 韵母 j/q/x/y 开头，及 v 韵母)
-#  十七、耳  er
+#  韵部划分规则（共 14 部，与 Rhyme/Xinyun.json 对应）：
+#  一、麻  a ia ua              二、波  o e uo
+#  三、皆  ie üe                四、开  ai uai
+#  五、微  ei ui (uei)          六、豪  ao iao
+#  七、尤  ou iu (iou)          八、寒  an ian uan üan
+#  九、文  en in un ün          十、唐  ang iang uang
+#  十一、庚  eng ing ong iong   十二、齐  i er ü
+#  十三、支  -i (零韵母)         十四、姑  u
 # ============================================================
 
 import json
@@ -47,11 +45,11 @@ class SongciEvaluator:
             return '中'
 
     # ---- 新韵韵部映射 ----
-    # 直接从韵母映射到韵部（不需要声母辅助判断的）
+    # 大部分韵母可直接查表；少数需要结合声母区分（见 get_char_rhyme 特殊分支）
     _XINYUN_FINAL_MAP = {
         'a': '一麻', 'ia': '一麻', 'ua': '一麻',
         'o': '二波', 'e': '二波', 'uo': '二波',
-        'ie': '三皆', 'ue': '三皆',
+        'ie': '三皆', 'ue': '三皆',          # ue 即 üe（pypinyin 用 ue）
         'ai': '四开', 'uai': '四开',
         'ei': '五微', 'ui': '五微',
         'ao': '六豪', 'iao': '六豪',
@@ -59,17 +57,14 @@ class SongciEvaluator:
         'an': '八寒', 'ian': '八寒', 'uan': '八寒',
         'en': '九文', 'in': '九文', 'un': '九文',
         'ang': '十唐', 'iang': '十唐', 'uang': '十唐',
-        'eng': '十一庚', 'ing': '十一庚',
-        'ong': '十五东', 'iong': '十五东',
-        'er': '十七耳',
-        # ü 韵母的变形（pypinyin 可能返回 v 或直接返回 u）
-        'v': '十六居',   # nü, lü → final "v"
-        've': '三皆',    # nüe, lüe → final "ve"
+        'eng': '十一庚', 'ing': '十一庚', 'ong': '十一庚', 'iong': '十一庚',
+        'er': '十二齐',
+        'v': '十二齐',                       # nü, lü → pypinyin 返回 v → 十二齐
+        've': '三皆',                        # nüe, lüe → pypinyin 返回 ve → 三皆
     }
 
-    # 需要结合声母才能判断韵部的韵母
-    _ZHI_INITIALS = {'zh', 'ch', 'sh', 'r', 'z', 'c', 's'}   # 十三支的声母
-    _JU_INITIALS = {'j', 'q', 'x', 'y'}                       # 十六居的声母（拼音省略 ü 上两点）
+    _ZHI_INITIALS = {'zh', 'ch', 'sh', 'r', 'z', 'c', 's'}   # 十三支（舌尖元音 i）
+    _JU_INITIALS = {'j', 'q', 'x', 'y'}                       # ü 脱落两点后写作 u，实为十二齐
 
     @staticmethod
     def get_char_rhyme(char):
@@ -82,16 +77,16 @@ class SongciEvaluator:
         except (IndexError, TypeError):
             return 'none'
 
-        # 1) 韵母 i → 需要区分十二齐（普通 i）和十三支（舌尖元音 -i）
+        # 1) 韵母 i → 区分十二齐 与 十三支（-i 舌尖元音）
         if final == 'i':
             if initial in SongciEvaluator._ZHI_INITIALS:
                 return '十三支'
             return '十二齐'
 
-        # 2) 韵母 u → 需要区分十四姑（普通 u）和十六居（j/q/x/y 后的 ü）
+        # 2) 韵母 u → 区分十四姑 与 十二齐（j/q/x/y 后实为 ü）
         if final == 'u':
             if initial in SongciEvaluator._JU_INITIALS:
-                return '十六居'
+                return '十二齐'
             return '十四姑'
 
         # 3) 查直接映射表
@@ -99,7 +94,7 @@ class SongciEvaluator:
         if category:
             return category
 
-        # 4) 兜底：返回原始韵母（方便排查未覆盖的情况）
+        # 4) 兜底：返回原始韵母
         return final
 
     def _build_total_view(self, meter_entry):
