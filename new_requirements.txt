@@ -13,6 +13,9 @@
 #   pip:
 #     pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
 #     pip install -r new_requirements.txt
+#
+#   模型下载
+#     modelscope download --model Qwen/Qwen3-8B --local_dir /root/autodl-tmp/models/Qwen3-8B
 # ============================================================
 
 torch==2.8.0
