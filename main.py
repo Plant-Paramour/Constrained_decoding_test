@@ -5,10 +5,8 @@ os.environ.setdefault("CUDA_LAUNCH_BLOCKING", "1")
 from transformers import AutoModelForCausalLM, AutoTokenizer, LogitsProcessorList, BitsAndBytesConfig
 from data_manager import DataManager
 from vocab_indexer import VocabIndexer
-from state_machine import GenerationStateMachine
-from logits_processor import ConstraintLogitsProcessor
-from tang_state_machine import TangPoemStateMachine
-from tang_logits_processor import TangPoemLogitsProcessor
+from state_machine import GenerationStateMachine, TangPoemStateMachine
+from logits_processor import ConstraintLogitsProcessor, TangPoemLogitsProcessor
 import json
 
 def parse_tang_format(cipai_name: str):
@@ -21,7 +19,7 @@ def parse_tang_format(cipai_name: str):
         rhyme_type = "仄韵"
     return line_length, num_lines, rhyme_type
 
-def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", cipai_data_path: str = "PoeTone-main/data/cipai_data.json", poem_path: str = "Meter/songci.json", use_thinking: bool = True, rhyme_dict_name: str = "Cilin"):
+def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: str = "", cipai_data_path: str = "PoeTone-main/data/cipai_data.json", poem_path: str = "Songci_Meter", use_thinking: bool = True, rhyme_dict_name: str = "Cilin"):
     """
     根据给定的任务类型，构造对应的大模型 Prompt 消 Messages 列表（支持 zero-shot, one-shot, completion, instruction）
     """
@@ -63,12 +61,22 @@ def build_prompt_messages(task_type: str, cipai: str, theme: str, requirement: s
             ]
         elif task_type == "instruction":
             # 动态从本地的格律文件生成详细格律规则
-            with open(poem_path, 'r', encoding='utf-8') as sf:
-                poem_data = json.load(sf)
-            if cipai not in poem_data:
-                raise ValueError(f"词牌 {cipai} 未在 {poem_path} 中找到。")
-            
-            c_dict = poem_data[cipai]
+            if os.path.isdir(poem_path):
+                cipai_file = os.path.join(poem_path, f"{cipai}.json")
+                if not os.path.exists(cipai_file):
+                    raise ValueError(f"词牌 {cipai} 的文件不存在: {cipai_file}")
+                with open(cipai_file, 'r', encoding='utf-8') as sf:
+                    data = json.load(sf)
+                variants = data.get('variants', [])
+                if not variants:
+                    raise ValueError(f"词牌 {cipai} 没有变体数据。")
+                c_dict = variants[0]
+            else:
+                with open(poem_path, 'r', encoding='utf-8') as sf:
+                    data = json.load(sf)
+                if cipai not in data:
+                    raise ValueError(f"词牌 {cipai} 未在 {poem_path} 中找到。")
+                c_dict = data[cipai]
             rules = f"【{cipai}】格律要求：\n用韵依据：《{rhyme_name}》\n要求押{c_dict.get('rhyme_type', '韵')}。\n"
             rules += "注：格律中的“/”仅供你理解词句内部的节奏停顿（你无需在正文中输出斜线或任何标点），“、”表示此处须输出中文顿号作为句读。再次强调：格律符号（平、仄、中、/等）仅供你理解句式结构，绝不应出现在最终词作中——你是在写词，不是在抄格律！\n"
             for i in range(c_dict.get('number_of_stanzas', 2)):
@@ -145,18 +153,18 @@ def main():
     use_bitsandbytes = True
 
     # 2. 任务与生成配置
-    meter_type = "唐诗"  # 可选："宋词", "唐诗"
+    meter_type = "宋词"  # 可选："宋词", "唐诗"
     rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Tongyun" (通韵), "Xinyun"(新韵)
     
     task_type = "instruction"
-    theme = "怀古咏史"
-    cipai_name = "七律"
+    theme = "婉约相思"
+    cipai_name = "浣溪沙"
     detailed_requirement = """
     """
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
-    num_generations = 20     # 多次输出模式下生成的数量（设置为 1 即单次）
+    num_generations = 3     # 多次输出模式下生成的数量（设置为 1 即单次）
     save_output = True     # True 是否将结果保存到 output 目录
     # ===============================================
 
@@ -186,10 +194,10 @@ def main():
     if meter_type == "唐诗":
         # 唐诗不读格律 JSON — 从诗体名解析格式参数
         tang_line_length, tang_num_lines, tang_rhyme_type = parse_tang_format(cipai_name)
-        poem_path = "Meter/songci.json"  # DataManager 初始化需一个有效 path（唐诗状态机不使用其中数据）
+        poem_path = "Songci_Meter"  # DataManager 初始化需一个有效 path（唐诗状态机不使用其中数据）
         is_tangpoem = True
     else:
-        poem_path = "Meter/songci.json"
+        poem_path = "Songci_Meter"
         is_tangpoem = False
 
     data_manager = DataManager(rhyme_dict_path=rhyme_dict_path, poem_path=poem_path)

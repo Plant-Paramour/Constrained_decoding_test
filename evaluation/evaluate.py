@@ -119,11 +119,23 @@ def extract_poem_text(raw_output):
 # ============================================================
 
 class SongciEvaluator:
-    """Evaluate generated Songci against meter rules from songci.json."""
+    """Evaluate generated Songci against meter rules from Songci_Meter/."""
 
     def __init__(self, meter_path):
-        with open(meter_path, 'r', encoding='utf-8') as f:
-            self.meters = json.load(f)
+        self.meters = {}
+        if os.path.isdir(meter_path):
+            for filename in os.listdir(meter_path):
+                if filename.endswith('.json'):
+                    filepath = os.path.join(meter_path, filename)
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    name = data.get('name') or filename.replace('.json', '')
+                    variants = data.get('variants', [])
+                    if variants:
+                        self.meters[name] = variants[0]
+        else:
+            with open(meter_path, 'r', encoding='utf-8') as f:
+                self.meters = json.load(f)
 
     def _build_total_view(self, meter_entry):
         chars_per_line = []
@@ -372,8 +384,8 @@ class SongciEvaluator:
 class TangPoemEvaluator:
     """Evaluate Tang poems via rule-based tonal checking — no templates.
 
-    Faithfully mirrors the constraint logic in tang_state_machine.py and
-    tang_logits_processor.py:
+    Faithfully mirrors the constraint logic in state_machine.py (TangPoemStateMachine) and
+    logits_processor.py (TangPoemLogitsProcessor):
       - 二四六分明 (粘对-derived, checked at pos 2/4/6)
       - 三连同 (line-end only, last 3 chars)
       - 孤平 (平收 lines only, 平起/仄起 patterns)
@@ -450,7 +462,7 @@ class TangPoemEvaluator:
         is_ping_yun = "平" in self._detect_rhyme_type(lines)
 
         # ---- 确定全局基调 (global base tone) from first line's 2nd char ----
-        # Mirror: tang_state_machine._global_base_tone
+        # Mirror: state_machine._global_base_tone
         global_base_tone = 2  # 0=平, 1=仄, 2=未定
         if len(lines) > 0 and len(lines[0]) >= 2:
             t = get_char_tone(lines[0][1])
@@ -462,7 +474,7 @@ class TangPoemEvaluator:
                 continue
 
             # ---- 粘对: determine this line's base tone ----
-            # Mirror: tang_state_machine.advance_state() lines 167-173
+            # Mirror: state_machine.advance_state() lines 167-173
             if global_base_tone != 2:
                 if line_idx in (1, 2, 5, 6):
                     line_base_tone = 1 - global_base_tone
@@ -473,8 +485,8 @@ class TangPoemEvaluator:
 
             # ============================================================
             #  Rule A: 二四六分明
-            #  Mirror: tang_state_machine._get_allowed_pingze_at()
-            #          tang_logits_processor._verifier_check() lines 171-193
+            #  Mirror: state_machine._get_allowed_pingze_at()
+            #          logits_processor._verifier_check() lines 171-193
             # ============================================================
             if line_base_tone != 2:
                 # Position 2 (idx 1) — must match base tone
@@ -518,7 +530,7 @@ class TangPoemEvaluator:
 
             # ============================================================
             #  Rule B: 三连同 (line-end only, last 3 chars)
-            #  Mirror: tang_logits_processor._verifier_check() lines 213-226
+            #  Mirror: logits_processor._verifier_check() lines 213-226
             # ============================================================
             if len(line) >= 3:
                 last3 = line[-3:]
@@ -534,7 +546,7 @@ class TangPoemEvaluator:
 
             # ============================================================
             #  Rule C: 孤平 (平收 lines only)
-            #  Mirror: tang_logits_processor._verifier_check() lines 233-249
+            #  Mirror: logits_processor._verifier_check() lines 233-249
             # ============================================================
             if len(line) >= 3:
                 last_tone = get_char_tone(line[-1])
@@ -564,8 +576,8 @@ class TangPoemEvaluator:
 
             # ============================================================
             #  Rule D: 末字收束
-            #  Mirror: tang_state_machine._get_expected_end_tone()
-            #          tang_logits_processor._verifier_check() lines 252-258
+            #  Mirror: state_machine._get_expected_end_tone()
+            #          logits_processor._verifier_check() lines 252-258
             # ============================================================
             if len(line) >= 1:
                 is_even = (line_idx + 1) % 2 == 0
@@ -906,7 +918,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="Evaluate Songci + Tang poems against tonal/structure/rhyme rules")
-    parser.add_argument("--meter", default=os.path.join(SCRIPT_DIR, "..", "Meter", "songci.json"),
+    parser.add_argument("--meter", default=os.path.join(SCRIPT_DIR, "..", "Songci_Meter"),
                         help="Path to Songci meter JSON")
     parser.add_argument("--input", default=os.path.join(SCRIPT_DIR, "evaluation_input"),
                         help="Root input directory (expects Songci/ and Tongpoem/ subdirs)")

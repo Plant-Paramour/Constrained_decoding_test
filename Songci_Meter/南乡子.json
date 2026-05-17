@@ -1,0 +1,26 @@
+{
+  "name": "南乡子",
+  "default_variant": "欧阳炯",
+  "variants": [
+    {
+      "name": "欧阳炯",
+      "length_category": "short",
+      "rhyme_type": "平韵",
+      "number_of_stanzas": 1,
+      "stanza1": {
+        "num_lines": 5,
+        "num_chars": 27,
+        "chars_per_line": [4, 7, 7, 2, 7],
+        "rhyme_1_positions": [1, 2],
+        "rhyme_2_positions": [3, 4, 5],
+        "lines": [
+          "仄仄/平平",
+          "中中/中中/仄中平",
+          "中仄/中平/平中仄",
+          "平仄",
+          "中仄/中平/中仄仄"
+        ]
+      }
+    }
+  ]
+}

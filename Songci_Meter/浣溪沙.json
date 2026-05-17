@@ -1,0 +1,34 @@
+{
+  "name": "浣溪沙",
+  "default_variant": "韩偓",
+  "variants": [
+    {
+      "name": "韩偓",
+      "length_category": "short",
+      "rhyme_type": "平韵",
+      "number_of_stanzas": 2,
+      "stanza1": {
+        "num_lines": 3,
+        "num_chars": 21,
+        "chars_per_line": [7, 7, 7],
+        "rhyme_1_positions": [1, 2, 3],
+        "lines": [
+          "中仄/平平/仄仄平",
+          "中平/中仄/仄平平",
+          "中平/中仄/仄平平"
+        ]
+      },
+      "stanza2": {
+        "num_lines": 3,
+        "num_chars": 21,
+        "chars_per_line": [7, 7, 7],
+        "rhyme_1_positions": [2, 3],
+        "lines": [
+          "中仄/中平/平仄仄",
+          "中平/中仄/仄平平",
+          "中平/中仄/仄平平"
+        ]
+      }
+    }
+  ]
+}

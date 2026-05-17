@@ -40,7 +40,7 @@ def test_vocab_indexer():
     
     print("\n--- 2. Testing DataManager (Pingze & Rhyme) ---")
     try:
-        dm = DataManager(rhyme_dict_path="Rhyme/Cilin.json", songci_path="Meter/songci.json")
+        dm = DataManager(rhyme_dict_path="Rhyme/Cilin.json", poem_path="Songci_Meter")
         pz_chun = dm.get_pingze("春")
         pz_hua = dm.get_pingze("花")
         print(f"春的平仄: {pz_chun}")

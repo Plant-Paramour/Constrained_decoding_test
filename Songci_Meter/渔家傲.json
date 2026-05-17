@@ -1,0 +1,38 @@
+{
+  "name": "渔家傲",
+  "default_variant": "晏殊",
+  "variants": [
+    {
+      "name": "晏殊",
+      "length_category": "medium",
+      "rhyme_type": "仄韵",
+      "number_of_stanzas": 2,
+      "stanza1": {
+        "num_lines": 5,
+        "num_chars": 31,
+        "chars_per_line": [7, 7, 7, 3, 7],
+        "rhyme_1_positions": [1, 2, 3, 4, 5],
+        "lines": [
+          "中中中中平中仄",
+          "中平中仄中平仄",
+          "中仄中平平仄仄",
+          "平中仄",
+          "中中中中平平仄"
+        ]
+      },
+      "stanza2": {
+        "num_lines": 5,
+        "num_chars": 31,
+        "chars_per_line": [7, 7, 7, 3, 7],
+        "rhyme_1_positions": [1, 2, 3, 4, 5],
+        "lines": [
+          "中仄中平平仄仄",
+          "中平中中平平仄",
+          "中仄中平平中仄",
+          "中中仄",
+          "中平中仄平平仄"
+        ]
+      }
+    }
+  ]
+}

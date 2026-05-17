@@ -1,0 +1,40 @@
+{
+  "name": "谢池春",
+  "default_variant": "陆游",
+  "variants": [
+    {
+      "name": "陆游",
+      "length_category": "medium",
+      "rhyme_type": "仄韵",
+      "number_of_stanzas": 2,
+      "stanza1": {
+        "num_lines": 6,
+        "num_chars": 33,
+        "chars_per_line": [4, 7, 7, 4, 5, 7],
+        "rhyme_1_positions": [2, 3, 5, 6],
+        "lines": [
+          "中仄平平",
+          "中仄仄平平仄",
+          "仄平平、平平仄仄",
+          "中平中仄",
+          "仄中平平仄",
+          "仄中平、仄平平仄"
+        ]
+      },
+      "stanza2": {
+        "num_lines": 6,
+        "num_chars": 33,
+        "chars_per_line": [4, 7, 7, 4, 5, 7],
+        "rhyme_1_positions": [2, 3, 5, 6],
+        "lines": [
+          "平平仄仄",
+          "仄仄中平平仄",
+          "仄平平、平平仄仄",
+          "平平中仄",
+          "仄平平平仄",
+          "仄平中、仄平平仄"
+        ]
+      }
+    }
+  ]
+}
