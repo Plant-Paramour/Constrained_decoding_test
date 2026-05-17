@@ -19,7 +19,7 @@
       "name": "Qwen3-8B",
       "path": "/root/autodl-tmp/models/Qwen3-8B",
       "use_thinking": false,
-      "quantization": "8bit",
+      "quantization": "none",
       "_quantization": "none / fp16 / 8bit / 4bit",
       "max_parallel": 2,
       "_max_parallel": "此模型最多同时跑几个 GPU/worker。=1 则独占单卡串行；>1 则多卡分担任务",
@@ -30,26 +30,17 @@
       "name": "Qwen3-4B",
       "path": "/root/autodl-tmp/models/Qwen3-4B",
       "use_thinking": false,
-      "quantization": "4bit",
+      "quantization": "none",
       "max_parallel": 4,
       "enabled": true
     },
     {
-      "name": "Llama-3.2-3B",
-      "path": "/root/autodl-tmp/models/Llama-3.2-3B-Instruct",
+      "name": "Qwen3-1.7B",
+      "path": "/root/autodl-tmp/models/Qwen3-4B",
       "use_thinking": false,
-      "quantization": "4bit",
+      "quantization": "none",
       "max_parallel": 4,
-      "enabled": false
-    },
-    {
-      "name": "DeepSeek-R1-Distill-Qwen-1.5B",
-      "path": "/root/autodl-tmp/models/DeepSeek-R1-Distill-Qwen-1.5B",
-      "use_thinking": true,
-      "_use_thinking_note": "DeepSeek R1 系列必须开启 thinking",
-      "quantization": "4bit",
-      "max_parallel": 4,
-      "enabled": false
+      "enabled": true
     }
   ],
 
@@ -71,7 +62,7 @@
       { "theme": "哀愁伤叹", "detailed_requirement": "" },
       { "theme": "哲理感悟", "detailed_requirement": "" }
     ],
-    "num_generations": 20,
+    "num_generations": 3,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
@@ -92,7 +83,7 @@
       { "theme": "哀愁伤叹", "detailed_requirement": "" },
       { "theme": "哲理感悟", "detailed_requirement": "" }
     ],
-    "num_generations": 20,
+    "num_generations": 3,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },

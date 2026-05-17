@@ -23,6 +23,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="root@connect.bjb1.seetacloud.com:31334 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_360" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
     <option name="myAutoUpload" value="ALWAYS" />
   </component>
