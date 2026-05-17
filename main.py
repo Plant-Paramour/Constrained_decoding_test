@@ -150,7 +150,7 @@ def main():
     model_name = r"C:\Users\26051\.cache\modelscope\hub\models\Qwen\Qwen3-4B"
     # model_name = r"C:\Users\26051\.cache\modelscope\hub\models\LLM-Research\Llama-3.2-3B-Instruct"
     # model_name = r"C:\Users\26051\.cache\modelscope\hub\models\deepseek-ai\DeepSeek-R1-Distill-Qwen-1.5B"
-    use_bitsandbytes = True
+    quantization = "8bit"  # 可选: "none" / "4bit" / "8bit"
 
     # 2. 任务与生成配置
     meter_type = "宋词"  # 可选："宋词", "唐诗"
@@ -166,14 +166,27 @@ def main():
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
     num_generations = 3     # 多次输出模式下生成的数量（设置为 1 即单次）
     save_output = True     # True 是否将结果保存到 output 目录
+    # 解码策略参数
+    temperature = 0.6
+    top_p = 0.95
+    top_k = 20
+    min_p = 0.0
     # ===============================================
 
     print(f"Loading tokenizer {model_name}...")
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 
-    print(f"Loading model {model_name} (use_bitsandbytes={use_bitsandbytes})...")
-    # 根据是否启用 bitsandbytes 构建 from_pretrained 参数
-    if use_bitsandbytes:
+    print(f"Loading model {model_name} (量化={quantization})...")
+    # 根据量化参数构建 from_pretrained 参数
+    q = quantization.lower().strip()
+    if q in ("none", "fp16", "float16", ""):
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto",
+            trust_remote_code=True,
+        ).eval()
+    elif q in ("8bit", "int8", "8"):
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
@@ -181,13 +194,20 @@ def main():
             device_map="auto",
             trust_remote_code=True,
         ).eval()
-    else:
+    elif q in ("4bit", "int4", "nf4", "4"):
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+        )
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.float16,
+            quantization_config=quantization_config,
             device_map="auto",
             trust_remote_code=True,
         ).eval()
+    else:
+        raise ValueError(f"不支持的量化参数: '{quantization}'，可选值: none, fp16, 8bit, 4bit")
 
     # 1. 基础数据准备
     rhyme_dict_path = f"Rhyme/{rhyme_dict_name}.json"
@@ -278,8 +298,10 @@ def main():
                     logits_processor=processors,
                     pad_token_id=tokenizer.eos_token_id,
                     do_sample=True,
-                    top_p=0.9,
-                    temperature=0.8
+                    temperature=temperature,
+                    top_p=top_p,
+                    top_k=top_k,
+                    min_p=min_p,
                 )
             except RuntimeError:
                 torch.cuda.synchronize()

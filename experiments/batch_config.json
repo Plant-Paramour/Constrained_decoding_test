@@ -1,11 +1,13 @@
 {
-  "compare_experiment": true,
+  "compare_experiment": false,
+  "_force_sequential": "设为 true 强制使用串行模式（即使有多 GPU），用于调试或单卡复现",
+  "force_sequential": false,
   "models": [
     {
       "name": "Qwen3-4B",
       "path": "C:\\Users\\26051\\.cache\\modelscope\\hub\\models\\Qwen\\Qwen3-4B",
       "use_thinking": false,
-      "use_bitsandbytes": true
+      "quantization": "4bit"
     }
   ],
   "songci": {
@@ -44,7 +46,7 @@
         "detailed_requirement": ""
       }
     ],
-    "num_generations": 20,
+    "num_generations": 2,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
@@ -98,14 +100,16 @@
         "detailed_requirement": ""
       }
     ],
-    "num_generations": 20,
+    "num_generations": 2,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
   "generation_params": {
     "max_new_tokens": 4096,
     "do_sample": true,
-    "top_p": 0.9,
-    "temperature": 0.8
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0.0
   }
 }

@@ -97,7 +97,7 @@ python evaluation/evaluate.py
 - `use_constraints`：`True` 启用约束解码，`False` 做无约束对比
 - `use_thinking`：DeepSeek R1 系列必须设为 `True`
 - `num_generations`：多次生成数量
-- `use_bitsandbytes`：是否启用 8-bit 量化
+- `quantization`：`"none"` (FP16) / `"8bit"` / `"4bit"`（BitsAndBytes 量化方案）
 
 ## 关键文件
 
