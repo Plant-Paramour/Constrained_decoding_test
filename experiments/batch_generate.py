@@ -65,8 +65,8 @@ def generate_one_batch(model, tokenizer, inputs, input_prompt_len, processors,
     return results
 
 
-def run_songci_experiments(config, model, tokenizer, vocab_indexer, data_manager_songci, gen_params, output_dir):
-    """执行所有宋词实验。"""
+def run_songci_experiments(config, model, tokenizer, vocab_indexer, data_manager_songci, gen_params, output_dir, use_constraints=True):
+    """执行所有宋词实验。use_constraints=False 时不启用约束解码（自由生成对照）。"""
     sc = config["songci"]
     model_cfg = config["models"][0]  # 当前仅支持单模型
     model_name = model_cfg["name"]
@@ -84,7 +84,7 @@ def run_songci_experiments(config, model, tokenizer, vocab_indexer, data_manager
             theme = entry["theme"]
             detailed_req = entry.get("detailed_requirement", "")
             safe_theme = sanitize_filename(theme)
-            out_file = os.path.join(output_dir, f"{model_name}-{cipai}-{safe_theme}.txt")
+            out_file = os.path.join(output_dir, f"{model_name}-({task_type})-{cipai}-{safe_theme}.txt")
 
             pbar.set_postfix_str(f"{cipai}·{theme}")
 
@@ -110,6 +110,7 @@ def run_songci_experiments(config, model, tokenizer, vocab_indexer, data_manager
                 f.write(f"# 主题: {theme}\n")
                 f.write(f"# 韵书: {rhyme_dict_name}\n")
                 f.write(f"# task_type: {task_type}\n")
+                f.write(f"# 约束解码: {'启用' if use_constraints else '禁用'}\n")
                 f.write(f"# 每词牌生成数: {num_generations}\n")
                 f.write(f"# 生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"# ========================================\n\n")
@@ -118,14 +119,17 @@ def run_songci_experiments(config, model, tokenizer, vocab_indexer, data_manager
                 inputs = tokenizer(chat_prompt, return_tensors="pt").to(model.device)
                 input_prompt_len = inputs.input_ids.shape[1]
 
-                state_machine = GenerationStateMachine(cipai, data_manager_songci)
-                logits_processor = ConstraintLogitsProcessor(
-                    vocab_indexer=vocab_indexer,
-                    state_machine=state_machine,
-                    tokenizer=tokenizer,
-                    input_prompt_len=input_prompt_len
-                )
-                processors = LogitsProcessorList([logits_processor])
+                if use_constraints:
+                    state_machine = GenerationStateMachine(cipai, data_manager_songci)
+                    logits_processor = ConstraintLogitsProcessor(
+                        vocab_indexer=vocab_indexer,
+                        state_machine=state_machine,
+                        tokenizer=tokenizer,
+                        input_prompt_len=input_prompt_len
+                    )
+                    processors = LogitsProcessorList([logits_processor])
+                else:
+                    processors = None
 
                 try:
                     results = generate_one_batch(
@@ -146,8 +150,8 @@ def run_songci_experiments(config, model, tokenizer, vocab_indexer, data_manager
     pbar.close()
 
 
-def run_tangpoem_experiments(config, model, tokenizer, vocab_indexer, data_manager, gen_params, output_dir):
-    """执行所有唐诗实验。"""
+def run_tangpoem_experiments(config, model, tokenizer, vocab_indexer, data_manager, gen_params, output_dir, use_constraints=True):
+    """执行所有唐诗实验。use_constraints=False 时不启用约束解码（自由生成对照）。"""
     tp = config["tangpoem"]
     model_cfg = config["models"][0]
     model_name = model_cfg["name"]
@@ -169,7 +173,7 @@ def run_tangpoem_experiments(config, model, tokenizer, vocab_indexer, data_manag
             theme = entry["theme"]
             detailed_req = entry.get("detailed_requirement", "")
             safe_theme = sanitize_filename(theme)
-            out_file = os.path.join(output_dir, f"{model_name}-{form_name}-{safe_theme}.txt")
+            out_file = os.path.join(output_dir, f"{model_name}-({task_type})-{form_name}-{safe_theme}.txt")
 
             pbar.set_postfix_str(f"{form_name}·{theme}")
 
@@ -198,6 +202,7 @@ def run_tangpoem_experiments(config, model, tokenizer, vocab_indexer, data_manag
                 f.write(f"# 主题: {theme}\n")
                 f.write(f"# 韵书: {rhyme_dict_name}\n")
                 f.write(f"# task_type: {task_type}\n")
+                f.write(f"# 约束解码: {'启用' if use_constraints else '禁用'}\n")
                 f.write(f"# 每体裁生成数: {num_generations}\n")
                 f.write(f"# 生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"# ========================================\n\n")
@@ -206,19 +211,22 @@ def run_tangpoem_experiments(config, model, tokenizer, vocab_indexer, data_manag
                 inputs = tokenizer(chat_prompt, return_tensors="pt").to(model.device)
                 input_prompt_len = inputs.input_ids.shape[1]
 
-                state_machine = TangPoemStateMachine(
-                    line_length=line_length,
-                    num_lines=num_lines,
-                    rhyme_type=rhyme_type,
-                    data_manager=data_manager
-                )
-                logits_processor = TangPoemLogitsProcessor(
-                    vocab_indexer=vocab_indexer,
-                    state_machine=state_machine,
-                    tokenizer=tokenizer,
-                    input_prompt_len=input_prompt_len
-                )
-                processors = LogitsProcessorList([logits_processor])
+                if use_constraints:
+                    state_machine = TangPoemStateMachine(
+                        line_length=line_length,
+                        num_lines=num_lines,
+                        rhyme_type=rhyme_type,
+                        data_manager=data_manager
+                    )
+                    logits_processor = TangPoemLogitsProcessor(
+                        vocab_indexer=vocab_indexer,
+                        state_machine=state_machine,
+                        tokenizer=tokenizer,
+                        input_prompt_len=input_prompt_len
+                    )
+                    processors = LogitsProcessorList([logits_processor])
+                else:
+                    processors = None
 
                 try:
                     results = generate_one_batch(
@@ -288,37 +296,92 @@ def main():
     data_manager = DataManager(rhyme_dict_path=rhyme_dict_path, poem_path=poem_path)
     vocab_indexer = VocabIndexer(tokenizer, data_manager)
 
-    # 执行宋词实验
-    if config["songci"]["enabled"]:
+    compare = config.get("compare_experiment", False)
+
+    if compare:
+        # ========== 对比实验模式：先无约束自由生成，再约束解码生成 ==========
         print(f"\n{'=' * 60}")
-        print(f"  开始宋词批量生成")
-        print(f"  词牌数: {len(config['songci']['cipai_list'])}")
-        print(f"  主题数: {len(config['songci']['themes'])}")
-        print(f"  每组合生成数: {config['songci']['num_generations']}")
-        print(f"  总文件数: {len(config['songci']['cipai_list']) * len(config['songci']['themes'])}")
-        print(f"  总作品数: {len(config['songci']['cipai_list']) * len(config['songci']['themes']) * config['songci']['num_generations']}")
+        print(f"  🔬 对比实验模式：将依次运行无约束 → 约束两轮生成")
         print(f"{'=' * 60}")
 
-        run_songci_experiments(
-            config, model, tokenizer, vocab_indexer, data_manager,
-            gen_params, output_dir
-        )
+        base_output = output_dir
 
-    # 执行唐诗实验
-    if config["tangpoem"]["enabled"]:
-        print(f"\n{'=' * 60}")
-        print(f"  开始唐诗批量生成")
-        print(f"  诗体数: {len(config['tangpoem']['forms'])}")
-        print(f"  主题数: {len(config['tangpoem']['themes'])}")
-        print(f"  每组合生成数: {config['tangpoem']['num_generations']}")
-        print(f"  总文件数: {len(config['tangpoem']['forms']) * len(config['tangpoem']['themes'])}")
-        print(f"  总作品数: {len(config['tangpoem']['forms']) * len(config['tangpoem']['themes']) * config['tangpoem']['num_generations']}")
-        print(f"{'=' * 60}")
+        # --- 第1轮：无约束自由生成 ---
+        free_output_dir = os.path.join(base_output, "free_decoding")
+        os.makedirs(free_output_dir, exist_ok=True)
 
-        run_tangpoem_experiments(
-            config, model, tokenizer, vocab_indexer, data_manager,
-            gen_params, output_dir
-        )
+        if config["songci"]["enabled"]:
+            print(f"\n{'=' * 60}")
+            print(f"  [对比实验 1/4] 宋词 — 无约束自由生成")
+            print(f"  输出目录: {free_output_dir}")
+            print(f"{'=' * 60}")
+            run_songci_experiments(
+                config, model, tokenizer, vocab_indexer, data_manager,
+                gen_params, free_output_dir, use_constraints=False
+            )
+
+        if config["tangpoem"]["enabled"]:
+            print(f"\n{'=' * 60}")
+            print(f"  [对比实验 2/4] 唐诗 — 无约束自由生成")
+            print(f"  输出目录: {free_output_dir}")
+            print(f"{'=' * 60}")
+            run_tangpoem_experiments(
+                config, model, tokenizer, vocab_indexer, data_manager,
+                gen_params, free_output_dir, use_constraints=False
+            )
+
+        # --- 第2轮：约束解码生成 ---
+        constrained_output_dir = os.path.join(base_output, "constrained_decoding")
+        os.makedirs(constrained_output_dir, exist_ok=True)
+
+        if config["songci"]["enabled"]:
+            print(f"\n{'=' * 60}")
+            print(f"  [对比实验 3/4] 宋词 — 约束解码生成")
+            print(f"  输出目录: {constrained_output_dir}")
+            print(f"{'=' * 60}")
+            run_songci_experiments(
+                config, model, tokenizer, vocab_indexer, data_manager,
+                gen_params, constrained_output_dir, use_constraints=True
+            )
+
+        if config["tangpoem"]["enabled"]:
+            print(f"\n{'=' * 60}")
+            print(f"  [对比实验 4/4] 唐诗 — 约束解码生成")
+            print(f"  输出目录: {constrained_output_dir}")
+            print(f"{'=' * 60}")
+            run_tangpoem_experiments(
+                config, model, tokenizer, vocab_indexer, data_manager,
+                gen_params, constrained_output_dir, use_constraints=True
+            )
+    else:
+        # ========== 常规模式：仅约束解码生成（原有逻辑） ==========
+        if config["songci"]["enabled"]:
+            print(f"\n{'=' * 60}")
+            print(f"  开始宋词批量生成")
+            print(f"  词牌数: {len(config['songci']['cipai_list'])}")
+            print(f"  主题数: {len(config['songci']['themes'])}")
+            print(f"  每组合生成数: {config['songci']['num_generations']}")
+            print(f"  总文件数: {len(config['songci']['cipai_list']) * len(config['songci']['themes'])}")
+            print(f"  总作品数: {len(config['songci']['cipai_list']) * len(config['songci']['themes']) * config['songci']['num_generations']}")
+            print(f"{'=' * 60}")
+            run_songci_experiments(
+                config, model, tokenizer, vocab_indexer, data_manager,
+                gen_params, output_dir
+            )
+
+        if config["tangpoem"]["enabled"]:
+            print(f"\n{'=' * 60}")
+            print(f"  开始唐诗批量生成")
+            print(f"  诗体数: {len(config['tangpoem']['forms'])}")
+            print(f"  主题数: {len(config['tangpoem']['themes'])}")
+            print(f"  每组合生成数: {config['tangpoem']['num_generations']}")
+            print(f"  总文件数: {len(config['tangpoem']['forms']) * len(config['tangpoem']['themes'])}")
+            print(f"  总作品数: {len(config['tangpoem']['forms']) * len(config['tangpoem']['themes']) * config['tangpoem']['num_generations']}")
+            print(f"{'=' * 60}")
+            run_tangpoem_experiments(
+                config, model, tokenizer, vocab_indexer, data_manager,
+                gen_params, output_dir
+            )
 
     print(f"\n{'=' * 60}")
     print(f"  全部实验完成！")

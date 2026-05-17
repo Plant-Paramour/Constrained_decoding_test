@@ -1,4 +1,6 @@
 {
+  "compare_experiment": false,
+
   "models": [
     {
       "name": "Qwen3-4B",
