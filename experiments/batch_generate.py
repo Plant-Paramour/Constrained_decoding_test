@@ -900,13 +900,18 @@ def main():
     gen_params = config["generation_params"]
     q_label = _quantization_label(quantization)
 
+    songci_cfg = config.get('songci', {})
+    tangpoem_cfg = config.get('tangpoem', {})
+    songci_enabled = songci_cfg.get('enabled', False)
+    tangpoem_enabled = tangpoem_cfg.get('enabled', False)
+
     print(f"{'=' * 60}")
     print(f"  批量诗词生成实验")
     print(f"  模型: {model_name}")
     print(f"  量化方案: {q_label}")
     print(f"  输出目录: {output_dir}")
-    print(f"  宋词: {'启用' if config['songci']['enabled'] else '禁用'}")
-    print(f"  唐诗: {'启用' if config['tangpoem']['enabled'] else '禁用'}")
+    print(f"  宋词: {'启用' if songci_enabled else '禁用'}")
+    print(f"  唐诗: {'启用' if tangpoem_enabled else '禁用'}")
     print(f"  对比实验: {'启用' if config.get('compare_experiment', False) else '禁用'}")
     print(f"{'=' * 60}")
 
@@ -939,7 +944,12 @@ def main():
     ).eval()
 
     print("[3/3] 构建词表索引...")
-    rhyme_dict_path = os.path.join(PROJECT_ROOT, "Rhyme", f"{config['songci']['rhyme_dict_name']}.json")
+    rhyme_dict_name = (
+        songci_cfg.get('rhyme_dict_name') or
+        tangpoem_cfg.get('rhyme_dict_name') or
+        "Xinyun"
+    )
+    rhyme_dict_path = os.path.join(PROJECT_ROOT, "Rhyme", f"{rhyme_dict_name}.json")
     poem_path = os.path.join(PROJECT_ROOT, "Songci_Meter")
     data_manager = DataManager(rhyme_dict_path=rhyme_dict_path, poem_path=poem_path)
     vocab_indexer = VocabIndexer(tokenizer, data_manager)
@@ -947,6 +957,10 @@ def main():
     compare = config.get("compare_experiment", False)
 
     if compare:
+        total_steps = (1 if songci_enabled else 0) + (1 if tangpoem_enabled else 0)
+        total_steps *= 2  # free + constrained
+        step = 0
+
         print(f"\n{'=' * 60}")
         print(f"  🔬 对比实验模式：将依次运行无约束 → 约束两轮生成")
         print(f"{'=' * 60}")
@@ -956,9 +970,10 @@ def main():
         free_output_dir = os.path.join(base_output, "free_decoding")
         os.makedirs(free_output_dir, exist_ok=True)
 
-        if config["songci"]["enabled"]:
+        if songci_enabled:
+            step += 1
             print(f"\n{'=' * 60}")
-            print(f"  [对比实验 1/4] 宋词 — 无约束自由生成")
+            print(f"  [对比实验 {step}/{total_steps}] 宋词 — 无约束自由生成")
             print(f"  输出目录: {free_output_dir}")
             print(f"{'=' * 60}")
             run_songci_experiments(
@@ -966,9 +981,10 @@ def main():
                 gen_params, free_output_dir, use_constraints=False, q_label=q_label
             )
 
-        if config["tangpoem"]["enabled"]:
+        if tangpoem_enabled:
+            step += 1
             print(f"\n{'=' * 60}")
-            print(f"  [对比实验 2/4] 唐诗 — 无约束自由生成")
+            print(f"  [对比实验 {step}/{total_steps}] 唐诗 — 无约束自由生成")
             print(f"  输出目录: {free_output_dir}")
             print(f"{'=' * 60}")
             run_tangpoem_experiments(
@@ -979,9 +995,10 @@ def main():
         constrained_output_dir = os.path.join(base_output, "constrained_decoding")
         os.makedirs(constrained_output_dir, exist_ok=True)
 
-        if config["songci"]["enabled"]:
+        if songci_enabled:
+            step += 1
             print(f"\n{'=' * 60}")
-            print(f"  [对比实验 3/4] 宋词 — 约束解码生成")
+            print(f"  [对比实验 {step}/{total_steps}] 宋词 — 约束解码生成")
             print(f"  输出目录: {constrained_output_dir}")
             print(f"{'=' * 60}")
             run_songci_experiments(
@@ -989,9 +1006,10 @@ def main():
                 gen_params, constrained_output_dir, use_constraints=True, q_label=q_label
             )
 
-        if config["tangpoem"]["enabled"]:
+        if tangpoem_enabled:
+            step += 1
             print(f"\n{'=' * 60}")
-            print(f"  [对比实验 4/4] 唐诗 — 约束解码生成")
+            print(f"  [对比实验 {step}/{total_steps}] 唐诗 — 约束解码生成")
             print(f"  输出目录: {constrained_output_dir}")
             print(f"{'=' * 60}")
             run_tangpoem_experiments(
@@ -999,8 +1017,8 @@ def main():
                 gen_params, constrained_output_dir, use_constraints=True, q_label=q_label
             )
     else:
-        if config["songci"]["enabled"]:
-            sc = config['songci']
+        if songci_enabled:
+            sc = songci_cfg
             n = len(sc['cipai_list']) * len(sc['themes'])
             print(f"\n{'=' * 60}")
             print(f"  开始宋词批量生成")
@@ -1015,8 +1033,8 @@ def main():
                 gen_params, output_dir, q_label=q_label
             )
 
-        if config["tangpoem"]["enabled"]:
-            tp = config['tangpoem']
+        if tangpoem_enabled:
+            tp = tangpoem_cfg
             n = len(tp['forms']) * len(tp['themes'])
             print(f"\n{'=' * 60}")
             print(f"  开始唐诗批量生成")
