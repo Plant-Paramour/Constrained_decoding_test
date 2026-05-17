@@ -145,18 +145,18 @@ def main():
     use_bitsandbytes = True
 
     # 2. 任务与生成配置
-    meter_type = "宋词"  # 可选："宋词", "唐诗"
+    meter_type = "唐诗"  # 可选："宋词", "唐诗"
     rhyme_dict_name = "Xinyun"  # 可选："Cilin" (词林正韵), "Pinshui" (平水韵), "Tongyun" (通韵), "Xinyun"(新韵)
     
     task_type = "instruction"
-    theme = "田园山水"
-    cipai_name = "南乡子"
+    theme = "怀古咏史"
+    cipai_name = "七律"
     detailed_requirement = """
     """
 
     use_constraints = True  # 设置为 False 即可进行无约束对比实验
     use_thinking = False    # DeepSeek R1 必须设为 True 以保留 <think> 思考过程
-    num_generations = 15     # 多次输出模式下生成的数量（设置为 1 即单次）
+    num_generations = 20     # 多次输出模式下生成的数量（设置为 1 即单次）
     save_output = True     # True 是否将结果保存到 output 目录
     # ===============================================
 
