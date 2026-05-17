@@ -274,12 +274,12 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             last_char = simulated_line[-1]
             expected_tone = "平" if "平" in rhyme_type else "仄"
             rhyme_parts = set(self._get_rhyme_parts(last_char, expected_tone))
-            if locked_rhyme_parts is not None and rhyme_parts:
+            if locked_rhyme_parts and rhyme_parts:
                 if not locked_rhyme_parts.intersection(rhyme_parts):
                     return -1000
             # 首句仄收时排除该韵部，后续押韵句不得使用
             excluded_rhyme = pos_info.get("excluded_rhyme_parts")
-            if excluded_rhyme is not None and rhyme_parts:
+            if excluded_rhyme and rhyme_parts:
                 if excluded_rhyme.intersection(rhyme_parts):
                     return -1000
 
@@ -436,6 +436,16 @@ class TangPoemLogitsProcessor(LogitsProcessor):
             if len(pz_last) == 1 and end_tone != 2:
                 expected_tone = "平" if end_tone == 0 else "仄"
                 if pz_last[0] != expected_tone:
+                    return -1000
+
+        # 押韵一致性（核心格律底线，兜底时也必须强制）
+        if sim_len == target_len and is_rhyming:
+            locked_parts = pos_info.get("locked_rhyme_parts")
+            if locked_parts:
+                last_char = simulated_line[-1]
+                expected_tone = "平" if "平" in rhyme_type else "仄"
+                rhyme_parts = set(self._get_rhyme_parts(last_char, expected_tone))
+                if rhyme_parts and not locked_parts.intersection(rhyme_parts):
                     return -1000
 
         return 0.0

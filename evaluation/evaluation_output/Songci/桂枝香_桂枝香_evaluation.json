@@ -1,0 +1,5440 @@
+{
+  "source_file": "桂枝香_桂枝香.txt",
+  "cipai": "桂枝香",
+  "works_evaluated": 19,
+  "average_scores": {
+    "average_total_score": 90.09,
+    "average_structure_score": 100.0,
+    "average_tonal_score": 91.19,
+    "average_rhyme_score": 75.79
+  },
+  "individual_results": [
+    {
+      "work_index": 1,
+      "poem_text": "智光耀日、算海乘风浪、芯火燃霓。码影穿云际处、梦驰星域。AI启运乾坤转、引鸿基、万象新辟。论锋犀利、图谋宏远、竞标争弋。\n学府巍、桃符焕色、栋梁挺生力。育才如织、薪传不遗、志业长堤堪比。数维经纬纵横阔、拓前程无尽期亦。群贤汇聚、共攀科技、鼎盛时袭。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 87.73,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 89.11,
+        "rhyme_score_percentage": 70.0,
+        "parsed_clauses": [
+          "智光耀日",
+          "算海乘风浪",
+          "芯火燃霓",
+          "码影穿云际处",
+          "梦驰星域",
+          "AI启运乾坤转",
+          "引鸿基",
+          "万象新辟",
+          "论锋犀利",
+          "图谋宏远",
+          "竞标争弋",
+          "学府巍",
+          "桃符焕色",
+          "栋梁挺生力",
+          "育才如织",
+          "薪传不遗",
+          "志业长堤堪比",
+          "数维经纬纵横阔",
+          "拓前程无尽期亦",
+          "群贤汇聚",
+          "共攀科技",
+          "鼎盛时袭"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "算海乘风浪",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "乘",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 2,
+                "clause": "芯火燃霓",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "霓",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "AI启运乾坤转",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 11,
+                "clause": "学府巍",
+                "pattern": "仄中中",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 14,
+                "clause": "育才如织",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "织",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 15,
+                "clause": "薪传不遗",
+                "pattern": "中仄平平",
+                "mismatches": [
+                  {
+                    "char": "传",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "不",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 17,
+                "clause": "数维经纬纵横阔",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "纵",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 21,
+                "clause": "鼎盛时袭",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "盛",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "袭",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 90,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "日",
+                  "霓",
+                  "域",
+                  "辟",
+                  "弋"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 1,
+                      "char": "日"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 3,
+                      "char": "霓"
+                    },
+                    {
+                      "position": 5,
+                      "char": "域"
+                    },
+                    {
+                      "position": 8,
+                      "char": "辟"
+                    },
+                    {
+                      "position": 11,
+                      "char": "弋"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "色",
+                  "织",
+                  "比",
+                  "亦",
+                  "袭"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 13,
+                      "char": "色"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 13,
+                      "char": "色"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 15,
+                      "char": "织"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 17,
+                      "char": "比"
+                    },
+                    {
+                      "position": 19,
+                      "char": "亦"
+                    },
+                    {
+                      "position": 22,
+                      "char": "袭"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.7
+          }
+        }
+      }
+    },
+    {
+      "work_index": 2,
+      "poem_text": "AI筑梦、算海弄潮风。芯片光涌、智焰腾空中兴。数维通孔、云程万里鹏翔翼。创新锋、科技宏颂。育才薪火、传灯不息。桃符春动。\n智能星、辉明夜纵。校歌激扬处、志同声共。学府巍峨、英杰辈生鸿茸。心怀远大图强业，展雄姿耀世功勇。未来路广、步随日月，照临寰中。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 97.62,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 92.08,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "AI筑梦",
+          "算海弄潮风",
+          "芯片光涌",
+          "智焰腾空中兴",
+          "数维通孔",
+          "云程万里鹏翔翼",
+          "创新锋",
+          "科技宏颂",
+          "育才薪火",
+          "传灯不息",
+          "桃符春动",
+          "智能星",
+          "辉明夜纵",
+          "校歌激扬处",
+          "志同声共",
+          "学府巍峨",
+          "英杰辈生鸿茸",
+          "心怀远大图强业",
+          "展雄姿耀世功勇",
+          "未来路广",
+          "步随日月",
+          "照临寰中"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI筑梦",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 3,
+                "clause": "智焰腾空中兴",
+                "pattern": "中仄平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "中",
+                    "position_in_clause": 4,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "兴",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 9,
+                "clause": "传灯不息",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "息",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "校歌激扬处",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "激",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 16,
+                "clause": "英杰辈生鸿茸",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "杰",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "茸",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 21,
+                "clause": "照临寰中",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "中",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 93,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "梦",
+                  "涌",
+                  "孔",
+                  "颂",
+                  "动"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 1,
+                      "char": "梦"
+                    },
+                    {
+                      "position": 3,
+                      "char": "涌"
+                    },
+                    {
+                      "position": 5,
+                      "char": "孔"
+                    },
+                    {
+                      "position": 8,
+                      "char": "颂"
+                    },
+                    {
+                      "position": 11,
+                      "char": "动"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "纵",
+                  "共",
+                  "茸",
+                  "勇",
+                  "中"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 13,
+                      "char": "纵"
+                    },
+                    {
+                      "position": 15,
+                      "char": "共"
+                    },
+                    {
+                      "position": 17,
+                      "char": "茸"
+                    },
+                    {
+                      "position": 19,
+                      "char": "勇"
+                    },
+                    {
+                      "position": 22,
+                      "char": "中"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 3,
+      "poem_text": "AI领路、算海探幽心、芯火燃处。智汇云霄万里，梦圆星宇。新程启步千帆竞，育英材、栋梁初举。论坛声动，图南志远，光华如雨。\n码韵流、晶屏映曙。数理为舟楫，科技成炬。桃李芬芳，青眼相看俱护。今朝共绘宏图卷，展锋芒四野驰骛。风雷激荡，乾坤再造，未来铺叙。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 86.51,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 95.05,
+        "rhyme_score_percentage": 60.0,
+        "parsed_clauses": [
+          "AI领路",
+          "算海探幽心",
+          "芯火燃处",
+          "智汇云霄万里",
+          "梦圆星宇",
+          "新程启步千帆竞",
+          "育英材",
+          "栋梁初举",
+          "论坛声动",
+          "图南志远",
+          "光华如雨",
+          "码韵流",
+          "晶屏映曙",
+          "数理为舟楫",
+          "科技成炬",
+          "桃李芬芳",
+          "青眼相看俱护",
+          "今朝共绘宏图卷",
+          "展锋芒四野驰骛",
+          "风雷激荡",
+          "乾坤再造",
+          "未来铺叙"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI领路",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 16,
+                "clause": "青眼相看俱护",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "相",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "看",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "俱",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 21,
+                "clause": "未来铺叙",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "铺",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 96,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "路",
+                  "处",
+                  "宇",
+                  "举",
+                  "雨"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 1,
+                      "char": "路"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 1,
+                      "char": "路"
+                    },
+                    {
+                      "position": 3,
+                      "char": "处"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 5,
+                      "char": "宇"
+                    },
+                    {
+                      "position": 8,
+                      "char": "举"
+                    },
+                    {
+                      "position": 11,
+                      "char": "雨"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "曙",
+                  "炬",
+                  "护",
+                  "骛",
+                  "叙"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 13,
+                      "char": "曙"
+                    },
+                    {
+                      "position": 17,
+                      "char": "护"
+                    },
+                    {
+                      "position": 19,
+                      "char": "骛"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 15,
+                      "char": "炬"
+                    },
+                    {
+                      "position": 22,
+                      "char": "叙"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.6
+          }
+        }
+      }
+    },
+    {
+      "work_index": 4,
+      "poem_text": "AI领秀、算海探幽区、芯光流透。智火燃霄汉处，筑梦初就。云程万里风驰电，启新元、群英争斗。校园春色，科创星耀，誉传寰宙。\n术精技、论坛竞首。器成械胜功，志在鸿后。数理融通，巧手织天机绣。贤才汇聚宏图展，引潮头百业俱有。未来可待，乾坤再造，焕然新昼。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 97.92,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 93.07,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "AI领秀",
+          "算海探幽区",
+          "芯光流透",
+          "智火燃霄汉处",
+          "筑梦初就",
+          "云程万里风驰电",
+          "启新元",
+          "群英争斗",
+          "校园春色",
+          "科创星耀",
+          "誉传寰宙",
+          "术精技",
+          "论坛竞首",
+          "器成械胜功",
+          "志在鸿后",
+          "数理融通",
+          "巧手织天机绣",
+          "贤才汇聚宏图展",
+          "引潮头百业俱有",
+          "未来可待",
+          "乾坤再造",
+          "焕然新昼"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI领秀",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 4,
+                "clause": "筑梦初就",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "梦",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "科创星耀",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "创",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "论坛竞首",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "论",
+                    "position_in_clause": 0,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "器成械胜功",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "胜",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 16,
+                "clause": "巧手织天机绣",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "织",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "引潮头百业俱有",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "俱",
+                    "position_in_clause": 5,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 94,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "秀",
+                  "透",
+                  "就",
+                  "斗",
+                  "宙"
+                ],
+                "xinyun_map": {
+                  "七尤": [
+                    {
+                      "position": 1,
+                      "char": "秀"
+                    },
+                    {
+                      "position": 3,
+                      "char": "透"
+                    },
+                    {
+                      "position": 5,
+                      "char": "就"
+                    },
+                    {
+                      "position": 8,
+                      "char": "斗"
+                    },
+                    {
+                      "position": 11,
+                      "char": "宙"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 3,
+                      "char": "透"
+                    },
+                    {
+                      "position": 8,
+                      "char": "斗"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "七尤",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "首",
+                  "后",
+                  "绣",
+                  "有",
+                  "昼"
+                ],
+                "xinyun_map": {
+                  "七尤": [
+                    {
+                      "position": 13,
+                      "char": "首"
+                    },
+                    {
+                      "position": 15,
+                      "char": "后"
+                    },
+                    {
+                      "position": 17,
+                      "char": "绣"
+                    },
+                    {
+                      "position": 19,
+                      "char": "有"
+                    },
+                    {
+                      "position": 22,
+                      "char": "昼"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 19,
+                      "char": "有"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "七尤",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 5,
+      "poem_text": "AI启智、算海探幽微、芯光流丽、码序纷披忽闪、数据飞弛、云程万里驰驱逐、梦圆时、群贤并济、共攀科技、新篇初绘、未来无际  \n智教兴、才思涌汇、学府盛名扬、工巧精艺、匠意深藏、研发锐锋争出、志昂霄汉天行健、勇为先风华正炽、蓝图展翼、宏猷大计、领航今世",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 81.73,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 89.11,
+        "rhyme_score_percentage": 50.0,
+        "parsed_clauses": [
+          "AI启智",
+          "算海探幽微",
+          "芯光流丽",
+          "码序纷披忽闪",
+          "数据飞弛",
+          "云程万里驰驱逐",
+          "梦圆时",
+          "群贤并济",
+          "共攀科技",
+          "新篇初绘",
+          "未来无际",
+          "智教兴",
+          "才思涌汇",
+          "学府盛名扬",
+          "工巧精艺",
+          "匠意深藏",
+          "研发锐锋争出",
+          "志昂霄汉天行健",
+          "勇为先风华正炽",
+          "蓝图展翼",
+          "宏猷大计",
+          "领航今世"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI启智",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 3,
+                "clause": "码序纷披忽闪",
+                "pattern": "中仄平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "忽",
+                    "position_in_clause": 4,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 4,
+                "clause": "数据飞弛",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "据",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "弛",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "云程万里驰驱逐",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "逐",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 7,
+                "clause": "群贤并济",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "并",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "学府盛名扬",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 16,
+                "clause": "研发锐锋争出",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "出",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "勇为先风华正炽",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "为",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "正",
+                    "position_in_clause": 5,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 90,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "智",
+                  "丽",
+                  "弛",
+                  "济",
+                  "际"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 1,
+                      "char": "智"
+                    },
+                    {
+                      "position": 5,
+                      "char": "弛"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 3,
+                      "char": "丽"
+                    },
+                    {
+                      "position": 8,
+                      "char": "济"
+                    },
+                    {
+                      "position": 11,
+                      "char": "际"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "汇",
+                  "艺",
+                  "出",
+                  "炽",
+                  "世"
+                ],
+                "xinyun_map": {
+                  "五微": [
+                    {
+                      "position": 13,
+                      "char": "汇"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 15,
+                      "char": "艺"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 17,
+                      "char": "出"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 19,
+                      "char": "炽"
+                    },
+                    {
+                      "position": 22,
+                      "char": "世"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十三支",
+                "match_count": 2,
+                "total_count": 5,
+                "group_score": 0.4
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.5
+          }
+        }
+      }
+    },
+    {
+      "work_index": 6,
+      "poem_text": "智能引领、算力奔腾如。芯片辉映、科技光芒盛景。创新之境、AI筑梦星辰际。育才宏、匠心不竟。未来图卷、展鸿鹄志。数云飞骋。\n代码织、乾坤变胜。学府立基坚、桃李芬宁。慧海扬帆、勇往直前征行。教坛璀璨霞晖照、启明灯熠然生炯。薪传继业、栋梁成器。共书华鼎。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 97.92,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 93.07,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "智能引领",
+          "算力奔腾如",
+          "芯片辉映",
+          "科技光芒盛景",
+          "创新之境",
+          "AI筑梦星辰际",
+          "育才宏",
+          "匠心不竟",
+          "未来图卷",
+          "展鸿鹄志",
+          "数云飞骋",
+          "代码织",
+          "乾坤变胜",
+          "学府立基坚",
+          "桃李芬宁",
+          "慧海扬帆",
+          "勇往直前征行",
+          "教坛璀璨霞晖照",
+          "启明灯熠然生炯",
+          "薪传继业",
+          "栋梁成器",
+          "共书华鼎"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "算力奔腾如",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "奔",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 5,
+                "clause": "AI筑梦星辰际",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 7,
+                "clause": "匠心不竟",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "不",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "学府立基坚",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 14,
+                "clause": "桃李芬宁",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "宁",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 16,
+                "clause": "勇往直前征行",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "直",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "行",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 94,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "领",
+                  "映",
+                  "境",
+                  "竟",
+                  "骋"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 1,
+                      "char": "领"
+                    },
+                    {
+                      "position": 3,
+                      "char": "映"
+                    },
+                    {
+                      "position": 5,
+                      "char": "境"
+                    },
+                    {
+                      "position": 8,
+                      "char": "竟"
+                    },
+                    {
+                      "position": 11,
+                      "char": "骋"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 3,
+                      "char": "映"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "胜",
+                  "宁",
+                  "行",
+                  "炯",
+                  "鼎"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 13,
+                      "char": "胜"
+                    },
+                    {
+                      "position": 15,
+                      "char": "宁"
+                    },
+                    {
+                      "position": 17,
+                      "char": "行"
+                    },
+                    {
+                      "position": 19,
+                      "char": "炯"
+                    },
+                    {
+                      "position": 22,
+                      "char": "鼎"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 15,
+                      "char": "宁"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 17,
+                      "char": "行"
+                    }
+                  ],
+                  "九文": [
+                    {
+                      "position": 22,
+                      "char": "鼎"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 7,
+      "poem_text": "智能新境、算力为舟航、芯片光景。筑梦云霄处展，数峰高映。AI妙手雕龙凤，引星河、万机同庆。教研相济，桃符竞艳，俊才盈庭。\n纵论天、虚无缥影，巧思织经纬，匠心成镜。科技之巅，风华正盛时令。志坚如铁丹青绘，耀乾坤浩气长行。今朝共仰，未来可期，勇攀凌顶。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 97.62,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 92.08,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "智能新境",
+          "算力为舟航",
+          "芯片光景",
+          "筑梦云霄处展",
+          "数峰高映",
+          "AI妙手雕龙凤",
+          "引星河",
+          "万机同庆",
+          "教研相济",
+          "桃符竞艳",
+          "俊才盈庭",
+          "纵论天",
+          "虚无缥影",
+          "巧思织经纬",
+          "匠心成镜",
+          "科技之巅",
+          "风华正盛时令",
+          "志坚如铁丹青绘",
+          "耀乾坤浩气长行",
+          "今朝共仰",
+          "未来可期",
+          "勇攀凌顶"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 5,
+                "clause": "AI妙手雕龙凤",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 10,
+                "clause": "俊才盈庭",
+                "pattern": "中平平仄",
+                "mismatches": [
+                  {
+                    "char": "庭",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "虚无缥影",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "缥",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "巧思织经纬",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "织",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 16,
+                "clause": "风华正盛时令",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "盛",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "耀乾坤浩气长行",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "长",
+                    "position_in_clause": 5,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "行",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 93,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "境",
+                  "景",
+                  "映",
+                  "庆",
+                  "庭"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 1,
+                      "char": "境"
+                    },
+                    {
+                      "position": 3,
+                      "char": "景"
+                    },
+                    {
+                      "position": 5,
+                      "char": "映"
+                    },
+                    {
+                      "position": 8,
+                      "char": "庆"
+                    },
+                    {
+                      "position": 11,
+                      "char": "庭"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 5,
+                      "char": "映"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "影",
+                  "镜",
+                  "令",
+                  "行",
+                  "顶"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 13,
+                      "char": "影"
+                    },
+                    {
+                      "position": 15,
+                      "char": "镜"
+                    },
+                    {
+                      "position": 17,
+                      "char": "令"
+                    },
+                    {
+                      "position": 19,
+                      "char": "行"
+                    },
+                    {
+                      "position": 22,
+                      "char": "顶"
+                    }
+                  ],
+                  "八寒": [
+                    {
+                      "position": 17,
+                      "char": "令"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 19,
+                      "char": "行"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 8,
+      "poem_text": "AI领路、算海探幽心。芯片光聚、智焰炎腾处更。数据流舞、云程万里通途尽。创新潮、逐浪高呼。学林中栋，科研锋镝，志坚如炬。\n筑梦时、蓝图绘素。育英杰之才，启航初度。技术精微，巧手织机神助。未来景远星河动，望天梯步步登趣。青春炽热，胸怀寰宇，共书宏绪。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 88.92,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 93.07,
+        "rhyme_score_percentage": 70.0,
+        "parsed_clauses": [
+          "AI领路",
+          "算海探幽心",
+          "芯片光聚",
+          "智焰炎腾处更",
+          "数据流舞",
+          "云程万里通途尽",
+          "创新潮",
+          "逐浪高呼",
+          "学林中栋",
+          "科研锋镝",
+          "志坚如炬",
+          "筑梦时",
+          "蓝图绘素",
+          "育英杰之才",
+          "启航初度",
+          "技术精微",
+          "巧手织机神助",
+          "未来景远星河动",
+          "望天梯步步登趣",
+          "青春炽热",
+          "胸怀寰宇",
+          "共书宏绪"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI领路",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 4,
+                "clause": "数据流舞",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "据",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 7,
+                "clause": "逐浪高呼",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "呼",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "学林中栋",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "科研锋镝",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "镝",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "育英杰之才",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "杰",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 16,
+                "clause": "巧手织机神助",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "织",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 94,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "路",
+                  "聚",
+                  "舞",
+                  "呼",
+                  "炬"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 1,
+                      "char": "路"
+                    },
+                    {
+                      "position": 8,
+                      "char": "呼"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 1,
+                      "char": "路"
+                    },
+                    {
+                      "position": 5,
+                      "char": "舞"
+                    },
+                    {
+                      "position": 8,
+                      "char": "呼"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 3,
+                      "char": "聚"
+                    },
+                    {
+                      "position": 8,
+                      "char": "呼"
+                    },
+                    {
+                      "position": 11,
+                      "char": "炬"
+                    }
+                  ],
+                  "六豪": [
+                    {
+                      "position": 8,
+                      "char": "呼"
+                    }
+                  ],
+                  "一麻": [
+                    {
+                      "position": 8,
+                      "char": "呼"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "素",
+                  "度",
+                  "助",
+                  "趣",
+                  "绪"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 13,
+                      "char": "素"
+                    },
+                    {
+                      "position": 15,
+                      "char": "度"
+                    },
+                    {
+                      "position": 17,
+                      "char": "助"
+                    },
+                    {
+                      "position": 19,
+                      "char": "趣"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 15,
+                      "char": "度"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 15,
+                      "char": "度"
+                    }
+                  ],
+                  "七尤": [
+                    {
+                      "position": 19,
+                      "char": "趣"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 19,
+                      "char": "趣"
+                    },
+                    {
+                      "position": 22,
+                      "char": "绪"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.7
+          }
+        }
+      }
+    },
+    {
+      "work_index": 9,
+      "poem_text": "AI领世、算海探幽微、芯光辉炜。智启新章展翼，育才如砥。数云交汇千峰翠，映星河、璀璨无际。论坛争艳，未来可待，志同归里。\n技精术、通明睿思，传薪火于今，继往开纪。群策并行，共筑梦中宏誓。桃符焕彩荣华地，誉寰球之俊英荟。风流雅韵，教书育人，匠心不弃。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 83.51,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 95.05,
+        "rhyme_score_percentage": 50.0,
+        "parsed_clauses": [
+          "AI领世",
+          "算海探幽微",
+          "芯光辉炜",
+          "智启新章展翼",
+          "育才如砥",
+          "数云交汇千峰翠",
+          "映星河",
+          "璀璨无际",
+          "论坛争艳",
+          "未来可待",
+          "志同归里",
+          "技精术",
+          "通明睿思",
+          "传薪火于今",
+          "继往开纪",
+          "群策并行",
+          "共筑梦中宏誓",
+          "桃符焕彩荣华地",
+          "誉寰球之俊英荟",
+          "风流雅韵",
+          "教书育人",
+          "匠心不弃"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI领世",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "通明睿思",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "思",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "传薪火于今",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "传",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "群策并行",
+                "pattern": "中仄平平",
+                "mismatches": [
+                  {
+                    "char": "并",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 21,
+                "clause": "匠心不弃",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "不",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 96,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "世",
+                  "炜",
+                  "砥",
+                  "际",
+                  "里"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 1,
+                      "char": "世"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 3,
+                      "char": "炜"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 5,
+                      "char": "砥"
+                    },
+                    {
+                      "position": 8,
+                      "char": "际"
+                    },
+                    {
+                      "position": 11,
+                      "char": "里"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "思",
+                  "纪",
+                  "誓",
+                  "荟",
+                  "弃"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 13,
+                      "char": "思"
+                    },
+                    {
+                      "position": 17,
+                      "char": "誓"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 13,
+                      "char": "思"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 15,
+                      "char": "纪"
+                    },
+                    {
+                      "position": 22,
+                      "char": "弃"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 19,
+                      "char": "荟"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十三支",
+                "match_count": 2,
+                "total_count": 5,
+                "group_score": 0.4
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.5
+          }
+        }
+      }
+    },
+    {
+      "work_index": 10,
+      "poem_text": "AI领世、算海涌波潮、芯光流丽。智启新程处夜，万灯辉炽。微机跃动云霄外，拓乾坤、经纬无际。学园英俊，共攀科技，逐梦飞骥。\n论道讲、图灵妙理。解码奥藏中，奇思纷斐。数据如河，奔淌不休成势。未来已至方知远，看群贤聚首同济。风华正茂，展宏志于，九州千里。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 87.11,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 97.03,
+        "rhyme_score_percentage": 60.0,
+        "parsed_clauses": [
+          "AI领世",
+          "算海涌波潮",
+          "芯光流丽",
+          "智启新程处夜",
+          "万灯辉炽",
+          "微机跃动云霄外",
+          "拓乾坤",
+          "经纬无际",
+          "学园英俊",
+          "共攀科技",
+          "逐梦飞骥",
+          "论道讲",
+          "图灵妙理",
+          "解码奥藏中",
+          "奇思纷斐",
+          "数据如河",
+          "奔淌不休成势",
+          "未来已至方知远",
+          "看群贤聚首同济",
+          "风华正茂",
+          "展宏志于",
+          "九州千里"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "AI领世",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "学园英俊",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 10,
+                "clause": "逐梦飞骥",
+                "pattern": "中平平仄",
+                "mismatches": [
+                  {
+                    "char": "梦",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 98,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "世",
+                  "丽",
+                  "炽",
+                  "际",
+                  "骥"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 1,
+                      "char": "世"
+                    },
+                    {
+                      "position": 5,
+                      "char": "炽"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 3,
+                      "char": "丽"
+                    },
+                    {
+                      "position": 8,
+                      "char": "际"
+                    },
+                    {
+                      "position": 11,
+                      "char": "骥"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "理",
+                  "斐",
+                  "势",
+                  "济",
+                  "里"
+                ],
+                "xinyun_map": {
+                  "十二齐": [
+                    {
+                      "position": 13,
+                      "char": "理"
+                    },
+                    {
+                      "position": 19,
+                      "char": "济"
+                    },
+                    {
+                      "position": 22,
+                      "char": "里"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 15,
+                      "char": "斐"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 17,
+                      "char": "势"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.6
+          }
+        }
+      }
+    },
+    {
+      "work_index": 14,
+      "poem_text": "第几花木、雪落万象间\n南山春福、重校门前景不、空中飞育\n黄金阳地承天下，百千人、鱼目之独\n一心为学，两朝才智\n大成双宿\n长风经、西来远足\n客物见灵明、情意无局\n红叶回归，香满庭欢生趣\n青松如画秋声响、语兴多态和通俗\n夜深思道、早升光照\n华英相触",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 90.44,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 88.12,
+        "rhyme_score_percentage": 80.0,
+        "parsed_clauses": [
+          "第几花木",
+          "雪落万象间",
+          "南山春福",
+          "重校门前景不",
+          "空中飞育",
+          "黄金阳地承天下",
+          "百千人",
+          "鱼目之独",
+          "一心为学",
+          "两朝才智",
+          "大成双宿",
+          "长风经",
+          "西来远足",
+          "客物见灵明",
+          "情意无局",
+          "红叶回归",
+          "香满庭欢生趣",
+          "青松如画秋声响",
+          "语兴多态和通俗",
+          "夜深思道",
+          "早升光照",
+          "华英相触"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "第几花木",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "几",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 2,
+                "clause": "南山春福",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "福",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 4,
+                "clause": "空中飞育",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "空",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 7,
+                "clause": "鱼目之独",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "独",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "一心为学",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "为",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "学",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "西来远足",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "足",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 14,
+                "clause": "情意无局",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "局",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 16,
+                "clause": "香满庭欢生趣",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "庭",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "语兴多态和通俗",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "俗",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 21,
+                "clause": "华英相触",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 89,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "木",
+                  "福",
+                  "育",
+                  "独",
+                  "宿"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 1,
+                      "char": "木"
+                    },
+                    {
+                      "position": 3,
+                      "char": "福"
+                    },
+                    {
+                      "position": 8,
+                      "char": "独"
+                    },
+                    {
+                      "position": 11,
+                      "char": "宿"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 5,
+                      "char": "育"
+                    }
+                  ],
+                  "七尤": [
+                    {
+                      "position": 5,
+                      "char": "育"
+                    },
+                    {
+                      "position": 11,
+                      "char": "宿"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 5,
+                      "char": "育"
+                    },
+                    {
+                      "position": 11,
+                      "char": "宿"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "足",
+                  "局",
+                  "趣",
+                  "俗",
+                  "触"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 13,
+                      "char": "足"
+                    },
+                    {
+                      "position": 17,
+                      "char": "趣"
+                    },
+                    {
+                      "position": 19,
+                      "char": "俗"
+                    },
+                    {
+                      "position": 22,
+                      "char": "触"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 13,
+                      "char": "足"
+                    },
+                    {
+                      "position": 15,
+                      "char": "局"
+                    },
+                    {
+                      "position": 17,
+                      "char": "趣"
+                    }
+                  ],
+                  "七尤": [
+                    {
+                      "position": 17,
+                      "char": "趣"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.8
+          }
+        }
+      }
+    },
+    {
+      "work_index": 15,
+      "poem_text": "南山青树，重邮的象征\n双一流与，人间声名响彻\n校园春雨，梨花争相开门暖\n大师心、学生精聚，智风不负\n神经网络，深蓝天宇\n算法之、 AI道路，远近闻其长\n松柏根固，厚实传承\n前行者无情古，志存未老年轻育\n在阳光下舞香步，飞黄腾万，空中有千，日升而作",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 91.33,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 91.09,
+        "rhyme_score_percentage": 80.0,
+        "parsed_clauses": [
+          "南山青树",
+          "重邮的象征",
+          "双一流与",
+          "人间声名响彻",
+          "校园春雨",
+          "梨花争相开门暖",
+          "大师心",
+          "学生精聚",
+          "智风不负",
+          "神经网络",
+          "深蓝天宇",
+          "算法之",
+          "AI道路",
+          "远近闻其长",
+          "松柏根固",
+          "厚实传承",
+          "前行者无情古",
+          "志存未老年轻育",
+          "在阳光下舞香步",
+          "飞黄腾万",
+          "空中有千",
+          "日升而作"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "重邮的象征",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "的",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 3,
+                "clause": "人间声名响彻",
+                "pattern": "中仄平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "间",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 5,
+                "clause": "梨花争相开门暖",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "相",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 8,
+                "clause": "智风不负",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "不",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "AI道路",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "A",
+                    "position_in_clause": 0,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  },
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "远近闻其长",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "闻",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "厚实传承",
+                "pattern": "中仄平平",
+                "mismatches": [
+                  {
+                    "char": "实",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 16,
+                "clause": "前行者无情古",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "行",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 92,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "树",
+                  "与",
+                  "雨",
+                  "聚",
+                  "宇"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 1,
+                      "char": "树"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 3,
+                      "char": "与"
+                    },
+                    {
+                      "position": 5,
+                      "char": "雨"
+                    },
+                    {
+                      "position": 8,
+                      "char": "聚"
+                    },
+                    {
+                      "position": 11,
+                      "char": "宇"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "路",
+                  "固",
+                  "古",
+                  "步",
+                  "作"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 13,
+                      "char": "路"
+                    },
+                    {
+                      "position": 22,
+                      "char": "作"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 13,
+                      "char": "路"
+                    },
+                    {
+                      "position": 15,
+                      "char": "固"
+                    },
+                    {
+                      "position": 17,
+                      "char": "古"
+                    },
+                    {
+                      "position": 19,
+                      "char": "步"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.8
+          }
+        }
+      }
+    },
+    {
+      "work_index": 16,
+      "poem_text": "南山阳气、重邮学潮流、AI之术、双一行成就显、远方星慧、人工心智生长兴。月光般、金黄正值、众多师友、深情凝聚、共创胜利。\n空中飞、春华落地、象征着新梦、红叶秋意、美丽前程。校内传闻和世、神经网络思维与、算优先论理过以、青松日不、精诚无限。从而开启。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 81.14,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 87.13,
+        "rhyme_score_percentage": 50.0,
+        "parsed_clauses": [
+          "南山阳气",
+          "重邮学潮流",
+          "AI之术",
+          "双一行成就显",
+          "远方星慧",
+          "人工心智生长兴",
+          "月光般",
+          "金黄正值",
+          "众多师友",
+          "深情凝聚",
+          "共创胜利",
+          "空中飞",
+          "春华落地",
+          "象征着新梦",
+          "红叶秋意",
+          "美丽前程",
+          "校内传闻和世",
+          "神经网络思维与",
+          "算优先论理过以",
+          "青松日不",
+          "精诚无限",
+          "从而开启"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "重邮学潮流",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 3,
+                "clause": "双一行成就显",
+                "pattern": "中仄平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 5,
+                "clause": "人工心智生长兴",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "长",
+                    "position_in_clause": 5,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "兴",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 7,
+                "clause": "金黄正值",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "正",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "值",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 10,
+                "clause": "共创胜利",
+                "pattern": "中平平仄",
+                "mismatches": [
+                  {
+                    "char": "创",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "胜",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 11,
+                "clause": "空中飞",
+                "pattern": "仄中中",
+                "mismatches": [
+                  {
+                    "char": "空",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 13,
+                "clause": "象征着新梦",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "着",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 16,
+                "clause": "校内传闻和世",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "传",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "算优先论理过以",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "过",
+                    "position_in_clause": 5,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 21,
+                "clause": "从而开启",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "从",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 88,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "气",
+                  "术",
+                  "慧",
+                  "值",
+                  "利"
+                ],
+                "xinyun_map": {
+                  "十二齐": [
+                    {
+                      "position": 1,
+                      "char": "气"
+                    },
+                    {
+                      "position": 11,
+                      "char": "利"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 3,
+                      "char": "术"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 5,
+                      "char": "慧"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 8,
+                      "char": "值"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 2,
+                "total_count": 5,
+                "group_score": 0.4
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "地",
+                  "意",
+                  "世",
+                  "以",
+                  "启"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 13,
+                      "char": "地"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 13,
+                      "char": "地"
+                    },
+                    {
+                      "position": 15,
+                      "char": "意"
+                    },
+                    {
+                      "position": 22,
+                      "char": "启"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 17,
+                      "char": "世"
+                    },
+                    {
+                      "position": 19,
+                      "char": "以"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.5
+          }
+        }
+      }
+    },
+    {
+      "work_index": 17,
+      "poem_text": "重邮的桂\n在南野中香\n春华秋意\n满树林间万紫\n富丽人士\n衣冠首品红梅一\n锦花三、四合而为\n美之原则\n神经网络\n深层风气\n思潮不、平流动是\n智慧海洋无\n限所能比\n大理心灵\n安和宁松如水\n清波静止于河口\n学堂繁荣成双以\n行天地至\n算盘圆周\n数量精细",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 79.62,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 92.08,
+        "rhyme_score_percentage": 40.0,
+        "parsed_clauses": [
+          "重邮的桂",
+          "在南野中香",
+          "春华秋意",
+          "满树林间万紫",
+          "富丽人士",
+          "衣冠首品红梅一",
+          "锦花三",
+          "四合而为",
+          "美之原则",
+          "神经网络",
+          "深层风气",
+          "思潮不",
+          "平流动是",
+          "智慧海洋无",
+          "限所能比",
+          "大理心灵",
+          "安和宁松如水",
+          "清波静止于河口",
+          "学堂繁荣成双以",
+          "行天地至",
+          "算盘圆周",
+          "数量精细"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 4,
+                "clause": "富丽人士",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "丽",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "衣冠首品红梅一",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 8,
+                "clause": "美之原则",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "则",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 11,
+                "clause": "思潮不",
+                "pattern": "仄中中",
+                "mismatches": [
+                  {
+                    "char": "思",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 16,
+                "clause": "安和宁松如水",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "和",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "宁",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "学堂繁荣成双以",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 21,
+                "clause": "数量精细",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "量",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 93,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "桂",
+                  "意",
+                  "士",
+                  "为",
+                  "气"
+                ],
+                "xinyun_map": {
+                  "五微": [
+                    {
+                      "position": 1,
+                      "char": "桂"
+                    },
+                    {
+                      "position": 8,
+                      "char": "为"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 3,
+                      "char": "意"
+                    },
+                    {
+                      "position": 11,
+                      "char": "气"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 5,
+                      "char": "士"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "五微",
+                "match_count": 2,
+                "total_count": 5,
+                "group_score": 0.4
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "是",
+                  "比",
+                  "水",
+                  "以",
+                  "细"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 13,
+                      "char": "是"
+                    },
+                    {
+                      "position": 19,
+                      "char": "以"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 15,
+                      "char": "比"
+                    },
+                    {
+                      "position": 22,
+                      "char": "细"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 17,
+                      "char": "水"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十三支",
+                "match_count": 2,
+                "total_count": 5,
+                "group_score": 0.4
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.4
+          }
+        }
+      }
+    },
+    {
+      "work_index": 19,
+      "poem_text": "重庆邮电、北方的南山、双一流展，桂叶香风自带，学堂中传、人工之术融成意，教书不、理想高远、向前看日、气无限长。 AI声援 \n众多天、神经网穿、智慧大街上、信息飞慢、数据丰收、心有道真相见。梨花如月光和象、白衣师生走廊间、情怀深厚、友基尚广。又黄梅鲜。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 96.44,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 88.12,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "重庆邮电",
+          "北方的南山",
+          "双一流展",
+          "桂叶香风自带",
+          "学堂中传",
+          "人工之术融成意",
+          "教书不",
+          "理想高远",
+          "向前看日",
+          "气无限长",
+          "AI声援",
+          "众多天",
+          "神经网穿",
+          "智慧大街上",
+          "信息飞慢",
+          "数据丰收",
+          "心有道真相见",
+          "梨花如月光和象",
+          "白衣师生走廊间",
+          "情怀深厚",
+          "友基尚广",
+          "又黄梅鲜"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "重庆邮电",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "庆",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 1,
+                "clause": "北方的南山",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "的",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 4,
+                "clause": "学堂中传",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "传",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 6,
+                "clause": "教书不",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "不",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 8,
+                "clause": "向前看日",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "看",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 10,
+                "clause": "AI声援",
+                "pattern": "中平平仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  },
+                  {
+                    "char": "援",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "神经网穿",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "穿",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 18,
+                "clause": "白衣师生走廊间",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "白",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "间",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 21,
+                "clause": "又黄梅鲜",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "鲜",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 89,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "电",
+                  "展",
+                  "传",
+                  "远",
+                  "援"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 1,
+                      "char": "电"
+                    },
+                    {
+                      "position": 3,
+                      "char": "展"
+                    },
+                    {
+                      "position": 5,
+                      "char": "传"
+                    },
+                    {
+                      "position": 8,
+                      "char": "远"
+                    },
+                    {
+                      "position": 11,
+                      "char": "援"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "穿",
+                  "慢",
+                  "见",
+                  "间",
+                  "鲜"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 13,
+                      "char": "穿"
+                    },
+                    {
+                      "position": 15,
+                      "char": "慢"
+                    },
+                    {
+                      "position": 17,
+                      "char": "见"
+                    },
+                    {
+                      "position": 19,
+                      "char": "间"
+                    },
+                    {
+                      "position": 22,
+                      "char": "鲜"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 20,
+      "poem_text": "正文重庆，月明照南山，桂枝香竞，花径开春华色。富民之盛，学人心尚新鲜中，夜不离、日尽天兴。长江东首，三高相伴，神州先行。\n一朝千、平然客影，晚游百川如，品酒深静，知趣随情。双信地创科境，智风共享光和气，立于当时既为更。西流向大，北飞成远，国公同胜。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 97.33,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 91.09,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "正文重庆",
+          "月明照南山",
+          "桂枝香竞",
+          "花径开春华色",
+          "富民之盛",
+          "学人心尚新鲜中",
+          "夜不离",
+          "日尽天兴",
+          "长江东首",
+          "三高相伴",
+          "神州先行",
+          "一朝千",
+          "平然客影",
+          "晚游百川如",
+          "品酒深静",
+          "知趣随情",
+          "双信地创科境",
+          "智风共享光和气",
+          "立于当时既为更",
+          "西流向大",
+          "北飞成远",
+          "国公同胜"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 3,
+                "clause": "花径开春华色",
+                "pattern": "中仄平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 4,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 5,
+                "clause": "学人心尚新鲜中",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "中",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 6,
+                "clause": "夜不离",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "不",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 7,
+                "clause": "日尽天兴",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "兴",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 10,
+                "clause": "神州先行",
+                "pattern": "中平平仄",
+                "mismatches": [
+                  {
+                    "char": "行",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 11,
+                "clause": "一朝千",
+                "pattern": "仄中中",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 16,
+                "clause": "双信地创科境",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "创",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 18,
+                "clause": "立于当时既为更",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "为",
+                    "position_in_clause": 5,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 21,
+                "clause": "国公同胜",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "国",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 92,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "庆",
+                  "竞",
+                  "盛",
+                  "兴",
+                  "行"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 1,
+                      "char": "庆"
+                    },
+                    {
+                      "position": 3,
+                      "char": "竞"
+                    },
+                    {
+                      "position": 5,
+                      "char": "盛"
+                    },
+                    {
+                      "position": 8,
+                      "char": "兴"
+                    },
+                    {
+                      "position": 11,
+                      "char": "行"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 11,
+                      "char": "行"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "影",
+                  "静",
+                  "境",
+                  "更",
+                  "胜"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 13,
+                      "char": "影"
+                    },
+                    {
+                      "position": 15,
+                      "char": "静"
+                    },
+                    {
+                      "position": 17,
+                      "char": "境"
+                    },
+                    {
+                      "position": 19,
+                      "char": "更"
+                    },
+                    {
+                      "position": 22,
+                      "char": "胜"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 21,
+      "poem_text": "南山的月、映在重邮门，\n桂枝香滑，气象佳明显地。\n学风严洁，师生为一家团体，\n合而言、平和如雪。\n夜深人静，神经网络，\nAI之达。\n实验室、灯光点不、灭也照成金。\n无论天发、日落时分，\n这片校园场涉、情同花海中间似。\n以科研强大身列、双流首级，\n带来新事、广开先烈。",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 84.73,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 89.11,
+        "rhyme_score_percentage": 60.0,
+        "parsed_clauses": [
+          "南山的月",
+          "映在重邮门",
+          "桂枝香滑",
+          "气象佳明显地",
+          "学风严洁",
+          "师生为一家团体",
+          "合而言",
+          "平和如雪",
+          "夜深人静",
+          "神经网络",
+          "AI之达",
+          "实验室",
+          "灯光点不",
+          "灭也照成金",
+          "无论天发",
+          "日落时分",
+          "这片校园场涉",
+          "情同花海中间似",
+          "以科研强大身列",
+          "双流首级",
+          "带来新事",
+          "广开先烈"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 2,
+                "clause": "桂枝香滑",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "滑",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 4,
+                "clause": "学风严洁",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "洁",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "师生为一家团体",
+                "pattern": "中平中仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 6,
+                "clause": "合而言",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "合",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 10,
+                "clause": "AI之达",
+                "pattern": "中平平仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  },
+                  {
+                    "char": "达",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 11,
+                "clause": "实验室",
+                "pattern": "仄中中",
+                "mismatches": [
+                  {
+                    "char": "实",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 14,
+                "clause": "无论天发",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 16,
+                "clause": "这片校园场涉",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 19,
+                "clause": "双流首级",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "级",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 90,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "月",
+                  "滑",
+                  "洁",
+                  "雪",
+                  "达"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 1,
+                      "char": "月"
+                    },
+                    {
+                      "position": 3,
+                      "char": "滑"
+                    }
+                  ],
+                  "三皆": [
+                    {
+                      "position": 1,
+                      "char": "月"
+                    },
+                    {
+                      "position": 5,
+                      "char": "洁"
+                    },
+                    {
+                      "position": 8,
+                      "char": "雪"
+                    }
+                  ],
+                  "一麻": [
+                    {
+                      "position": 3,
+                      "char": "滑"
+                    },
+                    {
+                      "position": 11,
+                      "char": "达"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 5,
+                      "char": "洁"
+                    },
+                    {
+                      "position": 11,
+                      "char": "达"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "三皆",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "不",
+                  "发",
+                  "涉",
+                  "列",
+                  "烈"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 13,
+                      "char": "不"
+                    }
+                  ],
+                  "七尤": [
+                    {
+                      "position": 13,
+                      "char": "不"
+                    }
+                  ],
+                  "一麻": [
+                    {
+                      "position": 15,
+                      "char": "发"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 17,
+                      "char": "涉"
+                    }
+                  ],
+                  "三皆": [
+                    {
+                      "position": 17,
+                      "char": "涉"
+                    },
+                    {
+                      "position": 19,
+                      "char": "列"
+                    },
+                    {
+                      "position": 22,
+                      "char": "烈"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 19,
+                      "char": "列"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "三皆",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.6
+          }
+        }
+      }
+    },
+    {
+      "work_index": 22,
+      "poem_text": "重邮南横、桂枝华芳香\n双一流顶、校友情心暖广\n四川春景、梨花似锦间中又\n万人联、神经环应\n智诚之道、AI深处\n灵魂交冷\n学业声、天降落听\n百思不前无\n同志相胜、东岳光临\n青气若方知境\n黄河自古传承力\n长江风雨依山行\n三教九艺、繁荣岁月\n国潮正兴",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 96.44,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 88.12,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "重邮南横",
+          "桂枝华芳香",
+          "双一流顶",
+          "校友情心暖广",
+          "四川春景",
+          "梨花似锦间中又",
+          "万人联",
+          "神经环应",
+          "智诚之道",
+          "AI深处",
+          "灵魂交冷",
+          "学业声",
+          "天降落听",
+          "百思不前无",
+          "同志相胜",
+          "东岳光临",
+          "青气若方知境",
+          "黄河自古传承力",
+          "长江风雨依山行",
+          "三教九艺",
+          "繁荣岁月",
+          "国潮正兴"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 0,
+                "clause": "重邮南横",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "横",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 1,
+                "clause": "桂枝华芳香",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "神经环应",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "应",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "AI深处",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 11,
+                "clause": "学业声",
+                "pattern": "仄中中",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 12,
+                "clause": "天降落听",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "降",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "听",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 18,
+                "clause": "长江风雨依山行",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "行",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 19,
+                "clause": "三教九艺",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "教",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 21,
+                "clause": "国潮正兴",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "国",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "正",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "兴",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 89,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "横",
+                  "顶",
+                  "景",
+                  "应",
+                  "冷"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 1,
+                      "char": "横"
+                    },
+                    {
+                      "position": 3,
+                      "char": "顶"
+                    },
+                    {
+                      "position": 5,
+                      "char": "景"
+                    },
+                    {
+                      "position": 8,
+                      "char": "应"
+                    },
+                    {
+                      "position": 11,
+                      "char": "冷"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 1,
+                      "char": "横"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "听",
+                  "胜",
+                  "境",
+                  "行",
+                  "兴"
+                ],
+                "xinyun_map": {
+                  "九文": [
+                    {
+                      "position": 13,
+                      "char": "听"
+                    }
+                  ],
+                  "十一庚": [
+                    {
+                      "position": 13,
+                      "char": "听"
+                    },
+                    {
+                      "position": 15,
+                      "char": "胜"
+                    },
+                    {
+                      "position": 17,
+                      "char": "境"
+                    },
+                    {
+                      "position": 19,
+                      "char": "行"
+                    },
+                    {
+                      "position": 22,
+                      "char": "兴"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 13,
+                      "char": "听"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 19,
+                      "char": "行"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 23,
+      "poem_text": "重邮南岳，桂枝独特香\n春华秋错，阳影横城空中\n树林深度，梨花无限开光普\n白云间、天地安若\n在神经网，AI之术\n流传千角\n半月黄、西风吹落\n大理石声响，真实情觉\n海底沉船，虚构不容人作\n静思远道三江口\n学堂门前日新博\n双创一品，东方智慧\n尚书陈数",
+      "evaluation": {
+        "cipai": "桂枝香",
+        "variant": "王安石",
+        "rhyme_type": "仄韵",
+        "length_category": "long",
+        "total_score_percentage": 87.73,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 89.11,
+        "rhyme_score_percentage": 70.0,
+        "parsed_clauses": [
+          "重邮南岳",
+          "桂枝独特香",
+          "春华秋错",
+          "阳影横城空中",
+          "树林深度",
+          "梨花无限开光普",
+          "白云间",
+          "天地安若",
+          "在神经网",
+          "AI之术",
+          "流传千角",
+          "半月黄",
+          "西风吹落",
+          "大理石声响",
+          "真实情觉",
+          "海底沉船",
+          "虚构不容人作",
+          "静思远道三江口",
+          "学堂门前日新博",
+          "双创一品",
+          "东方智慧",
+          "尚书陈数"
+        ],
+        "parsed_clause_count": 22,
+        "template_line_count": 22,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "桂枝独特香",
+                "pattern": "仄中仄中平",
+                "mismatches": [
+                  {
+                    "char": "独",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 3,
+                "clause": "阳影横城空中",
+                "pattern": "中仄平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "空",
+                    "position_in_clause": 4,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 6,
+                "clause": "白云间",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "白",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 9,
+                "clause": "AI之术",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "I",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 12,
+                "clause": "西风吹落",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "吹",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "大理石声响",
+                "pattern": "仄中仄平中",
+                "mismatches": [
+                  {
+                    "char": "石",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 14,
+                "clause": "真实情觉",
+                "pattern": "中中平仄",
+                "mismatches": [
+                  {
+                    "char": "觉",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 18,
+                "clause": "学堂门前日新博",
+                "pattern": "仄平平中中平仄",
+                "mismatches": [
+                  {
+                    "char": "学",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "博",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 19,
+                "clause": "双创一品",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "创",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 90,
+            "total_char_count": 101
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  3,
+                  5,
+                  8,
+                  11
+                ],
+                "chars": [
+                  "岳",
+                  "错",
+                  "度",
+                  "若",
+                  "角"
+                ],
+                "xinyun_map": {
+                  "三皆": [
+                    {
+                      "position": 1,
+                      "char": "岳"
+                    },
+                    {
+                      "position": 11,
+                      "char": "角"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 3,
+                      "char": "错"
+                    },
+                    {
+                      "position": 5,
+                      "char": "度"
+                    },
+                    {
+                      "position": 8,
+                      "char": "若"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 5,
+                      "char": "度"
+                    },
+                    {
+                      "position": 11,
+                      "char": "角"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 5,
+                      "char": "度"
+                    }
+                  ],
+                  "六豪": [
+                    {
+                      "position": 11,
+                      "char": "角"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "二波",
+                "match_count": 3,
+                "total_count": 5,
+                "group_score": 0.6
+              },
+              {
+                "positions": [
+                  13,
+                  15,
+                  17,
+                  19,
+                  22
+                ],
+                "chars": [
+                  "落",
+                  "觉",
+                  "作",
+                  "博",
+                  "数"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 13,
+                      "char": "落"
+                    },
+                    {
+                      "position": 17,
+                      "char": "作"
+                    },
+                    {
+                      "position": 19,
+                      "char": "博"
+                    },
+                    {
+                      "position": 22,
+                      "char": "数"
+                    }
+                  ],
+                  "六豪": [
+                    {
+                      "position": 13,
+                      "char": "落"
+                    },
+                    {
+                      "position": 15,
+                      "char": "觉"
+                    }
+                  ],
+                  "一麻": [
+                    {
+                      "position": 13,
+                      "char": "落"
+                    }
+                  ],
+                  "三皆": [
+                    {
+                      "position": 15,
+                      "char": "觉"
+                    }
+                  ],
+                  "十四姑": [
+                    {
+                      "position": 22,
+                      "char": "数"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "二波",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.7
+          }
+        }
+      }
+    }
+  ]
+}

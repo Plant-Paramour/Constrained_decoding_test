@@ -1,0 +1,5345 @@
+{
+  "source_file": "谢池春_谢池春·讽懂王.txt",
+  "cipai": "谢池春",
+  "works_evaluated": 20,
+  "average_scores": {
+    "average_total_score": 92.41,
+    "average_structure_score": 100.0,
+    "average_tonal_score": 84.09,
+    "average_rhyme_score": 90.62
+  },
+  "individual_results": [
+    {
+      "work_index": 1,
+      "poem_text": "橘脸昂然，金发卷浪惊四。夜敲键、推文长似。圣令下传；假新闻重背。懂王称、独通天意。\n巴黎弃约，税锤打回鞋底。盟邦愁、军资索费。红冠闯乱；铁栏撞折尾。国中笑、梦醒空椅。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 82.84,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 80.3,
+        "rhyme_score_percentage": 62.5,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪惊四",
+          "夜敲键",
+          "推文长似",
+          "圣令下传",
+          "假新闻重背",
+          "懂王称",
+          "独通天意",
+          "巴黎弃约",
+          "税锤打回鞋底",
+          "盟邦愁",
+          "军资索费",
+          "红冠闯乱",
+          "铁栏撞折尾",
+          "国中笑",
+          "梦醒空椅"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪惊四",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣令下传",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "令",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "传",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "假新闻重背",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "重",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "独通天意",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "独",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎弃约",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "约",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "税锤打回鞋底",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "锤",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 10,
+                "clause": "盟邦愁",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "盟",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 13,
+                "clause": "铁栏撞折尾",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "撞",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 14,
+                "clause": "国中笑",
+                "pattern": "仄平中",
+                "mismatches": [
+                  {
+                    "char": "国",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 15,
+                "clause": "梦醒空椅",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "醒",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 53,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "四",
+                  "似",
+                  "背",
+                  "意"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 2,
+                      "char": "四"
+                    },
+                    {
+                      "position": 4,
+                      "char": "似"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 6,
+                      "char": "背"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 8,
+                      "char": "意"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十三支",
+                "match_count": 2,
+                "total_count": 4,
+                "group_score": 0.5
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "底",
+                  "费",
+                  "尾",
+                  "椅"
+                ],
+                "xinyun_map": {
+                  "二波": [
+                    {
+                      "position": 10,
+                      "char": "底"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 10,
+                      "char": "底"
+                    },
+                    {
+                      "position": 14,
+                      "char": "尾"
+                    },
+                    {
+                      "position": 16,
+                      "char": "椅"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 12,
+                      "char": "费"
+                    },
+                    {
+                      "position": 14,
+                      "char": "尾"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 3,
+                "total_count": 4,
+                "group_score": 0.75
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.625
+          }
+        }
+      }
+    },
+    {
+      "work_index": 2,
+      "poem_text": "橘色颜容，金发卷浪风中。夜深敲、推键长空。假新闻复；圣旨过鞋踵。退群成、炮声隆重。\n巴黎协定，对华加征关勇。勒盟军、财源涌动。农民破产；市场摇惊梦。铁杆散、剩高球纵。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.45,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 84.85,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘色颜容",
+          "金发卷浪风中",
+          "夜深敲",
+          "推键长空",
+          "假新闻复",
+          "圣旨过鞋踵",
+          "退群成",
+          "炮声隆重",
+          "巴黎协定",
+          "对华加征关勇",
+          "勒盟军",
+          "财源涌动",
+          "农民破产",
+          "市场摇惊梦",
+          "铁杆散",
+          "剩高球纵"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "推键长空",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "空",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "圣旨过鞋踵",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "过",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "对华加征关勇",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 10,
+                "clause": "勒盟军",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "勒",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 13,
+                "clause": "市场摇惊梦",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 56,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "空",
+                  "踵",
+                  "重"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "空"
+                    },
+                    {
+                      "position": 6,
+                      "char": "踵"
+                    },
+                    {
+                      "position": 8,
+                      "char": "重"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "勇",
+                  "动",
+                  "梦",
+                  "纵"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "勇"
+                    },
+                    {
+                      "position": 12,
+                      "char": "动"
+                    },
+                    {
+                      "position": 14,
+                      "char": "梦"
+                    },
+                    {
+                      "position": 16,
+                      "char": "纵"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 3,
+      "poem_text": "橘脸昂头，金发卷浪狂调。夜敲键、推文长啸。假新闻复？懂王谁比巧？退群成、誓要炮闹。\n巴黎协定，税锤抛过腰罩。铁杆折、球场套号。农民倒尽？剩高斯骄傲。一朝笑、梦醒空跳。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 94.55,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 81.82,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂头",
+          "金发卷浪狂调",
+          "夜敲键",
+          "推文长啸",
+          "假新闻复",
+          "懂王谁比巧",
+          "退群成",
+          "誓要炮闹",
+          "巴黎协定",
+          "税锤抛过腰罩",
+          "铁杆折",
+          "球场套号",
+          "农民倒尽",
+          "剩高斯骄傲",
+          "一朝笑",
+          "梦醒空跳"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪狂调",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 5,
+                "clause": "懂王谁比巧",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "比",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "誓要炮闹",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "要",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "炮",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "税锤抛过腰罩",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "锤",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "过",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 11,
+                "clause": "球场套号",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 14,
+                "clause": "一朝笑",
+                "pattern": "仄平中",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 15,
+                "clause": "梦醒空跳",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "醒",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 54,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "调",
+                  "啸",
+                  "巧",
+                  "闹"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 2,
+                      "char": "调"
+                    },
+                    {
+                      "position": 4,
+                      "char": "啸"
+                    },
+                    {
+                      "position": 6,
+                      "char": "巧"
+                    },
+                    {
+                      "position": 8,
+                      "char": "闹"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "罩",
+                  "号",
+                  "傲",
+                  "跳"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 10,
+                      "char": "罩"
+                    },
+                    {
+                      "position": 12,
+                      "char": "号"
+                    },
+                    {
+                      "position": 14,
+                      "char": "傲"
+                    },
+                    {
+                      "position": 16,
+                      "char": "跳"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 4,
+      "poem_text": "橘脸昂头，金发卷浪惊四。夜深敲、键盘响似。圣言自诩；假报如潮起。退群成、炮声轰地。\n巴黎协定，铁杆散场梦碎。税锤挥、盟邦泪洗。农民破产；股林摇轿子。懂王笑、套中牢底。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 80.91,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 86.36,
+        "rhyme_score_percentage": 50.0,
+        "parsed_clauses": [
+          "橘脸昂头",
+          "金发卷浪惊四",
+          "夜深敲",
+          "键盘响似",
+          "圣言自诩",
+          "假报如潮起",
+          "退群成",
+          "炮声轰地",
+          "巴黎协定",
+          "铁杆散场梦碎",
+          "税锤挥",
+          "盟邦泪洗",
+          "农民破产",
+          "股林摇轿子",
+          "懂王笑",
+          "套中牢底"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪惊四",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "键盘响似",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 0,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "铁杆散场梦碎",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "杆",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "场",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "梦",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 13,
+                "clause": "股林摇轿子",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "轿",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "子",
+                    "position_in_clause": 4,
+                    "required_tone": "仄",
+                    "actual_tone": "中"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 57,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "四",
+                  "似",
+                  "起",
+                  "地"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 2,
+                      "char": "四"
+                    },
+                    {
+                      "position": 4,
+                      "char": "似"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 6,
+                      "char": "起"
+                    },
+                    {
+                      "position": 8,
+                      "char": "地"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 8,
+                      "char": "地"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十三支",
+                "match_count": 2,
+                "total_count": 4,
+                "group_score": 0.5
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "碎",
+                  "洗",
+                  "子",
+                  "底"
+                ],
+                "xinyun_map": {
+                  "五微": [
+                    {
+                      "position": 10,
+                      "char": "碎"
+                    }
+                  ],
+                  "八寒": [
+                    {
+                      "position": 12,
+                      "char": "洗"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 12,
+                      "char": "洗"
+                    },
+                    {
+                      "position": 16,
+                      "char": "底"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 14,
+                      "char": "子"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 16,
+                      "char": "底"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十二齐",
+                "match_count": 2,
+                "total_count": 4,
+                "group_score": 0.5
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.5
+          }
+        }
+      }
+    },
+    {
+      "work_index": 5,
+      "poem_text": "橘脸昂然，金发卷浪惊四。夜敲键、推文长似。圣言复读？懂王称冠世。闹全球、退群如厕。\n巴黎协定，铁腕撕书狂气。税锤挥、盟邦叫累。军需勒索？白宫梦回睡。帽飘摇、铁杆凋萎。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 92.61,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 87.88,
+        "rhyme_score_percentage": 87.5,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪惊四",
+          "夜敲键",
+          "推文长似",
+          "圣言复读",
+          "懂王称冠世",
+          "闹全球",
+          "退群如厕",
+          "巴黎协定",
+          "铁腕撕书狂气",
+          "税锤挥",
+          "盟邦叫累",
+          "军需勒索",
+          "白宫梦回睡",
+          "帽飘摇",
+          "铁杆凋萎"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪惊四",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣言复读",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "读",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "白宫梦回睡",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "白",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "梦",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "铁杆凋萎",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "萎",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 58,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "四",
+                  "似",
+                  "世",
+                  "厕"
+                ],
+                "xinyun_map": {
+                  "十三支": [
+                    {
+                      "position": 2,
+                      "char": "四"
+                    },
+                    {
+                      "position": 4,
+                      "char": "似"
+                    },
+                    {
+                      "position": 6,
+                      "char": "世"
+                    },
+                    {
+                      "position": 8,
+                      "char": "厕"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 8,
+                      "char": "厕"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十三支",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "气",
+                  "累",
+                  "睡",
+                  "萎"
+                ],
+                "xinyun_map": {
+                  "十二齐": [
+                    {
+                      "position": 10,
+                      "char": "气"
+                    },
+                    {
+                      "position": 12,
+                      "char": "累"
+                    }
+                  ],
+                  "三皆": [
+                    {
+                      "position": 12,
+                      "char": "累"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 12,
+                      "char": "累"
+                    },
+                    {
+                      "position": 14,
+                      "char": "睡"
+                    },
+                    {
+                      "position": 16,
+                      "char": "萎"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "五微",
+                "match_count": 3,
+                "total_count": 4,
+                "group_score": 0.75
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.875
+          }
+        }
+      }
+    },
+    {
+      "work_index": 6,
+      "poem_text": "橘脸昂然，金发卷风浪闹。夜敲键、推文长啸。假新闻复；圣旨比鞋帽。退群炮、税关撞倒。\n红冠乱闯，铁栅难逃哨罩。豆堆坟、军令套叫。农夫破晓；股坛跳号掉。铁杆散、绿球骄傲。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.45,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 84.85,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷风浪闹",
+          "夜敲键",
+          "推文长啸",
+          "假新闻复",
+          "圣旨比鞋帽",
+          "退群炮",
+          "税关撞倒",
+          "红冠乱闯",
+          "铁栅难逃哨罩",
+          "豆堆坟",
+          "军令套叫",
+          "农夫破晓",
+          "股坛跳号掉",
+          "铁杆散",
+          "绿球骄傲"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷风浪闹",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 5,
+                "clause": "圣旨比鞋帽",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "比",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 6,
+                "clause": "退群炮",
+                "pattern": "仄中平",
+                "mismatches": [
+                  {
+                    "char": "炮",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 7,
+                "clause": "税关撞倒",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "撞",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "铁栅难逃哨罩",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "哨",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 11,
+                "clause": "军令套叫",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "令",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "股坛跳号掉",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "跳",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "号",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 56,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "闹",
+                  "啸",
+                  "帽",
+                  "倒"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 2,
+                      "char": "闹"
+                    },
+                    {
+                      "position": 4,
+                      "char": "啸"
+                    },
+                    {
+                      "position": 6,
+                      "char": "帽"
+                    },
+                    {
+                      "position": 8,
+                      "char": "倒"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "罩",
+                  "叫",
+                  "掉",
+                  "傲"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 10,
+                      "char": "罩"
+                    },
+                    {
+                      "position": 12,
+                      "char": "叫"
+                    },
+                    {
+                      "position": 14,
+                      "char": "掉"
+                    },
+                    {
+                      "position": 16,
+                      "char": "傲"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 14,
+                      "char": "掉"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 7,
+      "poem_text": "橘脸昂头，金发卷浪风中。夜深敲、键盘长梦。圣言自诩？假报重传空。懂王称、独醒无从。\n巴黎退约，税锤击回身肿。帽红冲、栏杆横纵。民穷财尽？股跳如惊恐。铁杆散、绿球终弄。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 94.09,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 80.3,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂头",
+          "金发卷浪风中",
+          "夜深敲",
+          "键盘长梦",
+          "圣言自诩",
+          "假报重传空",
+          "懂王称",
+          "独醒无从",
+          "巴黎退约",
+          "税锤击回身肿",
+          "帽红冲",
+          "栏杆横纵",
+          "民穷财尽",
+          "股跳如惊恐",
+          "铁杆散",
+          "绿球终弄"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "键盘长梦",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 0,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "假报重传空",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "重",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "空",
+                    "position_in_clause": 4,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "独醒无从",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "独",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "醒",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "从",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎退约",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "约",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "税锤击回身肿",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "锤",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 11,
+                "clause": "栏杆横纵",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "横",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "股跳如惊恐",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "跳",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 53,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "梦",
+                  "空",
+                  "从"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "梦"
+                    },
+                    {
+                      "position": 6,
+                      "char": "空"
+                    },
+                    {
+                      "position": 8,
+                      "char": "从"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "肿",
+                  "纵",
+                  "恐",
+                  "弄"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "肿"
+                    },
+                    {
+                      "position": 12,
+                      "char": "纵"
+                    },
+                    {
+                      "position": 14,
+                      "char": "恐"
+                    },
+                    {
+                      "position": 16,
+                      "char": "弄"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 8,
+      "poem_text": "橘脸昂扬，金发卷风浪笑。夜敲键、真言长叫。假新闻复；懂王夸号傲。退群炮、税锤抛帽。\n红冠撞铁，国会山头跳闹。豆堆坟、财单寄到。钢杆倒尽；绿球仍骄套。一梦了、戏台凋罩。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.91,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 86.36,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂扬",
+          "金发卷风浪笑",
+          "夜敲键",
+          "真言长叫",
+          "假新闻复",
+          "懂王夸号傲",
+          "退群炮",
+          "税锤抛帽",
+          "红冠撞铁",
+          "国会山头跳闹",
+          "豆堆坟",
+          "财单寄到",
+          "钢杆倒尽",
+          "绿球仍骄套",
+          "一梦了",
+          "戏台凋罩"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷风浪笑",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 5,
+                "clause": "懂王夸号傲",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "号",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 6,
+                "clause": "退群炮",
+                "pattern": "仄中平",
+                "mismatches": [
+                  {
+                    "char": "炮",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 9,
+                "clause": "国会山头跳闹",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "国",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "跳",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 14,
+                "clause": "一梦了",
+                "pattern": "仄平中",
+                "mismatches": [
+                  {
+                    "char": "一",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "梦",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 3
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 57,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "笑",
+                  "叫",
+                  "傲",
+                  "帽"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 2,
+                      "char": "笑"
+                    },
+                    {
+                      "position": 4,
+                      "char": "叫"
+                    },
+                    {
+                      "position": 6,
+                      "char": "傲"
+                    },
+                    {
+                      "position": 8,
+                      "char": "帽"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "闹",
+                  "到",
+                  "套",
+                  "罩"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 10,
+                      "char": "闹"
+                    },
+                    {
+                      "position": 12,
+                      "char": "到"
+                    },
+                    {
+                      "position": 14,
+                      "char": "套"
+                    },
+                    {
+                      "position": 16,
+                      "char": "罩"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 9,
+      "poem_text": "橘脸昂然，金发卷浪风中。夜敲键、真言长诵。假新闻复；圣旨高声捧。退群成、铁栏红肿。\n巴黎协定，税锤撞回梦中。盟邦愁、军资索重。农民穷尽；股盘摇盅弄。懂王笑、绿茵场纵。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.45,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 84.85,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪风中",
+          "夜敲键",
+          "真言长诵",
+          "假新闻复",
+          "圣旨高声捧",
+          "退群成",
+          "铁栏红肿",
+          "巴黎协定",
+          "税锤撞回梦中",
+          "盟邦愁",
+          "军资索重",
+          "农民穷尽",
+          "股盘摇盅弄",
+          "懂王笑",
+          "绿茵场纵"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "税锤撞回梦中",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "锤",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "梦",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 10,
+                "clause": "盟邦愁",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "盟",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 15,
+                "clause": "绿茵场纵",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 56,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "诵",
+                  "捧",
+                  "肿"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "诵"
+                    },
+                    {
+                      "position": 6,
+                      "char": "捧"
+                    },
+                    {
+                      "position": 8,
+                      "char": "肿"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "中",
+                  "重",
+                  "弄",
+                  "纵"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "中"
+                    },
+                    {
+                      "position": 12,
+                      "char": "重"
+                    },
+                    {
+                      "position": 14,
+                      "char": "弄"
+                    },
+                    {
+                      "position": 16,
+                      "char": "纵"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 10,
+      "poem_text": "橘脸昂然，金发卷浪敲键。圣令长、鞋跟踏遍。深更推特；假闻翻盘乱。懂王夸、世无双战。\n巴黎退盟，协定撕炮声漫。铁杆折、军师断线。农民破产；市场摇颠颤。剩高球、笑看人间。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.0,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 83.33,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪敲键",
+          "圣令长",
+          "鞋跟踏遍",
+          "深更推特",
+          "假闻翻盘乱",
+          "懂王夸",
+          "世无双战",
+          "巴黎退盟",
+          "协定撕炮声漫",
+          "铁杆折",
+          "军师断线",
+          "农民破产",
+          "市场摇颠颤",
+          "剩高球",
+          "笑看人间"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪敲键",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "圣令长",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "令",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "长",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 4,
+                "clause": "深更推特",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "更",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎退盟",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "盟",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "协定撕炮声漫",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "炮",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 13,
+                "clause": "市场摇颠颤",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "笑看人间",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "看",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "间",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 55,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "键",
+                  "遍",
+                  "乱",
+                  "战"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 2,
+                      "char": "键"
+                    },
+                    {
+                      "position": 4,
+                      "char": "遍"
+                    },
+                    {
+                      "position": 6,
+                      "char": "乱"
+                    },
+                    {
+                      "position": 8,
+                      "char": "战"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "漫",
+                  "线",
+                  "颤",
+                  "间"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 10,
+                      "char": "漫"
+                    },
+                    {
+                      "position": 12,
+                      "char": "线"
+                    },
+                    {
+                      "position": 14,
+                      "char": "颤"
+                    },
+                    {
+                      "position": 16,
+                      "char": "间"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 11,
+      "poem_text": "橘脸昂扬，金发卷浪风中。夜深敲、推键长空。圣言复读；自封王号哄。退群成、炮声轰动。\n巴黎协定，税锤击回梦中。铁杆折、军需强笼。农民破产；市场惊涛纵。剩高球、笑看红肿。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 93.18,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 77.27,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂扬",
+          "金发卷浪风中",
+          "夜深敲",
+          "推键长空",
+          "圣言复读",
+          "自封王号哄",
+          "退群成",
+          "炮声轰动",
+          "巴黎协定",
+          "税锤击回梦中",
+          "铁杆折",
+          "军需强笼",
+          "农民破产",
+          "市场惊涛纵",
+          "剩高球",
+          "笑看红肿"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "推键长空",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "空",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣言复读",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "读",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "自封王号哄",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "号",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "税锤击回梦中",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "锤",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "梦",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 11,
+                "clause": "军需强笼",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "强",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "笼",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "市场惊涛纵",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "笑看红肿",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "看",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 51,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "空",
+                  "哄",
+                  "动"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "空"
+                    },
+                    {
+                      "position": 6,
+                      "char": "哄"
+                    },
+                    {
+                      "position": 8,
+                      "char": "动"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "中",
+                  "笼",
+                  "纵",
+                  "肿"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "中"
+                    },
+                    {
+                      "position": 12,
+                      "char": "笼"
+                    },
+                    {
+                      "position": 14,
+                      "char": "纵"
+                    },
+                    {
+                      "position": 16,
+                      "char": "肿"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 12,
+      "poem_text": "橘脸昂然，金发卷浪摇曳。夜深敲、键声啸峙。假新闻复；圣旨长过履。懂王夸、世无双类。\n巴黎协定，退盟成痴呆块。对华加、关锤击碎。军师勒索；日韩援钱寄。铁杆散、剩高球醉。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 77.61,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 87.88,
+        "rhyme_score_percentage": 37.5,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪摇曳",
+          "夜深敲",
+          "键声啸峙",
+          "假新闻复",
+          "圣旨长过履",
+          "懂王夸",
+          "世无双类",
+          "巴黎协定",
+          "退盟成痴呆块",
+          "对华加",
+          "关锤击碎",
+          "军师勒索",
+          "日韩援钱寄",
+          "铁杆散",
+          "剩高球醉"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪摇曳",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "键声啸峙",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 0,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "圣旨长过履",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "长",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "过",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "退盟成痴呆块",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "盟",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 11,
+                "clause": "关锤击碎",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "击",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 58,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "曳",
+                  "峙",
+                  "履",
+                  "类"
+                ],
+                "xinyun_map": {
+                  "三皆": [
+                    {
+                      "position": 2,
+                      "char": "曳"
+                    }
+                  ],
+                  "十三支": [
+                    {
+                      "position": 4,
+                      "char": "峙"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 6,
+                      "char": "履"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 8,
+                      "char": "类"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "三皆",
+                "match_count": 1,
+                "total_count": 4,
+                "group_score": 0.25
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "块",
+                  "碎",
+                  "寄",
+                  "醉"
+                ],
+                "xinyun_map": {
+                  "四开": [
+                    {
+                      "position": 10,
+                      "char": "块"
+                    }
+                  ],
+                  "三皆": [
+                    {
+                      "position": 10,
+                      "char": "块"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 12,
+                      "char": "碎"
+                    },
+                    {
+                      "position": 16,
+                      "char": "醉"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 14,
+                      "char": "寄"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "五微",
+                "match_count": 2,
+                "total_count": 4,
+                "group_score": 0.5
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.375
+          }
+        }
+      }
+    },
+    {
+      "work_index": 13,
+      "poem_text": "橘脸昂扬，金发卷浪风中。夜深敲、推键长空。圣言复读？懂王称雄梦。退群成、炮声轰动。\n巴黎协定，铁杆散场红肿。对华加、关垒重重。军师勒索？白宫高谈讽。铁杆尽、剩球挥弄。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.0,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 83.33,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂扬",
+          "金发卷浪风中",
+          "夜深敲",
+          "推键长空",
+          "圣言复读",
+          "懂王称雄梦",
+          "退群成",
+          "炮声轰动",
+          "巴黎协定",
+          "铁杆散场红肿",
+          "对华加",
+          "关垒重重",
+          "军师勒索",
+          "白宫高谈讽",
+          "铁杆尽",
+          "剩球挥弄"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "推键长空",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "空",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣言复读",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "读",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "铁杆散场红肿",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "杆",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "场",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 11,
+                "clause": "关垒重重",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "垒",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "白宫高谈讽",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "白",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 55,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "空",
+                  "梦",
+                  "动"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "空"
+                    },
+                    {
+                      "position": 6,
+                      "char": "梦"
+                    },
+                    {
+                      "position": 8,
+                      "char": "动"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "肿",
+                  "重",
+                  "讽",
+                  "弄"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "肿"
+                    },
+                    {
+                      "position": 12,
+                      "char": "重"
+                    },
+                    {
+                      "position": 14,
+                      "char": "讽"
+                    },
+                    {
+                      "position": 16,
+                      "char": "弄"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 14,
+      "poem_text": "橘脸昂头，金发卷风浪闹。夜敲键、真言复道。圣令长过？铁杆摇炮套。退群成、盟邦号叫。\n巴黎协定，大豆堆坟调笑。勒钱声、军师倒帽。农民破产？剩高球跳啸。自夸人、独醒谁料。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 94.09,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 80.3,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂头",
+          "金发卷风浪闹",
+          "夜敲键",
+          "真言复道",
+          "圣令长过",
+          "铁杆摇炮套",
+          "退群成",
+          "盟邦号叫",
+          "巴黎协定",
+          "大豆堆坟调笑",
+          "勒钱声",
+          "军师倒帽",
+          "农民破产",
+          "剩高球跳啸",
+          "自夸人",
+          "独醒谁料"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷风浪闹",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣令长过",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "令",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "铁杆摇炮套",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "炮",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "盟邦号叫",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "盟",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "号",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "大豆堆坟调笑",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "调",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 10,
+                "clause": "勒钱声",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "勒",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 13,
+                "clause": "剩高球跳啸",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "跳",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "独醒谁料",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "独",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "醒",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 53,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "闹",
+                  "道",
+                  "套",
+                  "叫"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 2,
+                      "char": "闹"
+                    },
+                    {
+                      "position": 4,
+                      "char": "道"
+                    },
+                    {
+                      "position": 6,
+                      "char": "套"
+                    },
+                    {
+                      "position": 8,
+                      "char": "叫"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "笑",
+                  "帽",
+                  "啸",
+                  "料"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 10,
+                      "char": "笑"
+                    },
+                    {
+                      "position": 12,
+                      "char": "帽"
+                    },
+                    {
+                      "position": 14,
+                      "char": "啸"
+                    },
+                    {
+                      "position": 16,
+                      "char": "料"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 15,
+      "poem_text": "橘脸昂头，金发卷浪惊海。夜敲键、推文漫洒。假新闻复；圣旨长过带。退群成、铁栏撞坏。\n巴黎协定，对华加征重债。勒军资、盟邦讨价。农民破败；剩高球狂摆。铁杆散、粉丝逃戴。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 87.95,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 84.85,
+        "rhyme_score_percentage": 75.0,
+        "parsed_clauses": [
+          "橘脸昂头",
+          "金发卷浪惊海",
+          "夜敲键",
+          "推文漫洒",
+          "假新闻复",
+          "圣旨长过带",
+          "退群成",
+          "铁栏撞坏",
+          "巴黎协定",
+          "对华加征重债",
+          "勒军资",
+          "盟邦讨价",
+          "农民破败",
+          "剩高球狂摆",
+          "铁杆散",
+          "粉丝逃戴"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪惊海",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 5,
+                "clause": "圣旨长过带",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "长",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "过",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "铁栏撞坏",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "撞",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "对华加征重债",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "重",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 10,
+                "clause": "勒军资",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "勒",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 56,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "海",
+                  "洒",
+                  "带",
+                  "坏"
+                ],
+                "xinyun_map": {
+                  "四开": [
+                    {
+                      "position": 2,
+                      "char": "海"
+                    },
+                    {
+                      "position": 6,
+                      "char": "带"
+                    },
+                    {
+                      "position": 8,
+                      "char": "坏"
+                    }
+                  ],
+                  "九文": [
+                    {
+                      "position": 4,
+                      "char": "洒"
+                    }
+                  ],
+                  "一麻": [
+                    {
+                      "position": 4,
+                      "char": "洒"
+                    }
+                  ],
+                  "八寒": [
+                    {
+                      "position": 4,
+                      "char": "洒"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 4,
+                      "char": "洒"
+                    },
+                    {
+                      "position": 8,
+                      "char": "坏"
+                    }
+                  ],
+                  "五微": [
+                    {
+                      "position": 4,
+                      "char": "洒"
+                    },
+                    {
+                      "position": 8,
+                      "char": "坏"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "四开",
+                "match_count": 3,
+                "total_count": 4,
+                "group_score": 0.75
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "债",
+                  "价",
+                  "摆",
+                  "戴"
+                ],
+                "xinyun_map": {
+                  "四开": [
+                    {
+                      "position": 10,
+                      "char": "债"
+                    },
+                    {
+                      "position": 14,
+                      "char": "摆"
+                    },
+                    {
+                      "position": 16,
+                      "char": "戴"
+                    }
+                  ],
+                  "一麻": [
+                    {
+                      "position": 12,
+                      "char": "价"
+                    }
+                  ],
+                  "三皆": [
+                    {
+                      "position": 12,
+                      "char": "价"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "四开",
+                "match_count": 3,
+                "total_count": 4,
+                "group_score": 0.75
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.75
+          }
+        }
+      }
+    },
+    {
+      "work_index": 16,
+      "poem_text": "橘色颜开，金发卷浪如海。夜深敲、键盘响带。假新闻复；懂王夸称岂？圣旨长、过鞋尖外。\n巴黎协定，退众成狂胎袋。对华加、关征税怪。盟邦勒索；铁杆消灾败。剩高球、耀残骸代。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 97.73,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 92.42,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘色颜开",
+          "金发卷浪如海",
+          "夜深敲",
+          "键盘响带",
+          "假新闻复",
+          "懂王夸称岂",
+          "圣旨长",
+          "过鞋尖外",
+          "巴黎协定",
+          "退众成狂胎袋",
+          "对华加",
+          "关征税怪",
+          "盟邦勒索",
+          "铁杆消灾败",
+          "剩高球",
+          "耀残骸代"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪如海",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 3,
+                "clause": "键盘响带",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 0,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 6,
+                "clause": "圣旨长",
+                "pattern": "仄中平",
+                "mismatches": [
+                  {
+                    "char": "长",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 61,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "海",
+                  "带",
+                  "岂",
+                  "外"
+                ],
+                "xinyun_map": {
+                  "四开": [
+                    {
+                      "position": 2,
+                      "char": "海"
+                    },
+                    {
+                      "position": 4,
+                      "char": "带"
+                    },
+                    {
+                      "position": 6,
+                      "char": "岂"
+                    },
+                    {
+                      "position": 8,
+                      "char": "外"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 6,
+                      "char": "岂"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "四开",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "袋",
+                  "怪",
+                  "败",
+                  "代"
+                ],
+                "xinyun_map": {
+                  "四开": [
+                    {
+                      "position": 10,
+                      "char": "袋"
+                    },
+                    {
+                      "position": 12,
+                      "char": "怪"
+                    },
+                    {
+                      "position": 14,
+                      "char": "败"
+                    },
+                    {
+                      "position": 16,
+                      "char": "代"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "四开",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 17,
+      "poem_text": "橘脸昂然，金发卷浪风中。夜敲键、推文长涌。圣言复读；懂王夸胜众。退群成、盟交空洞。\n巴黎协定，税锤掷回梦中。铁杆穷、军援重捧。农民失业；股盘惊跳动。剩高球、笑看终诵。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 94.09,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 80.3,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪风中",
+          "夜敲键",
+          "推文长涌",
+          "圣言复读",
+          "懂王夸胜众",
+          "退群成",
+          "盟交空洞",
+          "巴黎协定",
+          "税锤掷回梦中",
+          "铁杆穷",
+          "军援重捧",
+          "农民失业",
+          "股盘惊跳动",
+          "剩高球",
+          "笑看终诵"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣言复读",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "读",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "懂王夸胜众",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "胜",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 7,
+                "clause": "盟交空洞",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "盟",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "税锤掷回梦中",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "锤",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "梦",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 13,
+                "clause": "股盘惊跳动",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "跳",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "笑看终诵",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "看",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 53,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "涌",
+                  "众",
+                  "洞"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "涌"
+                    },
+                    {
+                      "position": 6,
+                      "char": "众"
+                    },
+                    {
+                      "position": 8,
+                      "char": "洞"
+                    }
+                  ],
+                  "九文": [
+                    {
+                      "position": 6,
+                      "char": "众"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "中",
+                  "捧",
+                  "动",
+                  "诵"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "中"
+                    },
+                    {
+                      "position": 12,
+                      "char": "捧"
+                    },
+                    {
+                      "position": 14,
+                      "char": "动"
+                    },
+                    {
+                      "position": 16,
+                      "char": "诵"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 18,
+      "poem_text": "橘脸昂然，金发卷浪高挑。夜敲键、推文似诏。假新闻复；圣旨长过帽。退群成、炮声轰闹。\n巴黎协定，对华加征刀鞘。勒军资、盟邦叫号。农民破产；剩球杆骄傲。铁干散、笑看风套。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 95.0,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 83.33,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪高挑",
+          "夜敲键",
+          "推文似诏",
+          "假新闻复",
+          "圣旨长过帽",
+          "退群成",
+          "炮声轰闹",
+          "巴黎协定",
+          "对华加征刀鞘",
+          "勒军资",
+          "盟邦叫号",
+          "农民破产",
+          "剩球杆骄傲",
+          "铁干散",
+          "笑看风套"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪高挑",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "挑",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 5,
+                "clause": "圣旨长过帽",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "长",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "过",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎协定",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "协",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 9,
+                "clause": "对华加征刀鞘",
+                "pattern": "仄仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "华",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 10,
+                "clause": "勒军资",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "勒",
+                    "position_in_clause": 0,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 14,
+                "clause": "铁干散",
+                "pattern": "仄平中",
+                "mismatches": [
+                  {
+                    "char": "干",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 15,
+                "clause": "笑看风套",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "看",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 55,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "挑",
+                  "诏",
+                  "帽",
+                  "闹"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 2,
+                      "char": "挑"
+                    },
+                    {
+                      "position": 4,
+                      "char": "诏"
+                    },
+                    {
+                      "position": 6,
+                      "char": "帽"
+                    },
+                    {
+                      "position": 8,
+                      "char": "闹"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "鞘",
+                  "号",
+                  "傲",
+                  "套"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 10,
+                      "char": "鞘"
+                    },
+                    {
+                      "position": 12,
+                      "char": "号"
+                    },
+                    {
+                      "position": 14,
+                      "char": "傲"
+                    },
+                    {
+                      "position": 16,
+                      "char": "套"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 19,
+      "poem_text": "橘脸昂然，金发卷浪风中。夜敲键、推文漫空。圣言自诩？假信重哄弄。懂王名、世人称颂。\n巴黎弃约，税火烧盟邦梦。铁栏红、冲撞难控。民穷财尽？股跳如惊恐。剩高球、笑看狂讽。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 94.55,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 81.82,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪风中",
+          "夜敲键",
+          "推文漫空",
+          "圣言自诩",
+          "假信重哄弄",
+          "懂王名",
+          "世人称颂",
+          "巴黎弃约",
+          "税火烧盟邦梦",
+          "铁栏红",
+          "冲撞难控",
+          "民穷财尽",
+          "股跳如惊恐",
+          "剩高球",
+          "笑看狂讽"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪风中",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "中",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 3,
+                "clause": "推文漫空",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "空",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 5,
+                "clause": "假信重哄弄",
+                "pattern": "仄中平平仄",
+                "mismatches": [
+                  {
+                    "char": "重",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "哄",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 8,
+                "clause": "巴黎弃约",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "约",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 11,
+                "clause": "冲撞难控",
+                "pattern": "平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "撞",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "难",
+                    "position_in_clause": 2,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 13,
+                "clause": "股跳如惊恐",
+                "pattern": "仄平平平仄",
+                "mismatches": [
+                  {
+                    "char": "跳",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 5
+              },
+              {
+                "clause_index": 15,
+                "clause": "笑看狂讽",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "看",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 54,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "中",
+                  "空",
+                  "弄",
+                  "颂"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "中"
+                    },
+                    {
+                      "position": 4,
+                      "char": "空"
+                    },
+                    {
+                      "position": 6,
+                      "char": "弄"
+                    },
+                    {
+                      "position": 8,
+                      "char": "颂"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "梦",
+                  "控",
+                  "恐",
+                  "讽"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "梦"
+                    },
+                    {
+                      "position": 12,
+                      "char": "控"
+                    },
+                    {
+                      "position": 14,
+                      "char": "恐"
+                    },
+                    {
+                      "position": 16,
+                      "char": "讽"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 12,
+                      "char": "控"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 20,
+      "poem_text": "橘脸昂然，金发卷浪冲横。夜敲键、真言复命。圣令长过？铁带垂扬冷。退群成、炮声惊听。\n红冠撞柱，税火烧山如病。假新闻、翻盘自证。盟邦费索？梦中狂奔影。铁杆散、剩球场逞。",
+      "evaluation": {
+        "cipai": "谢池春",
+        "variant": "陆游",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 96.82,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 89.39,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "橘脸昂然",
+          "金发卷浪冲横",
+          "夜敲键",
+          "真言复命",
+          "圣令长过",
+          "铁带垂扬冷",
+          "退群成",
+          "炮声惊听",
+          "红冠撞柱",
+          "税火烧山如病",
+          "假新闻",
+          "翻盘自证",
+          "盟邦费索",
+          "梦中狂奔影",
+          "铁杆散",
+          "剩球场逞"
+        ],
+        "parsed_clause_count": 16,
+        "template_line_count": 16,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 1,
+                "clause": "金发卷浪冲横",
+                "pattern": "中仄仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "发",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "浪",
+                    "position_in_clause": 3,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  },
+                  {
+                    "char": "横",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 3,
+                "clause_total_chars": 6
+              },
+              {
+                "clause_index": 2,
+                "clause": "夜敲键",
+                "pattern": "仄平平",
+                "mismatches": [
+                  {
+                    "char": "键",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 3
+              },
+              {
+                "clause_index": 4,
+                "clause": "圣令长过",
+                "pattern": "中平中仄",
+                "mismatches": [
+                  {
+                    "char": "令",
+                    "position_in_clause": 1,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 7,
+                "clause": "炮声惊听",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "听",
+                    "position_in_clause": 3,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              },
+              {
+                "clause_index": 15,
+                "clause": "剩球场逞",
+                "pattern": "仄平平仄",
+                "mismatches": [
+                  {
+                    "char": "场",
+                    "position_in_clause": 2,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 4
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 59,
+            "total_char_count": 66
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  2,
+                  4,
+                  6,
+                  8
+                ],
+                "chars": [
+                  "横",
+                  "命",
+                  "冷",
+                  "听"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 2,
+                      "char": "横"
+                    },
+                    {
+                      "position": 4,
+                      "char": "命"
+                    },
+                    {
+                      "position": 6,
+                      "char": "冷"
+                    },
+                    {
+                      "position": 8,
+                      "char": "听"
+                    }
+                  ],
+                  "十唐": [
+                    {
+                      "position": 2,
+                      "char": "横"
+                    }
+                  ],
+                  "九文": [
+                    {
+                      "position": 8,
+                      "char": "听"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 8,
+                      "char": "听"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  10,
+                  12,
+                  14,
+                  16
+                ],
+                "chars": [
+                  "病",
+                  "证",
+                  "影",
+                  "逞"
+                ],
+                "xinyun_map": {
+                  "十一庚": [
+                    {
+                      "position": 10,
+                      "char": "病"
+                    },
+                    {
+                      "position": 12,
+                      "char": "证"
+                    },
+                    {
+                      "position": 14,
+                      "char": "影"
+                    },
+                    {
+                      "position": 16,
+                      "char": "逞"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十一庚",
+                "match_count": 4,
+                "total_count": 4,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    }
+  ]
+}

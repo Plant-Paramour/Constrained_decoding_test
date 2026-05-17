@@ -226,7 +226,10 @@ class TangPoemStateMachine:
                     if self.locked_rhyme_parts is None:
                         self.locked_rhyme_parts = set(rhyme_parts)
                     else:
-                        self.locked_rhyme_parts = self.locked_rhyme_parts.intersection(set(rhyme_parts))
+                        new_parts = self.locked_rhyme_parts.intersection(set(rhyme_parts))
+                        if new_parts:
+                            self.locked_rhyme_parts = new_parts
+                        # 交集为空则保持旧锁，防止锁变为空集合导致押韵约束失效
             elif self.current_line == 0 and not self._line0_rhymes:
                 # 首句末字平声则入韵（模仿原 verify_rhy: ids==0 且末字平声 → needyy=1）
                 last_char = valid_chars[-1]

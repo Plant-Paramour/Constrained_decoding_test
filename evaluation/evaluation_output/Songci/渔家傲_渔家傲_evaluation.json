@@ -1,0 +1,578 @@
+{
+  "source_file": "渔家傲_渔家傲.txt",
+  "cipai": "渔家傲",
+  "works_evaluated": 4,
+  "average_scores": {
+    "average_total_score": 98.53,
+    "average_structure_score": 100.0,
+    "average_tonal_score": 97.58,
+    "average_rhyme_score": 97.5
+  },
+  "individual_results": [
+    {
+      "work_index": 1,
+      "poem_text": "青山叠翠云烟绕。田畴广阔牛羊笑。溪水潺湍声自妙。风送早。炊烟袅娜随霞照。\n林间鸟鸣花影悄，野桥横跨舟轻窕？月色如银铺岸道。心悠抱？闲来独坐听渔啸",
+      "evaluation": {
+        "cipai": "渔家傲",
+        "variant": "晏殊",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 98.55,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 95.16,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "青山叠翠云烟绕",
+          "田畴广阔牛羊笑",
+          "溪水潺湍声自妙",
+          "风送早",
+          "炊烟袅娜随霞照",
+          "林间鸟鸣花影悄",
+          "野桥横跨舟轻窕",
+          "月色如银铺岸道",
+          "心悠抱",
+          "闲来独坐听渔啸"
+        ],
+        "parsed_clause_count": 10,
+        "template_line_count": 10,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 5,
+                "clause": "林间鸟鸣花影悄",
+                "pattern": "中仄中平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "间",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  },
+                  {
+                    "char": "悄",
+                    "position_in_clause": 6,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 2,
+                "clause_total_chars": 7
+              },
+              {
+                "clause_index": 7,
+                "clause": "月色如银铺岸道",
+                "pattern": "中仄中平平中仄",
+                "mismatches": [
+                  {
+                    "char": "铺",
+                    "position_in_clause": 4,
+                    "required_tone": "平",
+                    "actual_tone": "仄"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 59,
+            "total_char_count": 62
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "chars": [
+                  "绕",
+                  "笑",
+                  "妙",
+                  "早",
+                  "照"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 1,
+                      "char": "绕"
+                    },
+                    {
+                      "position": 2,
+                      "char": "笑"
+                    },
+                    {
+                      "position": 3,
+                      "char": "妙"
+                    },
+                    {
+                      "position": 4,
+                      "char": "早"
+                    },
+                    {
+                      "position": 5,
+                      "char": "照"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  8
+                ],
+                "chars": [
+                  "道"
+                ],
+                "xinyun_map": {
+                  "六豪": [
+                    {
+                      "position": 8,
+                      "char": "道"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "六豪",
+                "match_count": 1,
+                "total_count": 1,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 2,
+      "poem_text": "青山绿水环绕处。田畴稻浪连天暮。云影徘徊林间路。风轻度。炊烟袅娜随波去。\n鸡犬相闻人未语，锄头一柄耕春雨？溪畔桃花红欲吐。心自许？闲来独钓清江渡",
+      "evaluation": {
+        "cipai": "渔家傲",
+        "variant": "晏殊",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 96.52,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 98.39,
+        "rhyme_score_percentage": 90.0,
+        "parsed_clauses": [
+          "青山绿水环绕处",
+          "田畴稻浪连天暮",
+          "云影徘徊林间路",
+          "风轻度",
+          "炊烟袅娜随波去",
+          "鸡犬相闻人未语",
+          "锄头一柄耕春雨",
+          "溪畔桃花红欲吐",
+          "心自许",
+          "闲来独钓清江渡"
+        ],
+        "parsed_clause_count": 10,
+        "template_line_count": 10,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 2,
+                "clause": "云影徘徊林间路",
+                "pattern": "中仄中平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "间",
+                    "position_in_clause": 5,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 61,
+            "total_char_count": 62
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "chars": [
+                  "处",
+                  "暮",
+                  "路",
+                  "度",
+                  "去"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 1,
+                      "char": "处"
+                    },
+                    {
+                      "position": 2,
+                      "char": "暮"
+                    },
+                    {
+                      "position": 3,
+                      "char": "路"
+                    },
+                    {
+                      "position": 4,
+                      "char": "度"
+                    }
+                  ],
+                  "二波": [
+                    {
+                      "position": 3,
+                      "char": "路"
+                    },
+                    {
+                      "position": 4,
+                      "char": "度"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 4,
+                      "char": "度"
+                    }
+                  ],
+                  "十二齐": [
+                    {
+                      "position": 5,
+                      "char": "去"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 4,
+                "total_count": 5,
+                "group_score": 0.8
+              },
+              {
+                "positions": [
+                  8
+                ],
+                "chars": [
+                  "吐"
+                ],
+                "xinyun_map": {
+                  "十四姑": [
+                    {
+                      "position": 8,
+                      "char": "吐"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "十四姑",
+                "match_count": 1,
+                "total_count": 1,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 0.9
+          }
+        }
+      }
+    },
+    {
+      "work_index": 3,
+      "poem_text": "田园景物清幽远。山光水色皆宜眼。林间鸟鸣声婉转。风轻缓。云霞变幻天边见。\n闲步溪旁听细雨，渔舟唱晚烟波里；炊火人家相映暖。心自静；归途不问尘嚣事",
+      "evaluation": {
+        "cipai": "渔家傲",
+        "variant": "晏殊",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 99.52,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 98.39,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "田园景物清幽远",
+          "山光水色皆宜眼",
+          "林间鸟鸣声婉转",
+          "风轻缓",
+          "云霞变幻天边见",
+          "闲步溪旁听细雨",
+          "渔舟唱晚烟波里",
+          "炊火人家相映暖",
+          "心自静",
+          "归途不问尘嚣事"
+        ],
+        "parsed_clause_count": 10,
+        "template_line_count": 10,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 2,
+                "clause": "林间鸟鸣声婉转",
+                "pattern": "中仄中平平仄仄",
+                "mismatches": [
+                  {
+                    "char": "间",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 61,
+            "total_char_count": 62
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "chars": [
+                  "远",
+                  "眼",
+                  "转",
+                  "缓",
+                  "见"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 1,
+                      "char": "远"
+                    },
+                    {
+                      "position": 2,
+                      "char": "眼"
+                    },
+                    {
+                      "position": 3,
+                      "char": "转"
+                    },
+                    {
+                      "position": 4,
+                      "char": "缓"
+                    },
+                    {
+                      "position": 5,
+                      "char": "见"
+                    }
+                  ],
+                  "九文": [
+                    {
+                      "position": 2,
+                      "char": "眼"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 3,
+                      "char": "转"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  8
+                ],
+                "chars": [
+                  "暖"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 8,
+                      "char": "暖"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 1,
+                "total_count": 1,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    },
+    {
+      "work_index": 4,
+      "poem_text": "田园景物清幽远。山光水色皆如练。鸟语花香随步转。心自晏。闲居不问尘嚣乱。\n烟雨朦胧春意满，柴扉半启风轻婉？松间竹林藏古院。乐无畔？渔舟唱晚归云返",
+      "evaluation": {
+        "cipai": "渔家傲",
+        "variant": "晏殊",
+        "rhyme_type": "仄韵",
+        "length_category": "medium",
+        "total_score_percentage": 99.52,
+        "structure_score_percentage": 100.0,
+        "tonal_score_percentage": 98.39,
+        "rhyme_score_percentage": 100.0,
+        "parsed_clauses": [
+          "田园景物清幽远",
+          "山光水色皆如练",
+          "鸟语花香随步转",
+          "心自晏",
+          "闲居不问尘嚣乱",
+          "烟雨朦胧春意满",
+          "柴扉半启风轻婉",
+          "松间竹林藏古院",
+          "乐无畔",
+          "渔舟唱晚归云返"
+        ],
+        "parsed_clause_count": 10,
+        "template_line_count": 10,
+        "scoring_details": {
+          "structure": {
+            "mismatches": [],
+            "missing_template_clauses": 0,
+            "extra_generated_clauses": 0
+          },
+          "tonal": {
+            "mismatches": [
+              {
+                "clause_index": 7,
+                "clause": "松间竹林藏古院",
+                "pattern": "中仄中平平中仄",
+                "mismatches": [
+                  {
+                    "char": "间",
+                    "position_in_clause": 1,
+                    "required_tone": "仄",
+                    "actual_tone": "平"
+                  }
+                ],
+                "mismatch_count": 1,
+                "clause_total_chars": 7
+              }
+            ],
+            "skipped_clauses": [],
+            "total_match_count": 61,
+            "total_char_count": 62
+          },
+          "rhyme": {
+            "groups": [
+              {
+                "positions": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "chars": [
+                  "远",
+                  "练",
+                  "转",
+                  "晏",
+                  "乱"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 1,
+                      "char": "远"
+                    },
+                    {
+                      "position": 2,
+                      "char": "练"
+                    },
+                    {
+                      "position": 3,
+                      "char": "转"
+                    },
+                    {
+                      "position": 4,
+                      "char": "晏"
+                    },
+                    {
+                      "position": 5,
+                      "char": "乱"
+                    }
+                  ],
+                  "四开": [
+                    {
+                      "position": 3,
+                      "char": "转"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 5,
+                "total_count": 5,
+                "group_score": 1.0
+              },
+              {
+                "positions": [
+                  8
+                ],
+                "chars": [
+                  "院"
+                ],
+                "xinyun_map": {
+                  "八寒": [
+                    {
+                      "position": 8,
+                      "char": "院"
+                    }
+                  ]
+                },
+                "dominant_xinyun": "八寒",
+                "match_count": 1,
+                "total_count": 1,
+                "group_score": 1.0
+              }
+            ],
+            "num_groups": 2,
+            "average_group_score": 1.0
+          }
+        }
+      }
+    }
+  ]
+}
