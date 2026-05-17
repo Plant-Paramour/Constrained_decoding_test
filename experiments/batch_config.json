@@ -4,12 +4,53 @@
   "force_sequential": false,
   "models": [
     {
-      "name": "Qwen3-4B",
-      "path": "C:\\Users\\26051\\.cache\\modelscope\\hub\\models\\Qwen\\Qwen3-4B",
+      "name": "Llama-3.2-3B-Instruct",
+      "path": "C:\\Users\\26051\\.cache\\modelscope\\hub\\models\\LLM-Research\\Llama-3.2-3B-Instruct",
       "use_thinking": false,
-      "quantization": "4bit"
+      "quantization": "none",
+      "_quantization": "none / 8bit / 4bit"
     }
   ],
+  "songci": {
+    "enabled": true,
+    "cipai_list": [
+      "浣溪沙",
+      "南乡子",
+      "桂枝香",
+      "水调歌头",
+      "谢池春",
+      "渔家傲"
+    ],
+    "themes": [
+      {
+        "theme": "爱情相思",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "爱国豪迈",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "山水田园",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "怀古咏史",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "哀愁伤叹",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "哲理感悟",
+        "detailed_requirement": ""
+      }
+    ],
+    "num_generations": 20,
+    "task_type": "instruction",
+    "rhyme_dict_name": "Xinyun"
+  },
   "tangpoem": {
     "enabled": true,
     "forms": [
@@ -17,15 +58,50 @@
         "name": "五绝",
         "line_length": 5,
         "num_lines": 4
+      },
+      {
+        "name": "七绝",
+        "line_length": 7,
+        "num_lines": 4
+      },
+      {
+        "name": "五律",
+        "line_length": 5,
+        "num_lines": 8
+      },
+      {
+        "name": "七律",
+        "line_length": 7,
+        "num_lines": 8
       }
     ],
     "themes": [
       {
         "theme": "爱情相思",
         "detailed_requirement": ""
+      },
+      {
+        "theme": "爱国豪迈",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "山水田园",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "怀古咏史",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "哀愁伤叹",
+        "detailed_requirement": ""
+      },
+      {
+        "theme": "哲理感悟",
+        "detailed_requirement": ""
       }
     ],
-    "num_generations": 1,
+    "num_generations": 20,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
