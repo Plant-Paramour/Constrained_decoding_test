@@ -6,7 +6,7 @@ Supports two evaluation backends sharing the same 3-component scoring system
 (Structure 40% + Tonal 30% + Rhyme 30%) based on 中华新韵 (Xinyun) via pypinyin.
 
 Input layout:
-    evaluate_input/
+    evaluation_input/
         Songci/          ← one .txt per 词牌 (or one .json)
         Tongpoem/        ← one .txt per poem type
 
@@ -370,42 +370,20 @@ class SongciEvaluator:
 # ============================================================
 
 class TangPoemEvaluator:
-    """Evaluate Tang poems using the same 3-component scoring as Songci.
+    """Evaluate Tang poems via rule-based tonal checking — no templates.
 
-    Standard regulated-verse (律诗/绝句) tonal patterns are built-in.
-    Uses pypinyin + 中华新韵 for tone and rhyme detection.
+    Faithfully mirrors the constraint logic in tang_state_machine.py and
+    tang_logits_processor.py:
+      - 二四六分明 (粘对-derived, checked at pos 2/4/6)
+      - 三连同 (line-end only, last 3 chars)
+      - 孤平 (平收 lines only, 平起/仄起 patterns)
+      - 末字收束 (rhyme-tone for even lines, opposite for odd)
+
+    Every rule violation adds the offending (line_idx, char_idx) to a
+    deduplicated set, so the tonal score is:
+        (total_chars - |violations|) / total_chars
+    — structurally identical to the Songci per-character tonal score.
     """
-
-    # ---- standard tonal patterns (一三五不论 applied: odd positions → 中) ----
-
-    _WUYAN = {
-        'A': '中仄中平仄',          # 仄仄平平仄
-        'B': '中平中仄平',          # 平平仄仄平
-        'C': '中平中仄仄',          # 平平平仄仄
-        'D': '中仄仄平平',          # 仄仄仄平平
-    }
-
-    _QIYAN = {
-        'A': '中平中仄中平仄',      # 平平仄仄平平仄
-        'B': '中仄中平中仄平',      # 仄仄平平仄仄平
-        'C': '中仄中平中仄仄',      # 仄仄平平平仄仄
-        'D': '中平中仄仄平平',      # 平平仄仄仄平平
-    }
-
-    # arrangement tables — keys are (起式, 首句入韵)
-    _ARRANGEMENT_4 = {   # 绝句
-        ('仄', False): ['A', 'B', 'C', 'D'],
-        ('仄', True):  ['D', 'B', 'C', 'D'],
-        ('平', False): ['C', 'D', 'A', 'B'],
-        ('平', True):  ['B', 'D', 'A', 'B'],
-    }
-
-    _ARRANGEMENT_8 = {   # 律诗
-        ('仄', False): ['A', 'B', 'C', 'D', 'A', 'B', 'C', 'D'],
-        ('仄', True):  ['D', 'B', 'C', 'D', 'A', 'B', 'C', 'D'],
-        ('平', False): ['C', 'D', 'A', 'B', 'C', 'D', 'A', 'B'],
-        ('平', True):  ['B', 'D', 'A', 'B', 'C', 'D', 'A', 'B'],
-    }
 
     def __init__(self):
         pass
@@ -415,7 +393,7 @@ class TangPoemEvaluator:
     # ------------------------------------------------------------------
 
     def _determine_poem_type(self, lines):
-        """Return (chars_per_line, num_lines, type_name) or (0, 0, 'unknown')."""
+        """Return (chars_per_line, num_lines, type_name)."""
         if not lines:
             return 0, 0, "未知"
 
@@ -436,53 +414,187 @@ class TangPoemEvaluator:
                                  f"{char_count}言{n_lines}句")
         return char_count, n_lines, type_name
 
-    def _detect_pattern_key(self, lines):
-        """Detect 平起/仄起 and 首句入韵 from the first line.
+    def _detect_rhyme_type(self, lines):
+        """Detect 平韵/仄韵 from even-numbered lines' last characters.
 
-        Returns ('平', True/False), ('仄', True/False), or falls back to ('仄', False).
+        Returns "平韵" or "仄韵" (defaults to "平韵").
         """
-        if not lines or len(lines[0]) < 2:
-            return ('仄', False)
-
-        first_line = lines[0]
-        tone_2nd = get_char_tone(first_line[1])    # 2nd char → 平起/仄起
-        tone_last = get_char_tone(first_line[-1])  # last char → 入韵?
-
-        qishi = '平' if tone_2nd == '平' else '仄'  # 中 → treat as 仄
-        ruyun = (tone_last == '平')
-
-        return (qishi, ruyun)
+        ping_count = 0
+        ze_count = 0
+        for i, line in enumerate(lines):
+            if (i + 1) % 2 == 0 and line:  # even line (2, 4, 6, 8)
+                t = get_char_tone(line[-1])
+                if t == '平':
+                    ping_count += 1
+                elif t == '仄':
+                    ze_count += 1
+        return "平韵" if ping_count >= ze_count else "仄韵"
 
     # ------------------------------------------------------------------
-    #  Template generation
+    #  Core: rule-based tonal violation counter
     # ------------------------------------------------------------------
 
-    def _generate_template(self, char_count, num_lines, pattern_key):
-        """Generate a list of tonal-pattern strings for every line.
+    def _evaluate_tonal_rules(self, lines, char_count):
+        """Apply 二四六分明 / 三连同 / 孤平 / 末字收束.
 
-        Returns list of strings like ['中仄中平仄', '中平中仄平', ...].
+        Returns (tonal_score, violation_set, detail_dict).
         """
-        if pattern_key is None:
-            return None
+        violations = set()  # {(line_idx, char_idx)}
+        details = {
+            "二四六分明": [],
+            "三连同": [],
+            "孤平": [],
+            "末字收束": [],
+        }
 
-        if char_count == 5:
-            base = self._WUYAN
-        elif char_count == 7:
-            base = self._QIYAN
-        else:
-            return None
+        is_ping_yun = "平" in self._detect_rhyme_type(lines)
 
-        if num_lines == 4:
-            arrangement = self._ARRANGEMENT_4.get(pattern_key)
-        elif num_lines == 8:
-            arrangement = self._ARRANGEMENT_8.get(pattern_key)
-        else:
-            return None
+        # ---- 确定全局基调 (global base tone) from first line's 2nd char ----
+        # Mirror: tang_state_machine._global_base_tone
+        global_base_tone = 2  # 0=平, 1=仄, 2=未定
+        if len(lines) > 0 and len(lines[0]) >= 2:
+            t = get_char_tone(lines[0][1])
+            if t in ('平', '仄'):
+                global_base_tone = 0 if t == '平' else 1
 
-        if arrangement is None:
-            return None
+        for line_idx, line in enumerate(lines):
+            if len(line) != char_count:
+                continue
 
-        return [base[k] for k in arrangement]
+            # ---- 粘对: determine this line's base tone ----
+            # Mirror: tang_state_machine.advance_state() lines 167-173
+            if global_base_tone != 2:
+                if line_idx in (1, 2, 5, 6):
+                    line_base_tone = 1 - global_base_tone
+                else:
+                    line_base_tone = global_base_tone
+            else:
+                line_base_tone = 2
+
+            # ============================================================
+            #  Rule A: 二四六分明
+            #  Mirror: tang_state_machine._get_allowed_pingze_at()
+            #          tang_logits_processor._verifier_check() lines 171-193
+            # ============================================================
+            if line_base_tone != 2:
+                # Position 2 (idx 1) — must match base tone
+                if len(line) >= 2:
+                    actual = get_char_tone(line[1])
+                    if actual in ('平', '仄'):
+                        expected = '平' if line_base_tone == 0 else '仄'
+                        if actual != expected:
+                            violations.add((line_idx, 1))
+                            details["二四六分明"].append({
+                                "line": line_idx + 1, "pos": 2,
+                                "char": line[1],
+                                "expected": expected, "actual": actual,
+                            })
+
+                # Position 4 (idx 3) — must be opposite to base tone
+                if len(line) >= 4:
+                    actual = get_char_tone(line[3])
+                    if actual in ('平', '仄'):
+                        expected = '仄' if line_base_tone == 0 else '平'
+                        if actual != expected:
+                            violations.add((line_idx, 3))
+                            details["二四六分明"].append({
+                                "line": line_idx + 1, "pos": 4,
+                                "char": line[3],
+                                "expected": expected, "actual": actual,
+                            })
+
+                # Position 6 (idx 5) — 七言 only, must match base tone (六同)
+                if char_count >= 7 and len(line) >= 6:
+                    actual = get_char_tone(line[5])
+                    if actual in ('平', '仄'):
+                        expected = '平' if line_base_tone == 0 else '仄'
+                        if actual != expected:
+                            violations.add((line_idx, 5))
+                            details["二四六分明"].append({
+                                "line": line_idx + 1, "pos": 6,
+                                "char": line[5],
+                                "expected": expected, "actual": actual,
+                            })
+
+            # ============================================================
+            #  Rule B: 三连同 (line-end only, last 3 chars)
+            #  Mirror: tang_logits_processor._verifier_check() lines 213-226
+            # ============================================================
+            if len(line) >= 3:
+                last3 = line[-3:]
+                t0 = get_char_tone(last3[0])
+                t1 = get_char_tone(last3[1])
+                t2 = get_char_tone(last3[2])
+                if t0 in ('平', '仄') and t0 == t1 == t2:
+                    violations.add((line_idx, len(line) - 1))
+                    details["三连同"].append({
+                        "line": line_idx + 1,
+                        "chars": last3, "tone": t0,
+                    })
+
+            # ============================================================
+            #  Rule C: 孤平 (平收 lines only)
+            #  Mirror: tang_logits_processor._verifier_check() lines 233-249
+            # ============================================================
+            if len(line) >= 3:
+                last_tone = get_char_tone(line[-1])
+                if last_tone == '平' and line_base_tone != 2:
+                    if line_base_tone == 0:  # 平起式
+                        if len(line) >= 3:
+                            pz0 = get_char_tone(line[0])
+                            pz2 = get_char_tone(line[2])
+                            if pz0 == '仄' and pz2 == '仄':
+                                violations.add((line_idx, 1))
+                                details["孤平"].append({
+                                    "line": line_idx + 1,
+                                    "type": "平起式", "isolated_pos": 2,
+                                    "chars": line[:3],
+                                })
+                    else:  # 仄起式
+                        if len(line) >= 5:
+                            pz2 = get_char_tone(line[2])
+                            pz4 = get_char_tone(line[4])
+                            if pz2 == '仄' and pz4 == '仄':
+                                violations.add((line_idx, 3))
+                                details["孤平"].append({
+                                    "line": line_idx + 1,
+                                    "type": "仄起式", "isolated_pos": 4,
+                                    "chars": line[2:5],
+                                })
+
+            # ============================================================
+            #  Rule D: 末字收束
+            #  Mirror: tang_state_machine._get_expected_end_tone()
+            #          tang_logits_processor._verifier_check() lines 252-258
+            # ============================================================
+            if len(line) >= 1:
+                is_even = (line_idx + 1) % 2 == 0
+                is_first = (line_idx == 0)
+
+                if is_even:
+                    expected = '平' if is_ping_yun else '仄'
+                    actual = get_char_tone(line[-1])
+                    if actual in ('平', '仄') and actual != expected:
+                        violations.add((line_idx, len(line) - 1))
+                        details["末字收束"].append({
+                            "line": line_idx + 1, "char": line[-1],
+                            "reason": f"偶句应为{expected}收",
+                            "actual": actual,
+                        })
+                elif not is_first:
+                    expected = '仄' if is_ping_yun else '平'
+                    actual = get_char_tone(line[-1])
+                    if actual in ('平', '仄') and actual != expected:
+                        violations.add((line_idx, len(line) - 1))
+                        details["末字收束"].append({
+                            "line": line_idx + 1, "char": line[-1],
+                            "reason": f"奇句应为{expected}收",
+                            "actual": actual,
+                        })
+
+        total_chars = sum(len(l) for l in lines if len(l) == char_count)
+        score = (total_chars - len(violations)) / max(total_chars, 1)
+        return score, violations, details
 
     # ------------------------------------------------------------------
     #  Main evaluate
@@ -490,85 +602,46 @@ class TangPoemEvaluator:
 
     def evaluate(self, poem_text):
         lines = _parse_poem_lines(poem_text)
-
         char_count, num_lines, type_name = self._determine_poem_type(lines)
 
         if char_count == 0:
             return {
-                "error": f"Cannot determine poem type from text.",
+                "error": "Cannot determine poem type from text.",
                 "poem_type": type_name,
                 "total_score_percentage": 0.0,
             }
 
-        pattern_key = self._detect_pattern_key(lines)
-        tonal_template = self._generate_template(char_count, num_lines, pattern_key)
-
         n_generated = len(lines)
 
         # --- Structure Score (40%) ---
-        mismatches = []
+        structure_mismatches = []
         for i, line in enumerate(lines):
             if len(line) != char_count:
-                mismatches.append({
-                    "line_index": i,
-                    "line": line,
-                    "actual_len": len(line),
-                    "expected_len": char_count,
+                structure_mismatches.append({
+                    "line_index": i, "line": line,
+                    "actual_len": len(line), "expected_len": char_count,
                 })
-
-        structure_score = (n_generated - len(mismatches)) / max(n_generated, 1)
-        # Penalise wrong total line count
-        if num_lines and n_generated != num_lines:
+        structure_score = (n_generated - len(structure_mismatches)) / max(n_generated, 1)
+        if n_generated != num_lines:
             structure_score = min(structure_score, 0.5)
 
-        # --- Tonal Score (30%) ---
-        tonal_mismatches = []
-        total_tonal_chars = 0
-        matching_tonal_chars = 0
-
-        if tonal_template:
-            n_eval = min(n_generated, len(tonal_template))
-            for i in range(n_eval):
-                line = lines[i]
-                pattern = tonal_template[i]
-                if len(line) != len(pattern):
-                    continue
-                line_mismatches = []
-                for j, char in enumerate(line):
-                    required = pattern[j]
-                    actual = get_char_tone(char)
-                    total_tonal_chars += 1
-                    if required == '中' or actual == required:
-                        matching_tonal_chars += 1
-                    else:
-                        line_mismatches.append({
-                            "char": char,
-                            "position_in_line": j,
-                            "required_tone": required,
-                            "actual_tone": actual,
-                        })
-                if line_mismatches:
-                    tonal_mismatches.append({
-                        "line_index": i,
-                        "line": line,
-                        "pattern": pattern,
-                        "mismatches": line_mismatches,
-                        "mismatch_count": len(line_mismatches),
-                    })
-
-        tonal_score = matching_tonal_chars / max(total_tonal_chars, 1)
+        # --- Tonal Score (30%) — rule-based, per-character violations ---
+        tonal_score, violation_set, tonal_details = self._evaluate_tonal_rules(
+            lines, char_count)
+        total_tonal_chars = sum(len(l) for l in lines if len(l) == char_count)
+        matching_tonal_chars = total_tonal_chars - len(violation_set)
 
         # --- Rhyme Score (30%) ---
-        # Tang poem rhyme rule: even-numbered lines (1-indexed: 2,4,6,8) must rhyme.
-        # First line may optionally enter the rhyme if it is 平收.
+        is_ping_yun = "平" in self._detect_rhyme_type(lines)
+
         rhyme_positions = []
-        for i in range(num_lines):
-            line_idx = i  # 0-indexed
-            if line_idx % 2 == 1:  # even lines in 1-indexed
-                rhyme_positions.append(line_idx + 1)  # 1-indexed
-        # optionally include first line
-        if lines and len(lines[0]) > 0 and get_char_tone(lines[0][-1]) == '平':
-            rhyme_positions.insert(0, 1)
+        for i in range(n_generated):
+            if (i + 1) % 2 == 0:  # even lines (2, 4, 6, 8)
+                rhyme_positions.append(i + 1)
+        if lines and lines[0]:
+            flt = get_char_tone(lines[0][-1])
+            if flt == ('平' if is_ping_yun else '仄'):
+                rhyme_positions.insert(0, 1)
 
         rhyme_chars = []
         rhyme_category_sets = []
@@ -583,8 +656,7 @@ class TangPoemEvaluator:
                 for cat in cat_set:
                     if cat != 'none':
                         rhyme_xinyun_map.setdefault(cat, []).append({
-                            "position": pos,
-                            "char": char,
+                            "position": pos, "char": char,
                         })
 
         if rhyme_chars:
@@ -602,6 +674,7 @@ class TangPoemEvaluator:
                 rhyme_score = 0.0
 
             rhyme_details = {
+                "rhyme_type": "平韵" if is_ping_yun else "仄韵",
                 "rhyme_positions": rhyme_positions,
                 "chars": rhyme_chars,
                 "dominant_xinyun": dominant[0],
@@ -621,29 +694,46 @@ class TangPoemEvaluator:
             + weights["R"] * rhyme_score
         )
 
+        # detected 起式
+        qishi = "未定"
+        if lines and len(lines[0]) >= 2:
+            t = get_char_tone(lines[0][1])
+            if t == '平':
+                qishi = "平起"
+            elif t == '仄':
+                qishi = "仄起"
+
         return {
             "poem_type": type_name,
             "char_count": char_count,
             "detected_lines": num_lines,
             "actual_lines": n_generated,
-            "detected_pattern": f"{pattern_key[0]}起{'首句入韵' if pattern_key and pattern_key[1] else '首句不入韵'}" if pattern_key else "未知",
+            "detected_qishi": qishi,
+            "detected_rhyme_type": "平韵" if is_ping_yun else "仄韵",
             "total_score_percentage": round(total_score * 100, 2),
             "structure_score_percentage": round(structure_score * 100, 2),
             "tonal_score_percentage": round(tonal_score * 100, 2),
             "rhyme_score_percentage": round(rhyme_score * 100, 2),
             "parsed_lines": lines,
             "parsed_line_count": n_generated,
-            "tonal_template": tonal_template,
+            "tonal_violation_count": len(violation_set),
+            "tonal_total_chars": total_tonal_chars,
+            "tonal_matching_chars": matching_tonal_chars,
             "scoring_details": {
                 "structure": {
-                    "mismatches": mismatches,
+                    "mismatches": structure_mismatches,
                     "expected_chars_per_line": char_count,
                     "expected_lines": num_lines,
                 },
                 "tonal": {
-                    "mismatches": tonal_mismatches,
-                    "total_match_count": matching_tonal_chars,
-                    "total_char_count": total_tonal_chars,
+                    "total_chars": total_tonal_chars,
+                    "violation_count": len(violation_set),
+                    "matching_chars": matching_tonal_chars,
+                    "violations_by_rule": {
+                        rule: items
+                        for rule, items in tonal_details.items()
+                        if items
+                    },
                 },
                 "rhyme": rhyme_details,
             },
@@ -818,7 +908,7 @@ if __name__ == "__main__":
         description="Evaluate Songci + Tang poems against tonal/structure/rhyme rules")
     parser.add_argument("--meter", default=os.path.join(SCRIPT_DIR, "..", "Meter", "songci.json"),
                         help="Path to Songci meter JSON")
-    parser.add_argument("--input", default=os.path.join(SCRIPT_DIR, "evaluate_input"),
+    parser.add_argument("--input", default=os.path.join(SCRIPT_DIR, "evaluation_input"),
                         help="Root input directory (expects Songci/ and Tongpoem/ subdirs)")
     parser.add_argument("--output", default=os.path.join(SCRIPT_DIR, "evaluation_output"),
                         help="Root output directory")

@@ -305,6 +305,12 @@
                   "欢"
                 ],
                 "xinyun_map": {
+                  "九文": [
+                    {
+                      "position": 12,
+                      "char": "言"
+                    }
+                  ],
                   "八寒": [
                     {
                       "position": 12,
@@ -321,12 +327,6 @@
                     {
                       "position": 19,
                       "char": "欢"
-                    }
-                  ],
-                  "九文": [
-                    {
-                      "position": 12,
-                      "char": "言"
                     }
                   ]
                 },
@@ -1101,6 +1101,12 @@
                   "早"
                 ],
                 "xinyun_map": {
+                  "三皆": [
+                    {
+                      "position": 15,
+                      "char": "觉"
+                    }
+                  ],
                   "六豪": [
                     {
                       "position": 15,
@@ -1109,12 +1115,6 @@
                     {
                       "position": 16,
                       "char": "早"
-                    }
-                  ],
-                  "三皆": [
-                    {
-                      "position": 15,
-                      "char": "觉"
                     }
                   ]
                 },
@@ -1405,6 +1405,12 @@
                   "圆"
                 ],
                 "xinyun_map": {
+                  "九文": [
+                    {
+                      "position": 12,
+                      "char": "言"
+                    }
+                  ],
                   "八寒": [
                     {
                       "position": 12,
@@ -1421,12 +1427,6 @@
                     {
                       "position": 19,
                       "char": "圆"
-                    }
-                  ],
-                  "九文": [
-                    {
-                      "position": 12,
-                      "char": "言"
                     }
                   ]
                 },
@@ -2367,6 +2367,12 @@
                   "迫"
                 ],
                 "xinyun_map": {
+                  "十二齐": [
+                    {
+                      "position": 5,
+                      "char": "泣"
+                    }
+                  ],
                   "二波": [
                     {
                       "position": 5,
@@ -2375,12 +2381,6 @@
                     {
                       "position": 6,
                       "char": "迫"
-                    }
-                  ],
-                  "十二齐": [
-                    {
-                      "position": 5,
-                      "char": "泣"
                     }
                   ],
                   "四开": [
@@ -2684,13 +2684,13 @@
                   "语"
                 ],
                 "xinyun_map": {
-                  "二波": [
+                  "十四姑": [
                     {
                       "position": 5,
                       "char": "路"
                     }
                   ],
-                  "十四姑": [
+                  "二波": [
                     {
                       "position": 5,
                       "char": "路"
@@ -2703,7 +2703,7 @@
                     }
                   ]
                 },
-                "dominant_xinyun": "二波",
+                "dominant_xinyun": "十四姑",
                 "match_count": 1,
                 "total_count": 2,
                 "group_score": 0.5

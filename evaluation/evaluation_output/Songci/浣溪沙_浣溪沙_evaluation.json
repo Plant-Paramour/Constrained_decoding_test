@@ -57,7 +57,7 @@
                   "平"
                 ],
                 "xinyun_map": {
-                  "八寒": [
+                  "十一庚": [
                     {
                       "position": 1,
                       "char": "平"
@@ -71,7 +71,7 @@
                       "char": "平"
                     }
                   ],
-                  "十一庚": [
+                  "八寒": [
                     {
                       "position": 1,
                       "char": "平"
@@ -86,7 +86,7 @@
                     }
                   ]
                 },
-                "dominant_xinyun": "八寒",
+                "dominant_xinyun": "十一庚",
                 "match_count": 3,
                 "total_count": 3,
                 "group_score": 1.0
@@ -101,7 +101,7 @@
                   "平"
                 ],
                 "xinyun_map": {
-                  "八寒": [
+                  "十一庚": [
                     {
                       "position": 5,
                       "char": "平"
@@ -111,7 +111,7 @@
                       "char": "平"
                     }
                   ],
-                  "十一庚": [
+                  "八寒": [
                     {
                       "position": 5,
                       "char": "平"
@@ -122,7 +122,7 @@
                     }
                   ]
                 },
-                "dominant_xinyun": "八寒",
+                "dominant_xinyun": "十一庚",
                 "match_count": 2,
                 "total_count": 2,
                 "group_score": 1.0
