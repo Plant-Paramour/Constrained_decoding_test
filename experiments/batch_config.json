@@ -4,8 +4,8 @@
   "force_sequential": false,
   "models": [
     {
-      "name": "Llama-3.2-3B-Instruct",
-      "path": "C:\\Users\\26051\\.cache\\modelscope\\hub\\models\\LLM-Research\\Llama-3.2-3B-Instruct",
+      "name": "Qwen3-8B",
+      "path": "/root/autodl-tmp/models/Qwen3-4B",
       "use_thinking": false,
       "quantization": "none",
       "_quantization": "none / 8bit / 4bit"
