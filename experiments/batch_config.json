@@ -1,16 +1,58 @@
 {
   "compare_experiment": true,
-  "_force_sequential": "设为 true 强制使用串行模式（即使有多 GPU），用于调试或单卡复现",
+  "_compare_experiment": "设为 true 时，每个任务额外跑一轮无约束自由生成做对照",
+
   "force_sequential": false,
+  "_force_sequential": "设为 true 强制串行（单进程），用于调试或单卡复现",
+
+  "global_max_parallel": 4,
+  "_global_max_parallel": "全局最大并行 worker 数上限，防止系统过载。设为 -1 表示不限制",
+
+  "safety_vram_margin": 0.20,
+  "_safety_vram_margin": "显存安全余量（0.20 = 20%），估算模型占用时会乘以 (1+margin)，降低 OOM 风险",
+
+  "poll_interval_sec": 2.0,
+  "_poll_interval_sec": "Master 进程轮询 Worker 完成状态的间隔秒数",
+
   "models": [
     {
       "name": "Qwen3-8B",
+      "path": "/root/autodl-tmp/models/Qwen3-8B",
+      "use_thinking": false,
+      "quantization": "8bit",
+      "_quantization": "none / fp16 / 8bit / 4bit",
+      "max_parallel": 2,
+      "_max_parallel": "此模型最多同时跑几个 GPU/worker。=1 则独占单卡串行；>1 则多卡分担任务",
+      "enabled": true,
+      "_enabled": "false 可临时禁用此模型不参与排队"
+    },
+    {
+      "name": "Qwen3-4B",
       "path": "/root/autodl-tmp/models/Qwen3-4B",
       "use_thinking": false,
-      "quantization": "none",
-      "_quantization": "none / 8bit / 4bit"
+      "quantization": "4bit",
+      "max_parallel": 4,
+      "enabled": true
+    },
+    {
+      "name": "Llama-3.2-3B",
+      "path": "/root/autodl-tmp/models/Llama-3.2-3B-Instruct",
+      "use_thinking": false,
+      "quantization": "4bit",
+      "max_parallel": 4,
+      "enabled": false
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Qwen-1.5B",
+      "path": "/root/autodl-tmp/models/DeepSeek-R1-Distill-Qwen-1.5B",
+      "use_thinking": true,
+      "_use_thinking_note": "DeepSeek R1 系列必须开启 thinking",
+      "quantization": "4bit",
+      "max_parallel": 4,
+      "enabled": false
     }
   ],
+
   "songci": {
     "enabled": true,
     "cipai_list": [
@@ -22,89 +64,39 @@
       "渔家傲"
     ],
     "themes": [
-      {
-        "theme": "爱情相思",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "爱国豪迈",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "山水田园",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "怀古咏史",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "哀愁伤叹",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "哲理感悟",
-        "detailed_requirement": ""
-      }
+      { "theme": "爱情相思", "detailed_requirement": "" },
+      { "theme": "爱国豪迈", "detailed_requirement": "" },
+      { "theme": "山水田园", "detailed_requirement": "" },
+      { "theme": "怀古咏史", "detailed_requirement": "" },
+      { "theme": "哀愁伤叹", "detailed_requirement": "" },
+      { "theme": "哲理感悟", "detailed_requirement": "" }
     ],
     "num_generations": 20,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
+
   "tangpoem": {
     "enabled": true,
     "forms": [
-      {
-        "name": "五绝",
-        "line_length": 5,
-        "num_lines": 4
-      },
-      {
-        "name": "七绝",
-        "line_length": 7,
-        "num_lines": 4
-      },
-      {
-        "name": "五律",
-        "line_length": 5,
-        "num_lines": 8
-      },
-      {
-        "name": "七律",
-        "line_length": 7,
-        "num_lines": 8
-      }
+      { "name": "五绝", "line_length": 5, "num_lines": 4 },
+      { "name": "七绝", "line_length": 7, "num_lines": 4 },
+      { "name": "五律", "line_length": 5, "num_lines": 8 },
+      { "name": "七律", "line_length": 7, "num_lines": 8 }
     ],
     "themes": [
-      {
-        "theme": "爱情相思",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "爱国豪迈",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "山水田园",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "怀古咏史",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "哀愁伤叹",
-        "detailed_requirement": ""
-      },
-      {
-        "theme": "哲理感悟",
-        "detailed_requirement": ""
-      }
+      { "theme": "爱情相思", "detailed_requirement": "" },
+      { "theme": "爱国豪迈", "detailed_requirement": "" },
+      { "theme": "山水田园", "detailed_requirement": "" },
+      { "theme": "怀古咏史", "detailed_requirement": "" },
+      { "theme": "哀愁伤叹", "detailed_requirement": "" },
+      { "theme": "哲理感悟", "detailed_requirement": "" }
     ],
     "num_generations": 20,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
+
   "generation_params": {
     "max_new_tokens": 4096,
     "do_sample": true,
