@@ -1,5 +1,5 @@
 {
-  "compare_experiment": false,
+  "compare_experiment": true,
   "models": [
     {
       "name": "Qwen3-4B",
