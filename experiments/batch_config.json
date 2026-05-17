@@ -62,7 +62,7 @@
       { "theme": "哀愁伤叹", "detailed_requirement": "" },
       { "theme": "哲理感悟", "detailed_requirement": "" }
     ],
-    "num_generations": 3,
+    "num_generations": 2,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
@@ -83,7 +83,7 @@
       { "theme": "哀愁伤叹", "detailed_requirement": "" },
       { "theme": "哲理感悟", "detailed_requirement": "" }
     ],
-    "num_generations": 3,
+    "num_generations": 2,
     "task_type": "instruction",
     "rhyme_dict_name": "Xinyun"
   },
