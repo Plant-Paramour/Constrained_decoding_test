@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-anaconda 路径：C:\ProgramData\anaconda3\envs\Model
+anaconda 路径：C:\ProgramData\anaconda3\envs\ShiJu
 
 ## 项目概述
 

@@ -119,20 +119,90 @@ class HardwareDetector:
         return gpus
 
     @staticmethod
-    def estimate_model_vram_gb(model_path: str, quantization: str = "8bit") -> Optional[float]:
-        """根据模型参数量 + 量化方案估算单副本显存占用（GB）。"""
+    def estimate_model_vram_gb(model_path: str, quantization: str = "8bit",
+                                model_name: str = "") -> Optional[float]:
+        """根据模型架构参数 + 量化方案估算单副本显存占用（GB）。
+
+        精确计算 GQA / SwiGLU / tie_word_embeddings / RMS Norm 等现代架构特性。
+        支持从模型名称回退估算（如 "Qwen3-4B" → 4B params）。
+        """
+        param_count = None
+        detail_parts = []  # 调试信息
+
         try:
             config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)
+
+            # 方法1：配置文件直接声明了参数量
             if hasattr(config, 'num_parameters'):
-                param_count = config.num_parameters
-            elif hasattr(config, 'hidden_size') and hasattr(config, 'num_hidden_layers'):
-                h = config.hidden_size
-                L = config.num_hidden_layers
-                V = config.vocab_size
-                param_count = 12 * h * h * L + V * h
+                try:
+                    pc = int(config.num_parameters)
+                    if pc > 0:
+                        param_count = pc
+                        detail_parts.append(f"config.num_parameters={pc:,}")
+                except (TypeError, ValueError):
+                    pass
+
+            # 方法2：从架构参数精细计算
+            if param_count is None:
+                h = getattr(config, 'hidden_size', None)
+                L = getattr(config, 'num_hidden_layers', None)
+                if h is not None and L is not None:
+                    V = getattr(config, 'vocab_size', 0)
+                    n_heads = getattr(config, 'num_attention_heads', 1)
+                    n_kv_heads = getattr(config, 'num_key_value_heads', n_heads)
+                    # head_dim 可能存储在不同属性名下（Qwen3 用 head_dim，部分旧模型
+                    # 用 hidden_size//num_heads 隐含推导）
+                    d_head = getattr(config, 'head_dim', None)
+                    if d_head is None:
+                        d_head = getattr(config, 'hidden_size', h) // n_heads
+                    # intermediate_size 检测（SwiGLU MLP 中间维度）
+                    intermediate = getattr(config, 'intermediate_size', None)
+                    if intermediate is None:
+                        intermediate = getattr(config, 'ffn_dim', None)
+                    if intermediate is None:
+                        intermediate = getattr(config, 'moe_intermediate_size', None)
+                    if intermediate is None:
+                        intermediate = h * 8 // 3  # Llama 系列默认比例
+                    tie_emb = getattr(config, 'tie_word_embeddings', False)
+
+                    h_attn = n_heads * d_head
+                    h_kv_attn = n_kv_heads * d_head
+
+                    # 每层参数：Q + K + V + O + gate + up + down + 2×RMS Norm
+                    attn_params = 2 * h * h_attn + 2 * h * h_kv_attn
+                    mlp_params = 3 * h * intermediate
+                    norm_params = 2 * h + 2 * h  # attention norm + mlp norm（RMS 各 h 维）
+                    per_layer = attn_params + mlp_params + norm_params
+
+                    total = V * h + L * per_layer
+                    if not tie_emb:
+                        total += V * h  # 未绑定的 LM head
+                    # 最终 LayerNorm
+                    total += h
+
+                    param_count = total
+                    detail_parts.append(
+                        f"h={h}, L={L}, V={V}, n_heads={n_heads}, n_kv={n_kv_heads}, "
+                        f"d_head={d_head}, intermediate={intermediate}, tie_emb={tie_emb}"
+                    )
+                    detail_parts.append(f"computed_params={param_count:,}")
+        except Exception as e:
+            detail_parts.append(f"config_load_failed: {e}")
+
+        # 方法3：从模型名称回退估算（如 "Qwen3-4B" → 4B）
+        if param_count is None and model_name:
+            import re
+            m = re.search(r'(\d+\.?\d*)\s*[Bb]', model_name)
+            if m:
+                fallback_b = float(m.group(1))
+                param_count = int(fallback_b * 1e9)
+                detail_parts.append(f"name_fallback: {model_name} → {param_count:,}")
             else:
-                return None
-        except Exception:
+                detail_parts.append("estimate_failed: no architecture config and no size hint in name")
+
+        if param_count is None:
+            if detail_parts:
+                print(f"  [预估] {model_name or model_path}: {'; '.join(detail_parts)}")
             return None
 
         q = quantization.lower().strip()
@@ -141,10 +211,13 @@ class HardwareDetector:
         elif q in ("8bit", "int8", "8"):
             bytes_per_param = 1.0
         else:
-            bytes_per_param = 2.0
+            bytes_per_param = 2.0  # FP16 / BF16
 
         overhead = 1.20
-        return round(param_count * bytes_per_param * overhead / (1024 ** 3), 2)
+        vram = round(param_count * bytes_per_param * overhead / (1024 ** 3), 2)
+        detail_parts.append(f"quant={q}, bytes={bytes_per_param}, overhead={overhead}, vram={vram}GB")
+        print(f"  [预估] {model_name or model_path}: {'; '.join(detail_parts)}")
+        return vram
 
     @staticmethod
     def print_summary(models_info: List[dict]) -> dict:
@@ -192,6 +265,108 @@ def sanitize_filename(s: str) -> str:
     return s.replace('/', '_').replace('\\', '_').replace(':', '_')\
             .replace('*', '_').replace('?', '_').replace('"', '_')\
             .replace('<', '_').replace('>', '_').replace('|', '_')
+
+
+# ============================================================
+#  中断续写（Checkpoint）管理
+# ============================================================
+
+class CheckpointManager:
+    """基于 .done 标记文件的中断续写管理器。
+
+    每个完成的任务在 output_dir/.checkpoints/ 下写入一个标记文件，
+    重启时读取所有标记文件，在 build_all_tasks 阶段过滤已完成任务。
+    多 Worker 并发安全（每个任务写独立文件）。
+    """
+
+    def __init__(self, checkpoint_dir: str):
+        self.checkpoint_dir = os.path.join(checkpoint_dir, '.checkpoints')
+        os.makedirs(self.checkpoint_dir, exist_ok=True)
+        self._completed: set = set()
+        self._load()
+
+    def _load(self):
+        """读取所有 .done 标记文件，恢复已完成任务集合。"""
+        if not os.path.isdir(self.checkpoint_dir):
+            return
+        for fname in os.listdir(self.checkpoint_dir):
+            if fname.endswith('.done'):
+                # 文件名即 task_hash
+                self._completed.add(fname[:-5])  # 去掉 .done 后缀
+
+    def mark_done(self, task_hash: str):
+        """标记一个任务已完成（写 .done 空文件）。"""
+        self._completed.add(task_hash)
+        marker = os.path.join(self.checkpoint_dir, f'{task_hash}.done')
+        try:
+            with open(marker, 'w', encoding='utf-8') as f:
+                f.write('')
+        except Exception:
+            pass  # 标记写入失败不应中断主流程
+
+    def is_done(self, task_hash: str) -> bool:
+        """检查任务是否已完成。"""
+        return task_hash in self._completed
+
+    @staticmethod
+    def make_task_hash(task: dict) -> str:
+        """为任务生成唯一标识（短哈希，用作文件名）。
+
+        标识包含: 模型名 + 体裁 + 词牌/诗体 + 主题 + 约束模式
+        """
+        import hashlib
+        meter = task['meter_type']
+        name = task.get('cipai', task.get('form', {}).get('name', '?'))
+        theme = task['theme']
+        constraints = 'C' if task.get('use_constraints', True) else 'F'
+        model = task.get('model_name', '?')
+        task_type = task.get('task_type', '?')
+        raw = f"{model}|{meter}|{name}|{theme}|{constraints}|{task_type}"
+        return hashlib.md5(raw.encode('utf-8')).hexdigest()[:12]
+
+    def summary(self) -> str:
+        return f"已恢复 {len(self._completed)} 个已完成任务"
+
+
+# ============================================================
+#  实验运行日志
+# ============================================================
+
+class TeeLogger:
+    """同时输出到 stdout 和日志文件的 Tee 日志器。
+
+    在 main() 开始时初始化，将所有 print 输出同步写入日志文件。
+    """
+
+    def __init__(self, log_dir: str):
+        os.makedirs(log_dir, exist_ok=True)
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        self.log_path = os.path.join(log_dir, f'experiment_{timestamp}.log')
+        self._file = open(self.log_path, 'w', encoding='utf-8')
+        self._original_stdout = sys.stdout
+        self._original_stderr = sys.stderr
+
+    def write(self, message):
+        self._original_stdout.write(message)
+        self._file.write(message)
+
+    def flush(self):
+        self._original_stdout.flush()
+        self._file.flush()
+
+    def start(self):
+        """开始将 stdout/stderr tee 到日志文件。"""
+        sys.stdout = self
+        sys.stderr = self
+
+    def stop(self):
+        """恢复原始 stdout/stderr 并关闭日志文件。"""
+        sys.stdout = self._original_stdout
+        sys.stderr = self._original_stderr
+        self._file.close()
+
+    def get_path(self) -> str:
+        return self.log_path
 
 
 def load_config(config_path: str) -> dict:
@@ -332,6 +507,7 @@ def _worker_process(
     gen_params: dict,
     output_dir: str,
     project_root: str,
+    checkpoint_dir: str = "",  # 断点续写 .done 标记目录
 ):
     """
     子进程入口（spawn 上下文）。
@@ -446,14 +622,37 @@ def _worker_process(
                 get_dm_vi=_get_dm_vi,
                 log_fn=_log,
             )
+            _mark_task_done = True
         except Exception as e:
             _log(f"[错误] 任务执行失败: {task.get('cipai', task.get('form', {}).get('name', '?'))}"
                  f" / {task.get('theme', '?')} — {e}")
             traceback.print_exc()
+            _mark_task_done = False
 
         processed += 1
-        with progress_counter.get_lock():
-            progress_counter.value += 1
+        # Manager ValueProxy 在 Python 3.12 没有 get_lock()，直接赋值即可
+        #（Manager 服务端本身串行化所有操作，无需客户端锁）
+        progress_counter.value += 1
+
+        # 断点续写：成功后写入 .done 标记
+        if _mark_task_done and checkpoint_dir:
+            try:
+                import hashlib as _hl
+                meter = task['meter_type']
+                name = task.get('cipai', task.get('form', {}).get('name', '?'))
+                theme = task['theme']
+                constraints = 'C' if task.get('use_constraints', True) else 'F'
+                model_nm = task.get('model_name', '?')
+                task_type = task.get('task_type', '?')
+                raw = f"{model_nm}|{meter}|{name}|{theme}|{constraints}|{task_type}"
+                task_hash = _hl.md5(raw.encode('utf-8')).hexdigest()[:12]
+                chk_dir = os.path.join(checkpoint_dir, '.checkpoints')
+                os.makedirs(chk_dir, exist_ok=True)
+                marker = os.path.join(chk_dir, f'{task_hash}.done')
+                with open(marker, 'w', encoding='utf-8') as _mf:
+                    _mf.write('')
+            except Exception:
+                pass  # 标记写入失败不应中断主流程
 
     _log(f"完成，共处理 {processed} 个任务")
 
@@ -690,6 +889,11 @@ class SmartScheduler:
         self._running_workers: List[dict] = []
         # set of model_key that are fully done
         self._finished_models: set = set()
+        # 显式模型状态机: model_key -> 'pending' | 'running' | 'finished'
+        # 解决旧逻辑中通过 running_workers + finished_models 推导状态的不确定性
+        self._model_status: Dict[str, str] = {}
+        # 连续失败计数器（model_key -> int），用于检测 OOM/Crash 死循环
+        self._consecutive_failures: Dict[str, int] = {}
 
     # ------------------------------------------------------------------
     #  初始化 & 排序
@@ -703,7 +907,8 @@ class SmartScheduler:
                 print(f"  [跳过] 模型 '{m.get('name', f'#{i}')}' 已禁用")
                 continue
             est = HardwareDetector.estimate_model_vram_gb(
-                m['path'], m.get('quantization', '8bit')
+                m['path'], m.get('quantization', '8bit'),
+                model_name=m.get('name', ''),
             )
             enabled.append({
                 'idx': i,
@@ -811,10 +1016,13 @@ class SmartScheduler:
     #  监控 & 动态调度
     # ------------------------------------------------------------------
 
-    def _start_worker(self, gpu_id: int, model: dict) -> mp.Process:
+    def _start_worker(self, gpu_id: int, model: dict,
+                       checkpoint_dir: str = "") -> mp.Process:
         """在指定 GPU 上启动指定模型的 Worker 进程。"""
         mq = self._model_queues[model['key']]
         ctx = mp.get_context('spawn')
+        # 断点续写目录
+        chk_dir = checkpoint_dir or self.output_dir
         p = ctx.Process(
             target=_worker_process,
             args=(
@@ -825,6 +1033,7 @@ class SmartScheduler:
                 self.gen_params,
                 self.output_dir,
                 self.project_root,
+                chk_dir,
             ),
             name=f'Worker-{model["name"]}-GPU{gpu_id}',
         )
@@ -835,31 +1044,171 @@ class SmartScheduler:
             'model_key': model['key'],
             'model_name': model['name'],
         })
+        self._model_status[model['key']] = 'running'
         return p
 
     def _get_running_model_keys(self) -> set:
         """返回当前正在运行（有活跃 Worker）的模型 key 集合。"""
-        return set(w['model_key'] for w in self._running_workers)
+        alive = set(w['model_key'] for w in self._running_workers if w['process'].is_alive())
+        # 同步 _model_status：还在运行的标记为 running
+        for mk in alive:
+            if self._model_status.get(mk) != 'finished':
+                self._model_status[mk] = 'running'
+        return alive
 
     def _get_pending_models(self) -> List[dict]:
-        """返回尚未启动且未完成的模型列表（按显存降序）。"""
-        running = self._get_running_model_keys()
+        """返回尚未启动且未完成的模型列表（按显存降序）。
+
+        使用显式 _model_status 而非从 running_workers 推导，杜绝状态不一致。
+        """
         return [
             m for m in self.models
-            if m['key'] not in running and m['key'] not in self._finished_models
+            if self._model_status.get(m['key'], 'pending') == 'pending'
         ]
 
     def _model_has_remaining_tasks(self, model_key: str) -> bool:
-        """检查模型是否还有未完成的任务。"""
+        """检查模型是否还有未完成的任务（Worker 正常退出后调用）。"""
         mq = self._model_queues.get(model_key)
         if not mq:
             return False
         return mq['counter'].value < mq['total']
 
+    def _get_idle_gpus(self) -> List[int]:
+        """返回所有没有活跃 Worker 的 GPU 索引列表。"""
+        busy_gpus = set()
+        for w in self._running_workers:
+            if w['process'].is_alive():
+                busy_gpus.add(w['gpu_id'])
+        return [g['index'] for g in self.gpus if g['index'] not in busy_gpus]
+
+    def _try_schedule_on_gpu(self, gpu_id: int, max_consecutive_failures: int) -> bool:
+        """尝试在指定 GPU 上调度一个合适的模型。
+
+        优先级：
+          1. 启动尚未运行的 pending 模型（大模型优先）
+          2. 末模型并行加速（仅剩一个模型有任务时为其增加 Worker）
+          3. 已 running 但无活跃 Worker 的模型（Worker 异常全灭后的恢复）
+
+        返回 True 表示成功调度了一个 Worker。
+        """
+        gpu = self.gpus[gpu_id]
+        pending = self._get_pending_models()
+
+        # 过滤掉连续崩溃过多的模型
+        schedulable_pending = [
+            m for m in pending
+            if self._consecutive_failures.get(m['key'], 0) < max_consecutive_failures
+        ]
+        skipped = [m for m in pending
+                    if self._consecutive_failures.get(m['key'], 0) >= max_consecutive_failures]
+        if skipped:
+            names = ', '.join(m['name'] for m in skipped)
+            print(f"  [跳过] 以下模型连续失败 {max_consecutive_failures} 次，暂停调度: {names}")
+
+        # 优先级 1：启动 pending 模型
+        for model in schedulable_pending:
+            if self._can_place_on_gpu(gpu, model):
+                running_count = sum(
+                    1 for w in self._running_workers
+                    if w['model_key'] == model['key'] and w['process'].is_alive()
+                )
+                if running_count < model['max_parallel']:
+                    self._allocate_gpu(gpu, model)
+                    p = self._start_worker(gpu_id, model)
+                    print(f"  [调度] GPU {gpu_id} → {model['name']} (PID={p.pid})"
+                          f" [新模型启动, 状态: pending→running]")
+                    return True
+
+        # 优先级 1b：重新调度"已 running 但无活跃 Worker"的模型
+        # （Worker 异常全灭 → 状态被 _update_model_status 退回 pending，由优先级 1 处理；
+        #   但若状态尚未来得及更新就进入本函数，这里做兜底检查）
+        for model in self.models:
+            mk = model['key']
+            if mk in self._finished_models:
+                continue
+            mq = self._model_queues.get(mk)
+            if not mq:
+                continue
+            has_alive = any(
+                w['model_key'] == mk and w['process'].is_alive()
+                for w in self._running_workers
+            )
+            remaining = mq['total'] - mq['counter'].value
+            if remaining > 0 and not has_alive and self._model_status.get(mk) != 'pending':
+                # 模型有剩余任务但无 Worker → 状态不一致，回退到 pending
+                self._model_status[mk] = 'pending'
+                if self._can_place_on_gpu(gpu, model):
+                    running_count = sum(
+                        1 for w in self._running_workers
+                        if w['model_key'] == mk and w['process'].is_alive()
+                    )
+                    if running_count < model['max_parallel']:
+                        self._allocate_gpu(gpu, model)
+                        p = self._start_worker(gpu_id, model)
+                        print(f"  [调度] GPU {gpu_id} → {model['name']} (PID={p.pid})"
+                              f" [异常恢复, 剩余 {remaining} 任务]")
+                        return True
+
+        # 优先级 2：末模型并行加速
+        running_keys = self._get_running_model_keys()
+        running_models = [m for m in self.models if m['key'] in running_keys]
+        still_pending = self._get_pending_models()
+
+        if len(running_models) == 1 and not still_pending:
+            only_model = running_models[0]
+            running_count = sum(
+                1 for w in self._running_workers
+                if w['model_key'] == only_model['key'] and w['process'].is_alive()
+            )
+            mq = self._model_queues[only_model['key']]
+            remaining = mq['total'] - mq['counter'].value
+            if (running_count < only_model['max_parallel']
+                    and remaining > 0
+                    and self._can_place_on_gpu(gpu, only_model)):
+                self._allocate_gpu(gpu, only_model)
+                p = self._start_worker(gpu_id, only_model)
+                print(f"  [调度] GPU {gpu_id} → {only_model['name']} (PID={p.pid})"
+                      f" [末模型并行, 剩余 {remaining} 任务]")
+                return True
+
+        # 无法调度：输出诊断
+        reason_parts = []
+        if still_pending:
+            reason_parts.append(
+                f"{len(still_pending)} 个模型待运行但显存不足"
+                f" (需 >{gpu['free_vram']:.1f} GB)"
+            )
+        if not reason_parts:
+            reason_parts.append('所有模型已完成或运行中')
+        print(f"  [空闲] GPU {gpu_id} 暂无合适模型可调度"
+              f" ({'; '.join(reason_parts)})"
+              f" | 空闲显存 {gpu['free_vram']:.1f} GB")
+        return False
+
+    def _update_model_status(self, model_key: str):
+        """根据队列计数器 + 活跃 Worker 数同步模型状态。"""
+        mq = self._model_queues.get(model_key)
+        all_done = mq and mq['counter'].value >= mq['total']
+        has_alive_workers = any(
+            w['model_key'] == model_key and w['process'].is_alive()
+            for w in self._running_workers
+        )
+        if all_done:
+            self._model_status[model_key] = 'finished'
+            self._finished_models.add(model_key)
+        elif has_alive_workers:
+            self._model_status[model_key] = 'running'
+        else:
+            # 无活跃 Worker 但任务未完成 → 回退到 pending 等待重新调度
+            if model_key not in self._finished_models:
+                self._model_status[model_key] = 'pending'
+
     def _print_status(self):
-        """打印当前调度状态。"""
+        """打印当前调度状态（含显式状态机信息）。"""
         running_info = []
         for w in self._running_workers:
+            if not w['process'].is_alive():
+                continue
             mq = self._model_queues.get(w['model_key'])
             if mq:
                 done = mq['counter'].value
@@ -876,8 +1225,17 @@ class SmartScheduler:
             for g in self.gpus
         )
 
+        # 显式状态一览
+        status_summary = []
+        for m in self.models:
+            st = self._model_status.get(m['key'], '?')
+            mq = self._model_queues.get(m['key'])
+            prog = f"({mq['counter'].value}/{mq['total']})" if mq else ''
+            status_summary.append(f"{m['name']}[{st}]{prog}")
+
         print(f"\n  [调度状态] {datetime.now().strftime('%H:%M:%S')}")
         print(f"    GPU显存: {gpu_status}")
+        print(f"    模型状态: {' | '.join(status_summary)}")
         print(f"    运行中:   {', '.join(running_info) if running_info else '(无)'}")
         print(f"    待运行:   {', '.join(pending_names) if pending_names else '(无)'}")
         print(f"    已完成:   {len(self._finished_models)}/{len(self.models)} 个模型")
@@ -916,23 +1274,63 @@ class SmartScheduler:
             model_name = next((m['name'] for m in self.models if m['key'] == mk), mk)
             print(f"    {model_name}: {len(tasks)} 个任务")
 
-        # Step 3: 为每个模型创建共享任务队列
+        # Step 2.5: 初始化中断续写管理器
+        # CheckpointManager 内部自动追加 .checkpoints 子目录
+        checkpoint_mgr = CheckpointManager(self.output_dir)
+        print(f"\n  [断点续写] {checkpoint_mgr.summary()}")
+
+        # Step 3: 为每个模型创建共享任务队列，初始化显式状态机
         self._manager = mp.Manager()
+        total_skipped = 0
         for mk, tasks in tasks_by_model.items():
+            # 过滤已完成任务
+            filtered = [t for t in tasks
+                        if not checkpoint_mgr.is_done(CheckpointManager.make_task_hash(t))]
+            skipped = len(tasks) - len(filtered)
+            total_skipped += skipped
+            model_name = next((m['name'] for m in self.models if m['key'] == mk), mk)
+            if skipped:
+                print(f"  [续写] {model_name}: 跳过 {skipped} 个已完成任务，"
+                      f"剩余 {len(filtered)}/{len(tasks)}")
+
+            if not filtered:
+                # 所有任务均已完成 → 标记为 finished
+                self._model_status[mk] = 'finished'
+                self._finished_models.add(mk)
+                print(f"  [续写] {model_name}: 全部完成，跳过")
+                self._model_queues[mk] = {
+                    'queue': None,
+                    'counter': self._manager.Value('i', len(tasks)),
+                    'total': len(tasks),
+                    'cfg': next((m['cfg'] for m in self.models if m['key'] == mk), {}),
+                }
+                continue
+
             # 推断此模型的默认韵书（用于 Worker 初始化 DataManager）
-            default_rhyme = tasks[0].get('rhyme_dict_name', 'Xinyun') if tasks else 'Xinyun'
+            default_rhyme = filtered[0].get('rhyme_dict_name', 'Xinyun') if filtered else 'Xinyun'
             model_cfg = next((m['cfg'] for m in self.models if m['key'] == mk), {})
             model_cfg['_default_rhyme'] = default_rhyme
 
             queue = self._manager.Queue()
-            for t in tasks:
+            for t in filtered:
                 queue.put(t)
             self._model_queues[mk] = {
                 'queue': queue,
                 'counter': self._manager.Value('i', 0),
-                'total': len(tasks),
+                'total': len(filtered),  # 使用过滤后的任务数
                 'cfg': model_cfg,
             }
+            # 初始化显式状态：所有模型从 pending 开始
+            self._model_status[mk] = 'pending'
+            self._consecutive_failures[mk] = 0
+
+        if total_skipped:
+            print(f"  [续写] 总计跳过 {total_skipped} 个已完成任务")
+
+        # 修正 total_tasks 为过滤后的数量
+        total_tasks = sum(
+            mq['total'] for mq in self._model_queues.values()
+        )
 
         # Step 4: 初始 GPU 放置
         print(f"\n  [初始放置] 贪心分配 GPU...")
@@ -964,16 +1362,17 @@ class SmartScheduler:
             p = self._start_worker(gpu_id, model)
             print(f"    GPU {gpu_id} → {model['name']} (PID={p.pid})")
 
-        # Step 6: 监控循环 — 动态调度核心
+        # Step 6: 监控循环 — 动态调度核心（显式状态机驱动）
         print(f"\n{'=' * 60}")
         print(f"  开始监控调度循环（轮询间隔 {self.poll_interval}s）")
         print(f"{'=' * 60}")
 
         start_time = time.time()
         last_status_time = start_time
+        MAX_CONSECUTIVE_FAILURES = 3  # 同一模型连续异常退出上限
 
-        while self._running_workers:
-            # 检查已完成的 Worker
+        while True:
+            # ---- 6a. 检查已完成的 Worker，同步状态 ----
             newly_freed_gpus = []
             still_running = []
 
@@ -987,90 +1386,115 @@ class SmartScheduler:
                     model_name = w_info['model_name']
 
                     if exitcode != 0:
+                        self._consecutive_failures[model_key] = \
+                            self._consecutive_failures.get(model_key, 0) + 1
                         print(f"\n  [警告] Worker {model_name}@GPU{gpu_id} 异常退出"
-                              f" (exitcode={exitcode})")
+                              f" (exitcode={exitcode}, "
+                              f"连续失败 {self._consecutive_failures[model_key]}/{MAX_CONSECUTIVE_FAILURES})")
+                    else:
+                        # 正常退出 → 重置失败计数
+                        self._consecutive_failures[model_key] = 0
 
-                    # 检查此模型是否所有任务都完成了
-                    mq = self._model_queues.get(model_key)
-                    all_done = mq and mq['counter'].value >= mq['total']
+                    # 同步模型状态（基于计数器 + 剩余活跃 Worker）
+                    self._update_model_status(model_key)
+                    new_status = self._model_status.get(model_key, '?')
 
-                    if all_done and model_key not in self._finished_models:
-                        self._finished_models.add(model_key)
+                    if new_status == 'finished':
+                        mq = self._model_queues.get(model_key)
+                        total = mq['total'] if mq else '?'
+                        done = mq['counter'].value if mq else '?'
                         print(f"\n  [完成] 模型 '{model_name}' 全部任务完成！"
-                              f" ({mq['counter'].value}/{mq['total']})")
+                              f" ({done}/{total}), 状态 → finished")
 
                     # 释放 GPU 资源
                     self._release_gpu(self.gpus[gpu_id], model_key)
                     newly_freed_gpus.append(gpu_id)
                     print(f"  [释放] GPU {gpu_id} 资源已回收"
-                          f" (空闲 {self.gpus[gpu_id]['free_vram']:.1f} GB)")
+                          f" (空闲 {self.gpus[gpu_id]['free_vram']:.1f} GB)"
+                          f" | 模型 {model_name} 状态: {new_status}")
                 else:
                     still_running.append(w_info)
 
             self._running_workers = still_running
 
-            # 对每个刚释放的 GPU，尝试调度下一个模型
+            # ---- 6b. 对每个刚释放的 GPU 执行调度决策 ----
+            scheduled_this_round: set = set()  # 本轮已调度的 GPU，避免重复
             for gpu_id in newly_freed_gpus:
-                gpu = self.gpus[gpu_id]
-                scheduled = False
+                if self._try_schedule_on_gpu(gpu_id, MAX_CONSECUTIVE_FAILURES):
+                    scheduled_this_round.add(gpu_id)
 
-                # 优先：尝试放置尚未启动的待运行模型（大模型优先）
-                pending = self._get_pending_models()
-                for model in pending:
-                    if self._can_place_on_gpu(gpu, model):
-                        # 检查并行上限
-                        running_count = sum(
-                            1 for w in self._running_workers
-                            if w['model_key'] == model['key']
-                        )
-                        if running_count < model['max_parallel']:
-                            self._allocate_gpu(gpu, model)
-                            p = self._start_worker(gpu_id, model)
-                            print(f"  [调度] GPU {gpu_id} → {model['name']} (PID={p.pid})"
-                                  f" [新模型启动]")
-                            scheduled = True
-                            break
+            # ---- 6b2. 重新检查所有空闲 GPU（含历史遗留的空闲 GPU） ----
+            # 场景：GPU 在上一轮被释放但无法容纳 pending 模型（显存不足），
+            #       之后同卡上另一个模型也释放了资源 → 现在可能够用了。
+            #       旧逻辑仅在 newly_freed_gpus 上触发调度，导致该 GPU 永久空闲。
+            idle_gpus = self._get_idle_gpus()
+            for gpu_id in idle_gpus:
+                if gpu_id not in scheduled_this_round and gpu_id not in newly_freed_gpus:
+                    pending = self._get_pending_models()
+                    if pending:
+                        if self._try_schedule_on_gpu(gpu_id, MAX_CONSECUTIVE_FAILURES):
+                            scheduled_this_round.add(gpu_id)
 
-                if scheduled:
-                    continue
+            # ---- 6c. 终止条件检查 ----
+            # 将连续失败的模型标记为"不可恢复"
+            for m in self.models:
+                mk = m['key']
+                if self._consecutive_failures.get(mk, 0) >= MAX_CONSECUTIVE_FAILURES:
+                    if self._model_status.get(mk) not in ('finished',):
+                        self._model_status[mk] = 'finished'
+                        self._finished_models.add(mk)
+                        mq = self._model_queues.get(mk)
+                        done = mq['counter'].value if mq else '?'
+                        total = mq['total'] if mq else '?'
+                        print(f"  [放弃] 模型 '{m['name']}' 连续失败 {MAX_CONSECUTIVE_FAILURES} 次，"
+                              f"标记为不可恢复 ({done}/{total})")
 
-                # 次优：检查是否有正在运行的模型需要更多 Worker（末模型并行）
-                running_keys = self._get_running_model_keys()
-                running_models = [m for m in self.models if m['key'] in running_keys]
+            all_finished = len(self._finished_models) >= len(self.models)
+            if all_finished and not self._running_workers:
+                break
 
-                # 判断是否只剩一个模型在运行（且无待运行模型）
-                if len(running_models) == 1 and not pending:
-                    only_model = running_models[0]
-                    running_count = sum(
-                        1 for w in self._running_workers
-                        if w['model_key'] == only_model['key']
-                    )
-                    remaining = (self._model_queues[only_model['key']]['total']
-                                 - self._model_queues[only_model['key']]['counter'].value)
-
-                    if (running_count < only_model['max_parallel']
-                            and remaining > 0
-                            and self._can_place_on_gpu(gpu, only_model)):
-                        self._allocate_gpu(gpu, only_model)
-                        p = self._start_worker(gpu_id, only_model)
-                        print(f"  [调度] GPU {gpu_id} → {only_model['name']} (PID={p.pid})"
-                              f" [末模型并行] 剩余 {remaining} 任务")
-                        scheduled = True
-                        continue
-
-                if not scheduled:
-                    print(f"  [空闲] GPU {gpu_id} 暂无合适模型可调度"
-                          f" (空闲 {gpu['free_vram']:.1f} GB)")
-
-            # 检查是否所有模型都完成了
-            if len(self._finished_models) >= len(self.models):
-                # 所有模型完成，等待剩余 Worker 退出（应该很快）
+            if all_finished:
+                # 所有模型标记完成，等待剩余 Worker 自然退出（最多 5s）
                 time.sleep(1)
-                remaining = [w for w in self._running_workers if w['process'].is_alive()]
-                if not remaining:
+                if not any(w['process'].is_alive() for w in self._running_workers):
                     break
 
-            # 定期打印状态
+            # 安全网：检查是否有模型处于 pending 但无 GPU 可用（死锁检测）
+            pending_models = self._get_pending_models()
+            # 放宽死锁检测：只要有 pending 模型且有空闲 GPU 就尝试强制放置
+            idle_gpus = self._get_idle_gpus()
+            if pending_models and idle_gpus:
+                # 排查：是否所有 pending 模型的预估显存都超过空闲 GPU
+                max_free = max(self.gpus[g]['free_vram'] for g in idle_gpus)
+                all_too_big = all(
+                    (m.get('estimated_vram_gb') or 999) * (1 + self.safety_margin) > max_free
+                    for m in pending_models
+                )
+                if all_too_big:
+                    print(f"\n  [死锁] {len(pending_models)} 个模型待运行但显存不足！"
+                          f" GPU 最大空闲 {max_free:.1f} GB")
+                    # 将最小显存需求的模型强制放置（降级运行）
+                    smallest = min(pending_models,
+                                   key=lambda m: m.get('estimated_vram_gb') or 999)
+                    est = smallest.get('estimated_vram_gb') or 999
+                    best_gpu = max(idle_gpus, key=lambda g: self.gpus[g]['free_vram'])
+                    if self.gpus[best_gpu]['free_vram'] >= self.gpus[best_gpu]['total_vram'] * 0.3:
+                        self._allocate_gpu(self.gpus[best_gpu], smallest)
+                        p = self._start_worker(best_gpu, smallest)
+                        print(f"  [死锁恢复] GPU {best_gpu} → {smallest['name']} (PID={p.pid})"
+                              f" [降级放置, 预估 {est}GB, 可用 {max_free:.1f}GB]")
+                    else:
+                        for m in pending_models:
+                            print(f"  [死锁] {m['name']} 无法放置，标记为不可恢复")
+                            self._model_status[m['key']] = 'finished'
+                            self._finished_models.add(m['key'])
+                else:
+                    # 有可放置的模型 → 强制调度
+                    for gpu_id in idle_gpus:
+                        if self._try_schedule_on_gpu(gpu_id, MAX_CONSECUTIVE_FAILURES + 999):
+                            print(f"  [死锁恢复] GPU {gpu_id} 强制调度成功")
+
+            # ---- 6d. 定期打印状态 ----
             now = time.time()
             if now - last_status_time >= 30:
                 self._print_status()
@@ -1107,6 +1531,21 @@ def main():
     config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "batch_config.json")
     config = load_config(config_path)
 
+    # ---- 初始化运行日志（最先执行，确保所有输出被记录） ----
+    log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+    tee_logger = TeeLogger(log_dir)
+    tee_logger.start()
+    try:
+        _main_impl(config, config_path)
+    finally:
+        tee_logger.stop()
+        log_path = tee_logger.get_path()
+        # 用原始 stdout 输出日志路径（因为 tee 已停止）
+        print(f"\n[日志] 运行日志已保存至: {log_path}")
+
+
+def _main_impl(config: dict, config_path: str):
+    """main() 的实际实现，由 main() 包裹 TeeLogger 后调用。"""
     output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
     os.makedirs(output_dir, exist_ok=True)
 
@@ -1146,7 +1585,8 @@ def main():
     models_info = []
     for m in enabled_models:
         est = HardwareDetector.estimate_model_vram_gb(
-            m['path'], m.get('quantization', '8bit')
+            m['path'], m.get('quantization', '8bit'),
+            model_name=m.get('name', ''),
         )
         models_info.append({
             'name': m['name'],

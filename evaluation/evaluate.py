@@ -5,15 +5,23 @@ Classical Chinese Poetry Evaluator — unified entry for Songci (宋词) and Tan
 Supports two evaluation backends sharing the same 3-component scoring system
 (Structure 40% + Tonal 30% + Rhyme 30%) based on 中华新韵 (Xinyun) via pypinyin.
 
-Input layout:
+Input layout (new):
     evaluation_input/
-        Songci/          ← one .txt per 词牌 (or one .json)
-        Tongpoem/        ← one .txt per poem type
+        constrained_decoding/   ← flat .txt files, mixed 唐诗/宋词
+        free_decoding/          ← Songci/ + Tongpoem/ subdirs (or flat)
+
+    File naming: {Model}-({TaskType})-{FormName}-{Theme}.txt
 
 Output layout:
     evaluation_output/
-        Songci/          ← *_evaluation.json
-        Tongpoem/        ← *_evaluation.json
+        constrained_decoding/
+            {Model}/
+                {original_name}_evaluation.json   ← per-file detailed
+            {Model}_summary.json                  ← per-model aggregate
+        free_decoding/
+            {Model}/
+                {original_name}_evaluation.json
+            {Model}_summary.json
 """
 
 import json
@@ -21,7 +29,7 @@ import os
 import re
 import sys
 import io
-from collections import Counter
+from collections import Counter, defaultdict
 from pypinyin import pinyin, Style
 from tqdm import tqdm
 
@@ -753,8 +761,33 @@ class TangPoemEvaluator:
 
 
 # ============================================================
-#  Batch evaluation helpers
+#  Filename parsing & classification
 # ============================================================
+
+TANG_FORMS = {'七律', '七绝', '五律', '五绝'}
+
+
+def parse_filename(filename):
+    """Parse '{Model}-({TaskType})-{FormName}-{Theme}.txt' or similar.
+
+    Returns dict with model, task_type, form_name, theme, or None on failure.
+    """
+    base = filename.replace('.txt', '').strip()
+    m = re.match(r'^(.+?)-\((.+?)\)-(.+)-(.+)$', base)
+    if m:
+        return {
+            'model': m.group(1),
+            'task_type': m.group(2),
+            'form_name': m.group(3),
+            'theme': m.group(4),
+        }
+    return None
+
+
+def classify_form(form_name):
+    """Return 'tang' if form_name is a Tang poem type, else 'songci'."""
+    return 'tang' if form_name in TANG_FORMS else 'songci'
+
 
 def _collect_input_files(input_dir):
     """Return list of .txt file paths under input_dir (recursive)."""
@@ -768,25 +801,34 @@ def _collect_input_files(input_dir):
     return files
 
 
-def _process_songci_file(filepath, evaluator, output_dir):
-    """Evaluate a single Songci input file (may contain multiple works)."""
-    filename = os.path.basename(filepath)
-    cipai = re.sub(r'[\._\-·].*', '', filename).strip()
+# ============================================================
+#  Unified batch evaluation
+# ============================================================
 
-    if cipai not in evaluator.meters:
-        print(f"  [SKIP] '{cipai}' (from '{filename}') not in meter data")
+def _process_one_file(filepath, songci_evaluator, tang_evaluator):
+    """Evaluate a single file, auto-detecting form type from filename.
+
+    Returns a dict with evaluation results and metadata, or None on skip.
+    """
+    filename = os.path.basename(filepath)
+    info = parse_filename(filename)
+
+    with open(filepath, 'r', encoding='utf-8') as f:
+        raw_text = f.read()
+
+    works = re.split(r'===+\s*作品\s*\d*\s*===+', raw_text)
+    if len(works) <= 1:
+        works = [raw_text]
+
+    poem_results = []
+    total_sum = structure_sum = tonal_sum = rhyme_sum = 0.0
+    poem_count = 0
+
+    if info is None:
         return None
 
-    with open(filepath, 'r', encoding='utf-8') as f:
-        raw_text = f.read()
-
-    works = re.split(r'===+\s*作品\s*\d*\s*===+', raw_text)
-    if len(works) <= 1:
-        works = [raw_text]
-
-    poem_results = []
-    total_sum = structure_sum = tonal_sum = rhyme_sum = 0.0
-    poem_count = 0
+    form_name = info['form_name']
+    form_type = classify_form(form_name)
 
     for i, work in enumerate(works):
         work = work.strip()
@@ -796,7 +838,13 @@ def _process_songci_file(filepath, evaluator, output_dir):
         if not poem_text:
             continue
 
-        ev = evaluator.evaluate(cipai, poem_text)
+        if form_type == 'songci' and songci_evaluator:
+            ev = songci_evaluator.evaluate(form_name, poem_text)
+        elif form_type == 'tang' and tang_evaluator:
+            ev = tang_evaluator.evaluate(poem_text)
+        else:
+            continue
+
         poem_results.append({
             "work_index": i,
             "poem_text": poem_text,
@@ -819,88 +867,132 @@ def _process_songci_file(filepath, evaluator, output_dir):
             "average_rhyme_score": round(rhyme_sum / poem_count, 2),
         }
 
-    out_name = filename.replace('.txt', '_evaluation.json')
-    out_path = os.path.join(output_dir, out_name)
-    with open(out_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source_file": filename,
-            "cipai": cipai,
-            "works_evaluated": poem_count,
-            "average_scores": avg_scores,
-            "individual_results": poem_results,
-        }, f, ensure_ascii=False, indent=2)
-
     return {
         "source_file": filename,
-        "cipai": cipai,
+        "model": info['model'],
+        "task_type": info['task_type'],
+        "form_name": form_name,
+        "form_type": form_type,
+        "theme": info['theme'],
         "works_evaluated": poem_count,
         "average_scores": avg_scores,
+        "individual_results": poem_results,
     }
 
 
-def _process_tongpoem_file(filepath, evaluator, output_dir):
-    """Evaluate a single Tongpoem input file (may contain multiple works)."""
-    filename = os.path.basename(filepath)
+def _save_per_file_output(result, mode_output_dir):
+    """Save per-file detailed evaluation JSON under {model}/ subdirectory."""
+    model = result['model']
+    model_dir = os.path.join(mode_output_dir, model)
+    os.makedirs(model_dir, exist_ok=True)
 
-    with open(filepath, 'r', encoding='utf-8') as f:
-        raw_text = f.read()
+    filename = result['source_file']
+    out_name = filename.replace('.txt', '_evaluation.json')
+    out_path = os.path.join(model_dir, out_name)
 
-    works = re.split(r'===+\s*作品\s*\d*\s*===+', raw_text)
-    if len(works) <= 1:
-        works = [raw_text]
+    output_data = {
+        "source_file": filename,
+        "model": model,
+        "task_type": result['task_type'],
+        "form_name": result['form_name'],
+        "form_type": result['form_type'],
+        "theme": result['theme'],
+        "works_evaluated": result['works_evaluated'],
+        "average_scores": result['average_scores'],
+        "individual_results": result['individual_results'],
+    }
 
-    poem_results = []
-    total_sum = structure_sum = tonal_sum = rhyme_sum = 0.0
-    poem_count = 0
+    with open(out_path, 'w', encoding='utf-8') as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
 
-    for i, work in enumerate(works):
-        work = work.strip()
-        if not work:
+    return out_path
+
+
+def _build_model_summaries(all_results, mode_output_dir):
+    """Build per-model summary JSON files.
+
+    For each model, computes:
+      - tang_total_score (avg across all 唐诗)
+      - songci_total_score (avg across all 宋词)
+      - weighted_total_score (0.4 * tang + 0.6 * songci)
+    """
+    # Group results by model
+    by_model = defaultdict(lambda: {'tang': [], 'songci': []})
+    for r in all_results:
+        model = r['model']
+        avg = r['average_scores']
+        if not avg:
             continue
-        poem_text = extract_poem_text(work)
-        if not poem_text:
-            continue
+        entry = {
+            "source_file": r['source_file'],
+            "form_name": r['form_name'],
+            "theme": r['theme'],
+            "works_evaluated": r['works_evaluated'],
+            "average_total_score": avg.get('average_total_score', 0),
+            "average_structure_score": avg.get('average_structure_score', 0),
+            "average_tonal_score": avg.get('average_tonal_score', 0),
+            "average_rhyme_score": avg.get('average_rhyme_score', 0),
+        }
+        by_model[model][r['form_type']].append(entry)
 
-        ev = evaluator.evaluate(poem_text)
-        poem_results.append({
-            "work_index": i,
-            "poem_text": poem_text,
-            "evaluation": ev,
-        })
+    summaries = {}
+    for model, type_dict in sorted(by_model.items()):
+        tang_files = type_dict['tang']
+        songci_files = type_dict['songci']
 
-        if "error" not in ev:
-            total_sum += ev.get("total_score_percentage", 0)
-            structure_sum += ev.get("structure_score_percentage", 0)
-            tonal_sum += ev.get("tonal_score_percentage", 0)
-            rhyme_sum += ev.get("rhyme_score_percentage", 0)
-            poem_count += 1
+        def _aggregate(file_list):
+            if not file_list:
+                return {
+                    "files_evaluated": 0,
+                    "works_evaluated": 0,
+                    "average_total_score": 0.0,
+                    "average_structure_score": 0.0,
+                    "average_tonal_score": 0.0,
+                    "average_rhyme_score": 0.0,
+                }
+            n_files = len(file_list)
+            n_works = sum(f['works_evaluated'] for f in file_list)
+            return {
+                "files_evaluated": n_files,
+                "works_evaluated": n_works,
+                "average_total_score": round(
+                    sum(f['average_total_score'] for f in file_list) / n_files, 2),
+                "average_structure_score": round(
+                    sum(f['average_structure_score'] for f in file_list) / n_files, 2),
+                "average_tonal_score": round(
+                    sum(f['average_tonal_score'] for f in file_list) / n_files, 2),
+                "average_rhyme_score": round(
+                    sum(f['average_rhyme_score'] for f in file_list) / n_files, 2),
+                "detail_files": [
+                    {"file": f['source_file'], "form": f['form_name'],
+                     "theme": f['theme'], "score": f['average_total_score']}
+                    for f in file_list
+                ],
+            }
 
-    avg_scores = {}
-    if poem_count > 0:
-        avg_scores = {
-            "average_total_score": round(total_sum / poem_count, 2),
-            "average_structure_score": round(structure_sum / poem_count, 2),
-            "average_tonal_score": round(tonal_sum / poem_count, 2),
-            "average_rhyme_score": round(rhyme_sum / poem_count, 2),
+        tang_agg = _aggregate(tang_files)
+        songci_agg = _aggregate(songci_files)
+
+        tang_score = tang_agg['average_total_score']
+        songci_score = songci_agg['average_total_score']
+        weighted = round(0.4 * tang_score + 0.6 * songci_score, 2)
+
+        summary = {
+            "model": model,
+            "tang_poem": tang_agg,
+            "songci": songci_agg,
+            "tang_total_score": tang_score,
+            "songci_total_score": songci_score,
+            "weighted_total_score": weighted,
+            "weight_formula": "0.4 * tang_total + 0.6 * songci_total",
         }
 
-    out_name = filename.replace('.txt', '_evaluation.json')
-    out_path = os.path.join(output_dir, out_name)
-    with open(out_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source_file": filename,
-            "poem_type": poem_results[0]["evaluation"].get("poem_type", "") if poem_results else "",
-            "works_evaluated": poem_count,
-            "average_scores": avg_scores,
-            "individual_results": poem_results,
-        }, f, ensure_ascii=False, indent=2)
+        summary_path = os.path.join(mode_output_dir, f"{model}_summary.json")
+        with open(summary_path, 'w', encoding='utf-8') as f:
+            json.dump(summary, f, ensure_ascii=False, indent=2)
+        summaries[model] = summary_path
 
-    return {
-        "source_file": filename,
-        "poem_type": poem_results[0]["evaluation"].get("poem_type", "") if poem_results else "",
-        "works_evaluated": poem_count,
-        "average_scores": avg_scores,
-    }
+    return summaries
 
 
 # ============================================================
@@ -917,75 +1009,94 @@ if __name__ == "__main__":
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
     parser = argparse.ArgumentParser(
-        description="Evaluate Songci + Tang poems against tonal/structure/rhyme rules")
+        description="Evaluate Songci + Tang poems — constrained vs free decoding comparison")
     parser.add_argument("--meter", default=os.path.join(SCRIPT_DIR, "..", "Songci_Meter"),
-                        help="Path to Songci meter JSON")
+                        help="Path to Songci meter JSON directory")
     parser.add_argument("--input", default=os.path.join(SCRIPT_DIR, "evaluation_input"),
-                        help="Root input directory (expects Songci/ and Tongpoem/ subdirs)")
+                        help="Root input directory (expects constrained_decoding/ and free_decoding/ subdirs)")
     parser.add_argument("--output", default=os.path.join(SCRIPT_DIR, "evaluation_output"),
                         help="Root output directory")
     args = parser.parse_args()
 
-    METER_FILE = args.meter
+    METER_DIR = args.meter
     INPUT_ROOT = args.input
     OUTPUT_ROOT = args.output
 
-    # --- Songci ---
-    songci_input_dir = os.path.join(INPUT_ROOT, "Songci")
-    songci_output_dir = os.path.join(OUTPUT_ROOT, "Songci")
-    os.makedirs(songci_output_dir, exist_ok=True)
+    # --- Mode directories ---
+    MODES = ['constrained_decoding', 'free_decoding']
 
-    songci_evaluator = SongciEvaluator(METER_FILE) if os.path.exists(METER_FILE) else None
-    if songci_evaluator:
-        print(f"Loaded {len(songci_evaluator.meters)} cipai from '{METER_FILE}'")
+    # --- Evaluators (shared across modes) ---
+    songci_evaluator = None
+    if os.path.isdir(METER_DIR):
+        songci_evaluator = SongciEvaluator(METER_DIR)
+        print(f"Loaded {len(songci_evaluator.meters)} cipai from '{METER_DIR}'")
     else:
-        print(f"[WARN] Meter file not found: {METER_FILE}")
+        print(f"[WARN] Meter directory not found: {METER_DIR}")
 
-    songci_summary = []
-    if songci_evaluator and os.path.isdir(songci_input_dir):
-        songci_files = _collect_input_files(songci_input_dir)
-        print(f"\n{'='*56}")
-        print(f"  Songci evaluation — {len(songci_files)} file(s)")
-        print(f"{'='*56}")
-        for fp in tqdm(songci_files, desc="Evaluating Songci"):
-            res = _process_songci_file(fp, songci_evaluator, songci_output_dir)
-            if res:
-                songci_summary.append(res)
-    else:
-        print(f"[SKIP] Songci: no evaluator or input dir missing")
+    tang_evaluator = TangPoemEvaluator()
 
-    # --- Tongpoem ---
-    tongpoem_input_dir = os.path.join(INPUT_ROOT, "Tongpoem")
-    tongpoem_output_dir = os.path.join(OUTPUT_ROOT, "Tongpoem")
-    os.makedirs(tongpoem_output_dir, exist_ok=True)
+    # --- Process each mode ---
+    for mode_name in MODES:
+        mode_input_dir = os.path.join(INPUT_ROOT, mode_name)
+        mode_output_dir = os.path.join(OUTPUT_ROOT, mode_name)
+        os.makedirs(mode_output_dir, exist_ok=True)
 
-    tongpoem_evaluator = TangPoemEvaluator()
-    tongpoem_summary = []
+        if not os.path.isdir(mode_input_dir):
+            print(f"\n[SKIP] '{mode_name}': input directory not found")
+            continue
 
-    if os.path.isdir(tongpoem_input_dir):
-        tongpoem_files = _collect_input_files(tongpoem_input_dir)
-        print(f"\n{'='*56}")
-        print(f"  Tang poem evaluation — {len(tongpoem_files)} file(s)")
-        print(f"{'='*56}")
-        for fp in tqdm(tongpoem_files, desc="Evaluating Tang poems"):
-            res = _process_tongpoem_file(fp, tongpoem_evaluator, tongpoem_output_dir)
-            if res:
-                tongpoem_summary.append(res)
-    else:
-        print(f"[SKIP] Tongpoem: input dir missing")
+        input_files = _collect_input_files(mode_input_dir)
+        print(f"\n{'='*60}")
+        print(f"  [{mode_name}] — {len(input_files)} file(s)")
+        print(f"{'='*60}")
 
-    # --- Overall summary ---
-    all_summary = {
-        "songci": songci_summary,
-        "tongpoem": tongpoem_summary,
-    }
-    summary_path = os.path.join(OUTPUT_ROOT, 'evaluation_summary.json')
-    with open(summary_path, 'w', encoding='utf-8') as f:
-        json.dump(all_summary, f, ensure_ascii=False, indent=2)
+        all_results = []
+        skipped = 0
 
-    print(f"\n{'='*56}")
+        for fp in tqdm(input_files, desc=f"Evaluating {mode_name}"):
+            res = _process_one_file(fp, songci_evaluator, tang_evaluator)
+            if res is None:
+                skipped += 1
+                continue
+            all_results.append(res)
+            _save_per_file_output(res, mode_output_dir)
+
+        if skipped:
+            print(f"  Skipped {skipped} file(s) (unable to parse filename)")
+
+        # --- Per-model summaries ---
+        summaries = _build_model_summaries(all_results, mode_output_dir)
+        print(f"  Processed {len(all_results)} file(s)")
+        print(f"  Model summaries:")
+        for model, path in summaries.items():
+            print(f"    {model} → {os.path.basename(path)}")
+
+    # --- Top-level comparison summary ---
+    comparison = {}
+    for mode_name in MODES:
+        mode_output_dir = os.path.join(OUTPUT_ROOT, mode_name)
+        mode_models = {}
+        if os.path.isdir(mode_output_dir):
+            for fn in os.listdir(mode_output_dir):
+                if fn.endswith('_summary.json'):
+                    with open(os.path.join(mode_output_dir, fn), 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    model_name = data['model']
+                    mode_models[model_name] = {
+                        "tang_total_score": data['tang_total_score'],
+                        "songci_total_score": data['songci_total_score'],
+                        "weighted_total_score": data['weighted_total_score'],
+                    }
+        comparison[mode_name] = mode_models
+
+    comparison_path = os.path.join(OUTPUT_ROOT, 'evaluation_summary.json')
+    with open(comparison_path, 'w', encoding='utf-8') as f:
+        json.dump(comparison, f, ensure_ascii=False, indent=2)
+
+    print(f"\n{'='*60}")
     print(f"  Evaluation complete.")
-    print(f"  Songci:  {len(songci_summary)} file(s) processed")
-    print(f"  Tongpoem: {len(tongpoem_summary)} file(s) processed")
-    print(f"  Summary saved to '{summary_path}'")
-    print(f"{'='*56}")
+    for mode_name in MODES:
+        info = comparison.get(mode_name, {})
+        print(f"  [{mode_name}]: {len(info)} model(s)")
+    print(f"  Top-level summary → {comparison_path}")
+    print(f"{'='*60}")

@@ -133,8 +133,8 @@ def build_tangpoem_prompt_messages(task_type: str, cipai: str, theme: str, requi
         rules += "- 句中不以“的”“些”“么”“了”等现代白话虚词入诗\n"
 
         messages = [
-            {"role": "system", "content": "你是一位唐代诗人。请根据用户提供的诗体、主题以及格律要求创作一首唐诗。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]诗体·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记、注脚或额外废话！不能存在“平仄中”的格律文本。"},
-            {"role": "user", "content": f"请为我创作一首唐诗。\n主题：“{theme}”\n体裁：《{cipai}》（{length_name}{form_name}）\n用韵依据：《{trhyme_name}》\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]诗体·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n请开始创作："}
+            {"role": "system", "content": f"你是一位唐代诗人。请根据用户提供的诗体、主题以及格律要求创作一首唐诗。\n\n你必须严格遵循以下输出格式，绝对不能遗漏任何标记：\n首先，写出你对主题的理解及布局分析。\n接着，必须换行并输出标题，格式为：\n[title]{cipai}·标题\n最后，必须换行并严格输出 [content] 标记，紧接着输出正文：\n[content]正文。\n\n**关键要求**：\n1. `[title]` 和 `[content]` 标记是程序解析的依赖，绝对不可以省略、修改或替换！\n2. 正文中不得包含段落标记、注脚或额外废话！不能存在“平仄中”的格律文本。\n3. 标题格式必须为 [title]{cipai}·标题，其中“{cipai}”必须写诗体本名（如五律、七绝），绝不可用“诗体”二字代替！"},
+            {"role": "user", "content": f"请为我创作一首唐诗。\n主题：“{theme}”\n体裁：《{cipai}》（{length_name}{form_name}）\n用韵依据：《{trhyme_name}》\n{req_text}\n必须遵守以下格律：\n{rules}\n请先输出分析，然后必须输出 `[title]{cipai}·标题`，最后必须输出 `[content]正文`。不要遗漏 `[content]` 标记！\n注意：标题中必须写诗体本名“{cipai}”，绝不可用“诗体”二字代替！\n请开始创作："}
         ]
 
     if not use_thinking:

@@ -5,10 +5,10 @@
   "force_sequential": false,
   "_force_sequential": "设为 true 强制串行（单进程），用于调试或单卡复现",
 
-  "global_max_parallel": 4,
+  "global_max_parallel": -1,
   "_global_max_parallel": "全局最大并行 worker 数上限，防止系统过载。设为 -1 表示不限制",
 
-  "safety_vram_margin": 0.20,
+  "safety_vram_margin": 0.15,
   "_safety_vram_margin": "显存安全余量（0.20 = 20%），估算模型占用时会乘以 (1+margin)，降低 OOM 风险",
 
   "poll_interval_sec": 2.0,
@@ -16,29 +16,10 @@
 
   "models": [
     {
-      "name": "Qwen3-8B",
-      "path": "/root/autodl-tmp/models/Qwen3-8B",
+      "name": "Qwen3-4B-test",
+      "path": "C:/Users/26051/.cache/modelscope/hub/models/Qwen/Qwen3-4B",
       "use_thinking": false,
-      "quantization": "none",
-      "_quantization": "none / fp16 / 8bit / 4bit",
-      "max_parallel": 2,
-      "_max_parallel": "此模型最多同时跑几个 GPU/worker。=1 则独占单卡串行；>1 则多卡分担任务",
-      "enabled": true,
-      "_enabled": "false 可临时禁用此模型不参与排队"
-    },
-    {
-      "name": "Qwen3-4B",
-      "path": "/root/autodl-tmp/models/Qwen3-4B",
-      "use_thinking": false,
-      "quantization": "none",
-      "max_parallel": 4,
-      "enabled": true
-    },
-    {
-      "name": "Qwen3-1.7B",
-      "path": "/root/autodl-tmp/models/Qwen3-4B",
-      "use_thinking": false,
-      "quantization": "none",
+      "quantization": "4bit",
       "max_parallel": 4,
       "enabled": true
     }
@@ -55,12 +36,7 @@
       "渔家傲"
     ],
     "themes": [
-      { "theme": "爱情相思", "detailed_requirement": "" },
-      { "theme": "爱国豪迈", "detailed_requirement": "" },
-      { "theme": "山水田园", "detailed_requirement": "" },
-      { "theme": "怀古咏史", "detailed_requirement": "" },
-      { "theme": "哀愁伤叹", "detailed_requirement": "" },
-      { "theme": "哲理感悟", "detailed_requirement": "" }
+      { "theme": "爱情相思", "detailed_requirement": "" }
     ],
     "num_generations": 2,
     "task_type": "instruction",
@@ -70,18 +46,10 @@
   "tangpoem": {
     "enabled": true,
     "forms": [
-      { "name": "五绝", "line_length": 5, "num_lines": 4 },
-      { "name": "七绝", "line_length": 7, "num_lines": 4 },
-      { "name": "五律", "line_length": 5, "num_lines": 8 },
-      { "name": "七律", "line_length": 7, "num_lines": 8 }
+      { "name": "五绝", "line_length": 5, "num_lines": 4 }
     ],
     "themes": [
-      { "theme": "爱情相思", "detailed_requirement": "" },
-      { "theme": "爱国豪迈", "detailed_requirement": "" },
-      { "theme": "山水田园", "detailed_requirement": "" },
-      { "theme": "怀古咏史", "detailed_requirement": "" },
-      { "theme": "哀愁伤叹", "detailed_requirement": "" },
-      { "theme": "哲理感悟", "detailed_requirement": "" }
+      { "theme": "爱情相思", "detailed_requirement": "" }
     ],
     "num_generations": 2,
     "task_type": "instruction",
@@ -91,8 +59,8 @@
   "generation_params": {
     "max_new_tokens": 4096,
     "do_sample": true,
-    "temperature": 0.6,
-    "top_p": 0.95,
+    "temperature": 0.7,
+    "top_p": 0.8,
     "top_k": 20,
     "min_p": 0.0
   }
